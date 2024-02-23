@@ -1,4 +1,4 @@
-package backend.biblioteca;
+package backend.principal;
 
 /**
  *
