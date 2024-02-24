@@ -1,5 +1,7 @@
 package backend.principal;
 
+import frontend.VentanaPrincipal;
+
 /**
  *
  * @author michael
@@ -7,6 +9,7 @@ package backend.principal;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        VentanaPrincipal ventana = new VentanaPrincipal();
+        ventana.setVisible(true);
     }
 }
