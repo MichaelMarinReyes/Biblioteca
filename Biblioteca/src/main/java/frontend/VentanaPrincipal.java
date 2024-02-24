@@ -1,5 +1,6 @@
 package frontend;
 
+import frontend.registrosinformacionnueva.RegistroEstudianteNuevo;
 import frontend.registrosinformacionnueva.RegistroLibroNuevo;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -15,6 +16,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private Toolkit toolkit = Toolkit.getDefaultToolkit();
     private Dimension dimension = toolkit.getScreenSize();
     private RegistroLibroNuevo libroNuevo = new RegistroLibroNuevo();
+    private RegistroEstudianteNuevo estudianteNuevo = new RegistroEstudianteNuevo();
 
     /**
      * Creates new form VentanaPrincipal
@@ -24,7 +26,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.setSize(dimension.width - 350, dimension.height - 200);
         this.setTitle("BIBLIOTECA");
         this.setLocationRelativeTo(null);
-        pintarPanel(libroNuevo);
+        pintarPanel(estudianteNuevo);
     }
 
     /**
@@ -76,6 +78,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenu1.add(prestarLibroBoton);
 
         jMenuItem2.setText("Estudiante Nuevo");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("Importar");
@@ -111,6 +118,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void prestarLibroBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prestarLibroBotonActionPerformed
         pintarPanel(libroNuevo);
     }//GEN-LAST:event_prestarLibroBotonActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        pintarPanel(estudianteNuevo);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

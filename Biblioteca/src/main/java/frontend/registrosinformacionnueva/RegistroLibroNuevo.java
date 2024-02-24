@@ -2,7 +2,6 @@ package frontend.registrosinformacionnueva;
 
 import java.awt.Color;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -17,6 +16,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
      */
     public RegistroLibroNuevo() {
         initComponents();
+        limpiarCampos();
     }
 
     /**
@@ -42,6 +42,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         editorialText = new javax.swing.JTextField();
         guardarLibroBoton = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
 
         setLayout(new java.awt.GridBagLayout());
 
@@ -59,7 +60,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.ipadx = 96;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 212, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 212, 10, 0);
         add(codigoLibroText, gridBagConstraints);
 
         jLabel2.setText("Autor:");
@@ -76,7 +77,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.ipadx = 167;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(11, 176, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(1, 176, 10, 0);
         add(autorLibroText, gridBagConstraints);
 
         jLabel3.setText("Título:");
@@ -93,16 +94,16 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.ipadx = 167;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(14, 176, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 176, 10, 0);
         add(tituloLibroText, gridBagConstraints);
 
-        jLabel4.setText("Cantidad de copias:");
+        jLabel4.setText("Cantidad de copias (solo valores numéricos):");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(21, 203, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(21, 111, 0, 0);
         add(jLabel4, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -110,16 +111,16 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.ipadx = 168;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 176, 0, 175);
+        gridBagConstraints.insets = new java.awt.Insets(0, 176, 10, 175);
         add(copiasText, gridBagConstraints);
 
-        jLabel5.setText("Fecha de publicación:");
+        jLabel5.setText("Fecha de publicación (yyyy-mm-dd):");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(21, 201, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(21, 138, 0, 0);
         add(jLabel5, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -127,7 +128,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.ipadx = 167;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(18, 176, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(0, 176, 10, 0);
         add(fechaText, gridBagConstraints);
 
         jLabel6.setText("Editorial:");
@@ -144,7 +145,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.ipadx = 168;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(12, 176, 0, 175);
+        gridBagConstraints.insets = new java.awt.Insets(0, 176, 10, 175);
         add(editorialText, gridBagConstraints);
 
         guardarLibroBoton.setText("Guardar Libro");
@@ -160,27 +161,33 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(44, 199, 61, 0);
         add(guardarLibroBoton, gridBagConstraints);
+
+        jLabel7.setText("REGISTRO DE LIBRO NUEVO");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 8;
+        add(jLabel7, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
 
     private void guardarLibroBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarLibroBotonActionPerformed
-        if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && fechaText.getText().equals(" ") && editorialText.getText().equals(" ")) {
+        if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && !fechaText.getText().equals(" ") && !editorialText.getText().equals(" ")) {
             //MANDAR DATOS AL BACKEND
-            System.out.println("ENTRE A FECHA Y EDITORIAL VACÍAS");
-            mostrarDatos();
+            validarCodigo(codigoLibroText.getText());
+            validarNumero(copiasText.getText());
             limpiarCampos();
             guardarLibroBoton.setBackground(Color.GREEN);
         } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && !fechaText.getText().equals(" ") && editorialText.getText().equals(" ")) {
-            System.out.println("ENTRÉ A SOLO EDITORIAL VACÍA");
-            mostrarDatos();
-            verificarFormatoFecha(fechaText.getText());
-        } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && !fechaText.getText().equals(" ") && !editorialText.getText().equals(" ")) {
-            System.out.println("ENTRÉ A TODOS LOS CAMPOS LLENOS");
-            mostrarDatos();
+            validarCodigo(codigoLibroText.getText());
+            validarNumero(copiasText.getText());
             verificarFormatoFecha(fechaText.getText());
         } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && fechaText.getText().equals(" ") && !editorialText.getText().equals(" ")) {
+            validarCodigo(codigoLibroText.getText());
+            validarNumero(copiasText.getText());
+        } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && fechaText.getText().equals(" ") && editorialText.getText().equals(" ")) {
             //MANDAR DATOS AL BACKEND
-            System.out.println("ENTRÉ A FECHA VACÍA ");
-            mostrarDatos();
+            validarCodigo(codigoLibroText.getText());
+            validarNumero(copiasText.getText());
             limpiarCampos();
             guardarLibroBoton.setBackground(Color.GREEN);
         } else {
@@ -202,6 +209,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField tituloLibroText;
     // End of variables declaration//GEN-END:variables
 
@@ -231,11 +239,8 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         if (codigo.equals(" ") && autor.equals(" ") && titulo.equals(" ") && cantidadCopias.equals(" ")) {
             JOptionPane.showMessageDialog(this, "Por favor llene los campos obligatorios.\n\n Campos obligatorios: Código, Autor, Título, Cantidad de copias");
             return false;
-        } else {
-            validarCodigo(codigo);
-            validarNumero(cantidadCopias);
-            return true;
         }
+        return true;
     }
 
     private void verificarFormatoFecha(String texto) {
@@ -253,20 +258,16 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
     }
 
     private void limpiarCampos() {
-        codigoLibroText.setText(" ");
-        autorLibroText.setText(" ");
-        tituloLibroText.setText(" ");
-        copiasText.setText(" ");
-        fechaText.setText(" ");
-        editorialText.setText(" ");
+        codigoLibroText.setText("");
+        autorLibroText.setText("");
+        tituloLibroText.setText("");
+        copiasText.setText("");
+        fechaText.setText("");
+        editorialText.setText("");
         guardarLibroBoton.setBackground(Color.GREEN);
     }
-    
+
     private void mostrarDatos() {
-        System.out.println(codigoLibroText.getText());
-        System.out.println(autorLibroText.getText());
-        System.out.println(tituloLibroText.getText());
-        System.out.println(copiasText.getText());
         System.out.println(fechaText.getText());
         System.out.println(editorialText.getText());
     }

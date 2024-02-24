@@ -1,8 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package frontend.registrosinformacionnueva;
+
+import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,20 +26,188 @@ public class RegistroEstudianteNuevo extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 538, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 469, Short.MAX_VALUE)
-        );
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        carnetText = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        nombreText = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        codigoCarreraText = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        fechaText = new javax.swing.JTextField();
+        guardarEstudianteBoton = new javax.swing.JButton();
+
+        setLayout(new java.awt.GridBagLayout());
+
+        jLabel1.setText("REGISTRO ESTUDIANTE NUEVO");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(36, 164, 0, 0);
+        add(jLabel1, gridBagConstraints);
+
+        jLabel2.setText("Carné:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 245, 0, 0);
+        add(jLabel2, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.ipadx = 80;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 235, 0, 0);
+        add(carnetText, gridBagConstraints);
+
+        jLabel3.setText("Nombre:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 3;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 241, 0, 0);
+        add(jLabel3, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.ipadx = 279;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 143, 0, 0);
+        add(nombreText, gridBagConstraints);
+
+        jLabel4.setText("Código de carrera:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 5;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 216, 0, 0);
+        add(jLabel4, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.ipadx = 80;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 235, 0, 0);
+        add(codigoCarreraText, gridBagConstraints);
+
+        jLabel5.setText("Fecha de nacimiento (yyyy-mm-dd):");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 149, 0, 0);
+        add(jLabel5, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridwidth = 9;
+        gridBagConstraints.ipadx = 80;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(18, 235, 0, 0);
+        add(fechaText, gridBagConstraints);
+
+        guardarEstudianteBoton.setText("Guardar Estudiante");
+        guardarEstudianteBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guardarEstudianteBotonActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 9;
+        gridBagConstraints.gridwidth = 11;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(49, 189, 40, 200);
+        add(guardarEstudianteBoton, gridBagConstraints);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void guardarEstudianteBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarEstudianteBotonActionPerformed
+        if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), codigoCarreraText.getText()) == true && !fechaText.getText().endsWith("")) {
+            try {
+                verificarFormatoFecha(fechaText.getText());
+                guardarEstudianteBoton.setBackground(Color.green);
+                int numeroCarrera = Integer.parseInt(codigoCarreraText.getText());
+
+                while (numeroCarrera > 5) {
+                    JOptionPane.showMessageDialog(this, "El código de carrera no existe");
+                }
+                limpiarCampos();
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Codigo de carrera inválido.\n\nCódigos de carreras:\nIngeniería: 1\nMedicina: 2\nDerecho: 3\nArquitectura: 4\nAdministración: 5");
+                guardarEstudianteBoton.setBackground(Color.red);
+            }
+        } else if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), codigoCarreraText.getText()) == true && fechaText.getText().endsWith("")) {
+            try {
+                guardarEstudianteBoton.setBackground(Color.green);
+                int numeroCarrera = Integer.parseInt(codigoCarreraText.getText());
+
+                if (numeroCarrera > 5) {
+                    JOptionPane.showMessageDialog(this, "El código de carrera no existe");
+                    guardarEstudianteBoton.setBackground(Color.red);
+                } else {
+                    limpiarCampos();
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Codigo de carrera inválido.\n\nCódigos de carreras:\nIngeniería: 1\nMedicina: 2\nDerecho: 3\nArquitectura: 4\nAdministración: 5");
+                guardarEstudianteBoton.setBackground(Color.red);
+            }
+        }
+    }//GEN-LAST:event_guardarEstudianteBotonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField carnetText;
+    private javax.swing.JTextField codigoCarreraText;
+    private javax.swing.JTextField fechaText;
+    private javax.swing.JButton guardarEstudianteBoton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField nombreText;
     // End of variables declaration//GEN-END:variables
+
+    private boolean verificarCamposObligatorios(String carnet, String nombre, String codigoCarrera) {
+        if (carnet.equals(" ") && nombre.equals(" ") && codigoCarrera.equals(" ")) {
+            guardarEstudianteBoton.setBackground(Color.red);
+            JOptionPane.showMessageDialog(this, "Porfavor llene los campos obligatorios.\n\nCampos obligatorios: Carné, nombre, código de carrera");
+            return false;
+        }
+        return true;
+    }
+
+    private void verificarFormatoFecha(String texto) {
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date fecha = formato.parse(texto);
+            //mandar a guardar la fecha
+            String fechaFormateada = formato.format(fecha);
+            limpiarCampos();
+            guardarEstudianteBoton.setBackground(Color.GREEN);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al ingresar la fecha\nEl formato es yyyy-mm-dd");
+            guardarEstudianteBoton.setBackground(Color.RED);
+        }
+    }
+
+    private void limpiarCampos() {
+        carnetText.setText("");
+        nombreText.setText("");
+        codigoCarreraText.setText("");
+        fechaText.setText("");
+    }
 }
