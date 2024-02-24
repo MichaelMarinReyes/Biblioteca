@@ -24,6 +24,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.setSize(dimension.width - 350, dimension.height - 200);
         this.setTitle("BIBLIOTECA");
         this.setLocationRelativeTo(null);
+        pintarPanel(libroNuevo);
     }
 
     /**

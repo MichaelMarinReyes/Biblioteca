@@ -1,6 +1,9 @@
 package frontend.registrosinformacionnueva;
 
 import java.awt.Color;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -133,7 +136,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 8;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(15, 240, 0, 0);
+        gridBagConstraints.insets = new java.awt.Insets(15, 223, 0, 0);
         add(jLabel6, gridBagConstraints);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -160,9 +163,26 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void guardarLibroBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guardarLibroBotonActionPerformed
-        if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true) {
+        if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && fechaText.getText().equals(" ") && editorialText.getText().equals(" ")) {
             //MANDAR DATOS AL BACKEND
-            guardarLibroBoton.setBackground(Color.green);
+            System.out.println("ENTRE A FECHA Y EDITORIAL VACÍAS");
+            mostrarDatos();
+            limpiarCampos();
+            guardarLibroBoton.setBackground(Color.GREEN);
+        } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && !fechaText.getText().equals(" ") && editorialText.getText().equals(" ")) {
+            System.out.println("ENTRÉ A SOLO EDITORIAL VACÍA");
+            mostrarDatos();
+            verificarFormatoFecha(fechaText.getText());
+        } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && !fechaText.getText().equals(" ") && !editorialText.getText().equals(" ")) {
+            System.out.println("ENTRÉ A TODOS LOS CAMPOS LLENOS");
+            mostrarDatos();
+            verificarFormatoFecha(fechaText.getText());
+        } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && fechaText.getText().equals(" ") && !editorialText.getText().equals(" ")) {
+            //MANDAR DATOS AL BACKEND
+            System.out.println("ENTRÉ A FECHA VACÍA ");
+            mostrarDatos();
+            limpiarCampos();
+            guardarLibroBoton.setBackground(Color.GREEN);
         } else {
             guardarLibroBoton.setBackground(Color.red);
         }
@@ -191,6 +211,9 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         try {
             int formato = Integer.parseInt(codigoLibro[0]);
 
+            if (codigoLibro[0].length() != 3 || codigoLibro[1].length() != 3) {
+                JOptionPane.showMessageDialog(this, "Formáto de código de libro inválido.\n\nEl formáto debe contener tres dígitos, guión, tres mayúsculas.\nEj. 123-ABC");
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Formáto de código de libro inválido.\n\nEl formáto debe contener tres dígitos, guión, tres mayúsculas.\nEj. 123-ABC");
         }
@@ -205,7 +228,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
     }
 
     private boolean validarCamposObligatorios(String codigo, String autor, String titulo, String cantidadCopias) {
-        if (!codigo.equals(" ") && !autor.equals(" ") && !titulo.equals(" ") && !cantidadCopias.equals(" ")) {
+        if (codigo.equals(" ") && autor.equals(" ") && titulo.equals(" ") && cantidadCopias.equals(" ")) {
             JOptionPane.showMessageDialog(this, "Por favor llene los campos obligatorios.\n\n Campos obligatorios: Código, Autor, Título, Cantidad de copias");
             return false;
         } else {
@@ -213,6 +236,38 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
             validarNumero(cantidadCopias);
             return true;
         }
+    }
 
+    private void verificarFormatoFecha(String texto) {
+        SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date fecha = formato.parse(texto);
+            //mandar a guardar la fecha
+            String fechaFormateada = formato.format(fecha);
+            limpiarCampos();
+            guardarLibroBoton.setBackground(Color.GREEN);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error al ingresar la fecha\nEl formato es yyyy-mm-dd");
+            guardarLibroBoton.setBackground(Color.RED);
+        }
+    }
+
+    private void limpiarCampos() {
+        codigoLibroText.setText(" ");
+        autorLibroText.setText(" ");
+        tituloLibroText.setText(" ");
+        copiasText.setText(" ");
+        fechaText.setText(" ");
+        editorialText.setText(" ");
+        guardarLibroBoton.setBackground(Color.GREEN);
+    }
+    
+    private void mostrarDatos() {
+        System.out.println(codigoLibroText.getText());
+        System.out.println(autorLibroText.getText());
+        System.out.println(tituloLibroText.getText());
+        System.out.println(copiasText.getText());
+        System.out.println(fechaText.getText());
+        System.out.println(editorialText.getText());
     }
 }
