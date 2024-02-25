@@ -6,6 +6,9 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -26,7 +29,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.setSize(dimension.width - 350, dimension.height - 200);
         this.setTitle("BIBLIOTECA");
         this.setLocationRelativeTo(null);
-        pintarPanel(estudianteNuevo);
+        pintarPanel(libroNuevo);
     }
 
     /**
@@ -86,6 +89,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setText("Importar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         barraMenu.add(jMenu1);
@@ -122,6 +130,26 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         pintarPanel(estudianteNuevo);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.TXT", "txt");
+        chooser.setFileFilter(filtro);
+        int seleccion = chooser.showOpenDialog(this);
+
+        if (seleccion == JFileChooser.APPROVE_OPTION) {
+            String nombreArchivo = chooser.getSelectedFile().getName();
+            String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf('.') + 1).toLowerCase();
+
+            if (extension.equals("txt") || extension.equals("py")) {
+              /*  String textoLeido = miArchivo.abrirArchivo(chooser.getSelectedFile().getAbsolutePath());
+                this.pintarPanel(editor);
+                editor.setAreaEditor(textoLeido);*/
+            } else {
+                JOptionPane.showMessageDialog(this, "Solo se permiten archivos .txt y .py", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
