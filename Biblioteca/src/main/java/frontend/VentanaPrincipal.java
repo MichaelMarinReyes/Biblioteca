@@ -1,5 +1,6 @@
 package frontend;
 
+import backend.importaciondedatos.ImportarDatos;
 import frontend.registrosinformacionnueva.RegistroEstudianteNuevo;
 import frontend.registrosinformacionnueva.RegistroLibroNuevo;
 import java.awt.BorderLayout;
@@ -20,6 +21,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private Dimension dimension = toolkit.getScreenSize();
     private RegistroLibroNuevo libroNuevo = new RegistroLibroNuevo();
     private RegistroEstudianteNuevo estudianteNuevo = new RegistroEstudianteNuevo();
+    private ImportarDatos importar = new ImportarDatos();
 
     /**
      * Creates new form VentanaPrincipal
@@ -141,12 +143,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             String nombreArchivo = chooser.getSelectedFile().getName();
             String extension = nombreArchivo.substring(nombreArchivo.lastIndexOf('.') + 1).toLowerCase();
 
-            if (extension.equals("txt") || extension.equals("py")) {
-              /*  String textoLeido = miArchivo.abrirArchivo(chooser.getSelectedFile().getAbsolutePath());
-                this.pintarPanel(editor);
-                editor.setAreaEditor(textoLeido);*/
+            if (extension.equals("txt")) {
+                String textoLeido = importar.abrirArchivo(chooser.getSelectedFile().getAbsolutePath());
+                    //MANDAR EL TEXTO LEIDO AL ARRAY LIST PARA LLENAR LA BASE DE DATOS
             } else {
-                JOptionPane.showMessageDialog(this, "Solo se permiten archivos .txt y .py", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Solo se permiten archivos .txt", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed

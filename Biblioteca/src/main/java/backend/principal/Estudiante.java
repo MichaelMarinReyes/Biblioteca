@@ -1,16 +1,19 @@
 package backend.principal;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
  *
  * @author michael
  */
-public class Estudiante {
+public class Estudiante implements Serializable {
     private String carne;
     private String nombre;
     private int codigoCarrera;
     private Date fechaNacimiento;
+    private ArrayList<Libro> librosPrestados = new ArrayList<>();
 
     public Estudiante(String carne, String nombre, int codigoCarrera, Date fechaNacimiento) {
         this.carne = carne;
@@ -51,5 +54,7 @@ public class Estudiante {
         this.fechaNacimiento = fechaNacimiento;
     }
     
-    
+    public void añadirLibro(Libro libro) {
+        librosPrestados.add(libro);
+    }
 }
