@@ -4,6 +4,8 @@
  */
 package frontend;
 
+import backend.importaciondedatos.ImportarDatos;
+import backend.principal.FuncionamientoAplicacion;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -94,7 +96,7 @@ public class Principal extends javax.swing.JFrame {
         //items registros
         JMenuItem itemImportarRegistros = new JMenuItem("Importar Registros", iconoAbrirRegistros);
         //items reportes
-        JMenuItem itemGenerarReporte = new JMenuItem("Generar Reporte",iconoReportes);
+        JMenuItem itemGenerarReporte = new JMenuItem("Generar Reporte", iconoReportes);
         //agregar al menu
         menuLibros.add(itemLibros01);
         menuLibros.add(itemLibros02);
@@ -118,12 +120,16 @@ public class Principal extends javax.swing.JFrame {
                 if (extension.equals("txt")) {
                     String rutaArchivo = chooser.getSelectedFile().getAbsolutePath();
                     System.out.println("Ruta del archivo seleccionado: " + rutaArchivo);
+                    ImportarDatos importar = new ImportarDatos();
+                    importar.abrirArchivo(rutaArchivo);
+                    
                 } else {
                     JOptionPane.showMessageDialog(this, "Solo se permiten archivos .txt", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
 
+        //Cambiar a pestaña Nuevo Libro
         //personalizar menu
         Font menuFont = new Font("Arial", Font.BOLD, 25);
         menuPrincipal.setFont(menuFont);

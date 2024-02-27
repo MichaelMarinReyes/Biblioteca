@@ -20,8 +20,17 @@ public class FuncionamientoAplicacion {
     /**
      * Método para cargar archivo txt con datos.
      */
-    public void importarDatos() {
-
+    public void importarDatos(String lineaTexto) {
+        if (lineaTexto.contains("LIBRO ")) {
+            System.out.println("REGISTRANDO NUEVO LIBRO");
+            
+        } else if (lineaTexto.contains("ESTUDIANTE ")) {
+            System.out.println("REGISTRANDO NUEVO ESTUDIANTE");
+        } else if (lineaTexto.contains("PRESTAMO")) {
+            System.out.println("REGISTRANDO PRESTAMO ");
+        } else {
+            System.out.println("ERROR");
+        }
     }
 
     /**
@@ -34,6 +43,7 @@ public class FuncionamientoAplicacion {
      * lista de errores.
      */
     public String verificarFormato(String lineaTexto) {
+        
         return lineaTexto;
     }
 
