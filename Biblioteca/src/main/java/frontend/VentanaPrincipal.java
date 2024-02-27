@@ -63,11 +63,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         contenedorPanel.setLayout(contenedorPanelLayout);
         contenedorPanelLayout.setHorizontalGroup(
             contenedorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 825, Short.MAX_VALUE)
+            .addGap(0, 434, Short.MAX_VALUE)
         );
         contenedorPanelLayout.setVerticalGroup(
             contenedorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 562, Short.MAX_VALUE)
+            .addGap(0, 288, Short.MAX_VALUE)
         );
 
         getContentPane().add(contenedorPanel, java.awt.BorderLayout.CENTER);
