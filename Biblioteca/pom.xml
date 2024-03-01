@@ -18,4 +18,22 @@
         <maven.compiler.target>17</maven.compiler.target>
         <exec.mainClass>backend.biblioteca.Biblioteca</exec.mainClass>
     </properties>
+    <name>Biblioteca</name>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>backend.principal.Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>   
+    </build>
 </project>

@@ -119,7 +119,7 @@ public class Principal extends javax.swing.JFrame {
 
                 if (extension.equals("txt")) {
                     String rutaArchivo = chooser.getSelectedFile().getAbsolutePath();
-                    System.out.println("Ruta del archivo seleccionado: " + rutaArchivo);
+                    //System.out.println("Ruta del archivo seleccionado: " + rutaArchivo);
                     ImportarDatos importar = new ImportarDatos();
                     importar.abrirArchivo(rutaArchivo);
                     
@@ -129,7 +129,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        //Cambiar a pestaña Nuevo Libro
         //personalizar menu
         Font menuFont = new Font("Arial", Font.BOLD, 25);
         menuPrincipal.setFont(menuFont);
