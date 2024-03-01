@@ -5,7 +5,6 @@
 package frontend;
 
 import backend.importaciondedatos.ImportarDatos;
-import backend.principal.FuncionamientoAplicacion;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -121,8 +120,14 @@ public class Principal extends javax.swing.JFrame {
                     String rutaArchivo = chooser.getSelectedFile().getAbsolutePath();
                     //System.out.println("Ruta del archivo seleccionado: " + rutaArchivo);
                     ImportarDatos importar = new ImportarDatos();
-                    importar.abrirArchivo(rutaArchivo);
-                    
+                    int opcion = JOptionPane.showConfirmDialog(this, "Se ha encontrado el archivo \"" + chooser.getSelectedFile().getName() + "\"\n¿Desea importar los datos?", "IMPORTAR DATOS", JOptionPane.YES_NO_OPTION);
+                    if (opcion == 0) {
+                        importar.abrirArchivo(rutaArchivo);
+                        JOptionPane.showMessageDialog(this, "Importación finalizada.\nConsulte los reportes para más información");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Importación cancelada.");
+                    }
+
                 } else {
                     JOptionPane.showMessageDialog(this, "Solo se permiten archivos .txt", "Error", JOptionPane.ERROR_MESSAGE);
                 }
