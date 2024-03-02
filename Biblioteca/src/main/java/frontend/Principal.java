@@ -141,16 +141,12 @@ public class Principal extends javax.swing.JFrame {
         JMenuItem itemListaEstudiantes = new JMenuItem("Listado de Estudiantes", iconoListas);
         JMenuItem itemListaLibros = new JMenuItem("Listado de Libros", iconoListas);
         //items reportes
-<<<<<<< HEAD
-        JMenuItem itemGenerarReporte = new JMenuItem("Generar Reporte", iconoReportes);
-=======
         JMenuItem itemPrestamosMismoDia = new JMenuItem("Prestamos a Devolver Este Día", iconoReportes);
         JMenuItem itemPrestamosMora = new JMenuItem("Prestamos con Mora", iconoReportes);
         JMenuItem itemIngresosIntervalo = new JMenuItem("Ingresos en un Intervalo de Tiempo", iconoReportes);
         JMenuItem itemPrestamosPorEstudiante = new JMenuItem("Prestamos Hechos por Estudiante", iconoReportes);
         JMenuItem itemPrestamosVigentesPorEstudiante = new JMenuItem("Prestamos Vigentes de Cada  Estudiante", iconoReportes);
         JMenuItem itemPrestamosPorCarrera = new JMenuItem("Prestamos Realizados por Carrera en Intervalo de Tiempo", iconoReportes);
->>>>>>> frontend
         //agregar al menu
         menuLibros.add(itemLibros01);
         menuLibros.add(itemLibros02);
