@@ -167,7 +167,6 @@ public class FuncionamientoAplicacion {
                 listaEstudiantes = (ArrayList<Estudiante>) leerEstudiantes.readObject();
 
             } else {
-                listadoEstudiantes();
             }
 
         } catch (IOException e) {
@@ -175,10 +174,6 @@ public class FuncionamientoAplicacion {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    }
-
-    public void listadoEstudiantes() {
 
     }
 
