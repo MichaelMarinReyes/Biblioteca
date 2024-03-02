@@ -5,6 +5,8 @@
 package frontend;
 
 import backend.importaciondedatos.ImportarDatos;
+import frontend.registrosinformacionnueva.ListadoEstudiantes;
+import frontend.registrosinformacionnueva.ListadoLibros;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -199,6 +201,16 @@ public class Principal extends javax.swing.JFrame {
             pintarPanel(libroNuevo);
         });
 
+        itemListaEstudiantes.addActionListener((ActionEvent e) -> {
+            ListadoEstudiantes listadoEstudiantes = new ListadoEstudiantes();
+            pintarPanel(listadoEstudiantes);
+        });
+
+        itemListaLibros.addActionListener((ActionEvent e) -> {
+            ListadoLibros listadoLibros = new ListadoLibros();
+
+            pintarPanel(listadoLibros);
+        });
         //personalizar menu
         Font menuFont = new Font("Bitstream Charter", Font.BOLD, 20);
         menuPrincipal.setFont(menuFont);

@@ -73,8 +73,9 @@ public class FuncionamientoAplicacion {
     /**
      * Sirve para agregar un nuevo libro a la base de datos.
      */
-    public void agregarNuevoLibro(String codigo, String autor, String titulo, int cantidadCopias, Date fechaPublicación, String editorial) {
+    public void agregarNuevoLibro(String codigo, String autor, String titulo, int cantidadCopias, String fechaPublicación, String editorial) {
         listaLibros.add(new Libro(titulo, autor, codigo, cantidadCopias, fechaPublicación, editorial));
+        mostrarArray();
     }
 
     /**
@@ -87,8 +88,15 @@ public class FuncionamientoAplicacion {
     /**
      * Sirve para agregar a un nuevo estudiante en la base de datos.
      */
-    public void agregarNuevoEstudiante(String carnet, String nombre, int codigoCarrera, Date fechaNacimiento) {
+    public void agregarNuevoEstudiante(String carnet, String nombre, int codigoCarrera, String fechaNacimiento) {
+        System.out.println("guardando datos");
         listaEstudiantes.add(new Estudiante(carnet, nombre, codigoCarrera, fechaNacimiento));
+    }
+    
+    private void mostrarArray(){
+        for (int i = 0; i < listaLibros.size(); i++) {
+            System.out.println(listaLibros.get(i).getCodigo());            
+        }
     }
 
     /**
@@ -137,7 +145,7 @@ public class FuncionamientoAplicacion {
                 directorio.mkdir();
             }
             pathCarpeta = directorio.getAbsolutePath();
-            FileOutputStream archivo = new FileOutputStream(directorio.getAbsolutePath() + "/estudiantes.bin");
+            FileOutputStream archivo = new FileOutputStream(pathCarpeta + "/estudiantes.bin");
             ObjectOutputStream escribirProductos = new ObjectOutputStream(archivo);
             escribirProductos.writeObject(listaEstudiantes);
             escribirProductos.close();
@@ -181,7 +189,8 @@ public class FuncionamientoAplicacion {
             if (!directorio.exists()) {
                 directorio.mkdir();
             }
-            FileOutputStream archivo = new FileOutputStream(directorio.getAbsolutePath() + "/libros.bin");
+            
+            FileOutputStream archivo = new FileOutputStream(pathCarpeta + "/libros.bin");
             ObjectOutputStream escribirProductos = new ObjectOutputStream(archivo);
             escribirProductos.writeObject(listaLibros);
             escribirProductos.close();
@@ -226,7 +235,7 @@ public class FuncionamientoAplicacion {
             if (!directorio.exists()) {
                 directorio.mkdir();
             }
-            FileOutputStream archivo = new FileOutputStream(directorio.getAbsolutePath() + "prestamos.bin");
+            FileOutputStream archivo = new FileOutputStream(pathCarpeta + "prestamos.bin");
             ObjectOutputStream escribirProductos = new ObjectOutputStream(archivo);
             escribirProductos.writeObject(listaPrestamos);
             escribirProductos.close();

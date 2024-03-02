@@ -4,12 +4,15 @@
  */
 package frontend.registrosinformacionnueva;
 
+import backend.principal.FuncionamientoAplicacion;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,12 +21,14 @@ import javax.swing.JOptionPane;
  */
 public class RegistroLibroNuevo extends javax.swing.JPanel {
 
+    private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
+
     public RegistroLibroNuevo() {
         initComponents();
         this.setBackground(new Color(251, 250, 248)); // Establecer el color de fondo del panel
         // Ajustar el tamaño de los componentes y la fuente
-        Font font = new Font("Bitstream Charter", Font.BOLD, 30);
-        jLabel1.setFont(new Font("Bitstream Charter", Font.BOLD, 30));
+        Font font = new Font("Bitstream Charter", Font.BOLD, 25);
+        jLabel1.setFont(new Font("Bitstream Charter", Font.BOLD, 25));
         jLabel2.setFont(font);
         jLabel3.setFont(font);
         jLabel4.setFont(font);
@@ -243,19 +248,23 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
             //MANDAR DATOS AL BACKEND
             validarCodigo(codigoLibroText.getText());
             validarNumero(copiasText.getText());
+            app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), fechaText.getText(), editorialText.getText());
             limpiarCampos();
             guardarLibroBoton.setBackground(Color.GREEN);
         } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && !fechaText.getText().equals(" ") && editorialText.getText().equals(" ")) {
             validarCodigo(codigoLibroText.getText());
             validarNumero(copiasText.getText());
             verificarFormatoFecha(fechaText.getText());
+            app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), fechaText.getText(), "");
         } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && fechaText.getText().equals(" ") && !editorialText.getText().equals(" ")) {
             validarCodigo(codigoLibroText.getText());
             validarNumero(copiasText.getText());
+            app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), " ", editorialText.getText());
         } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && fechaText.getText().equals(" ") && editorialText.getText().equals(" ")) {
             //MANDAR DATOS AL BACKEND
             validarCodigo(codigoLibroText.getText());
             validarNumero(copiasText.getText());
+            app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), " ", " ");
             limpiarCampos();
             guardarLibroBoton.setBackground(Color.GREEN);
         } else {

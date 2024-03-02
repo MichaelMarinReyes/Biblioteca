@@ -4,6 +4,7 @@
  */
 package frontend.registrosinformacionnueva;
 
+import backend.principal.FuncionamientoAplicacion;
 import java.awt.Color;
 import java.awt.Font;
 import java.text.ParseException;
@@ -19,6 +20,8 @@ import javax.swing.JOptionPane;
  */
 public class RegistroEstudianteNuevo extends javax.swing.JPanel {
 
+    private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
+    
     public RegistroEstudianteNuevo() {
         initComponents();
         this.setBackground(new Color(251, 250, 248));
@@ -171,6 +174,7 @@ public class RegistroEstudianteNuevo extends javax.swing.JPanel {
             try {
                 verificarFormatoFecha(fechaText.getText());
                 guardarEstudianteBoton.setBackground(Color.green);
+                app.agregarNuevoEstudiante(carnetText.getText(), nombreText.getText(), codigoCarreraComboBox.getSelectedIndex(), fechaText.getText());
                 limpiarCampos();
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Código de carrera inválido.\n\nCódigos de carreras:\nIngeniería: 1\nMedicina: 2\nDerecho: 3\nArquitectura: 4\nAdministración: 5");
