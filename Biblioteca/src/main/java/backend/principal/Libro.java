@@ -13,10 +13,10 @@ public class Libro implements Serializable {
     private String autor;
     private String codigo;
     private int cantidadCopias;
-    private Date fechaPublicacion;
+    private String fechaPublicacion;
     private String editorial;
 
-    public Libro(String titulo, String autor, String codigo, int cantidadCopias, Date fechaPublicacion, String editorial) {
+    public Libro(String titulo, String autor, String codigo, int cantidadCopias, String fechaPublicacion, String editorial) {
         this.titulo = titulo;
         this.autor = autor;
         this.codigo = codigo;
@@ -57,11 +57,11 @@ public class Libro implements Serializable {
         this.cantidadCopias = cantidadCopias;
     }
 
-    public Date getFechaPublicacion() {
+    public String getFechaPublicacion() {
         return fechaPublicacion;
     }
 
-    public void setFechaPublicacion(Date fechaPublicacion) {
+    public void setFechaPublicacion(String fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
     }
 

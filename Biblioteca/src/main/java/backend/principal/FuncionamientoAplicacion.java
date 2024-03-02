@@ -1,9 +1,18 @@
 package backend.principal;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -16,6 +25,13 @@ public class FuncionamientoAplicacion {
     public static ArrayList<Prestamo> listaPrestamos = new ArrayList<>();
     public static ArrayList<Libro> listaLibros = new ArrayList<>();
     public static ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
+    private static String pathCarpeta;
+
+    public FuncionamientoAplicacion() {
+        guardarSerializableEstudiantes();
+        guardarSerializableLibros();
+        guardarSerializablePrestamos();
+    }
 
     /**
      * Método para cargar archivo txt con datos.
@@ -23,7 +39,7 @@ public class FuncionamientoAplicacion {
     public void importarDatos(String lineaTexto) {
         if (lineaTexto.contains("LIBRO ")) {
             System.out.println("REGISTRANDO NUEVO LIBRO");
-            
+
         } else if (lineaTexto.contains("ESTUDIANTE ")) {
             System.out.println("REGISTRANDO NUEVO ESTUDIANTE");
         } else if (lineaTexto.contains("PRESTAMO")) {
@@ -43,7 +59,7 @@ public class FuncionamientoAplicacion {
      * lista de errores.
      */
     public String verificarFormato(String lineaTexto) {
-        
+
         return lineaTexto;
     }
 
@@ -57,8 +73,9 @@ public class FuncionamientoAplicacion {
     /**
      * Sirve para agregar un nuevo libro a la base de datos.
      */
-    public void agregarNuevoLibro(String codigo, String autor, String titulo, int cantidadCopias, Date fechaPublicación, String editorial) {
+    public void agregarNuevoLibro(String codigo, String autor, String titulo, int cantidadCopias, String fechaPublicación, String editorial) {
         listaLibros.add(new Libro(titulo, autor, codigo, cantidadCopias, fechaPublicación, editorial));
+        mostrarArray();
     }
 
     /**
@@ -71,8 +88,15 @@ public class FuncionamientoAplicacion {
     /**
      * Sirve para agregar a un nuevo estudiante en la base de datos.
      */
-    public void agregarNuevoEstudiante(String carnet, String nombre, int codigoCarrera, Date fechaNacimiento) {
+    public void agregarNuevoEstudiante(String carnet, String nombre, int codigoCarrera, String fechaNacimiento) {
+        System.out.println("guardando datos");
         listaEstudiantes.add(new Estudiante(carnet, nombre, codigoCarrera, fechaNacimiento));
+    }
+    
+    private void mostrarArray(){
+        for (int i = 0; i < listaLibros.size(); i++) {
+            System.out.println(listaLibros.get(i).getCodigo());            
+        }
     }
 
     /**
@@ -111,5 +135,136 @@ public class FuncionamientoAplicacion {
             }
         };
         Collections.sort(listaLibros, comparadorPorCodigo);
+    }
+
+    public static void guardarSerializableEstudiantes() {
+        try {
+            File directorio = new File("base_de_datos");
+
+            if (!directorio.exists()) {
+                directorio.mkdir();
+            }
+            pathCarpeta = directorio.getAbsolutePath();
+            FileOutputStream archivo = new FileOutputStream(pathCarpeta + "/estudiantes.bin");
+            ObjectOutputStream escribirProductos = new ObjectOutputStream(archivo);
+            escribirProductos.writeObject(listaEstudiantes);
+            escribirProductos.close();
+            archivo.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void abrirSerializableEstudiantes() {
+        try {
+            File file = new File(pathCarpeta + "/estudiantes.bin");
+            if (file.exists()) {
+                FileInputStream archivoEntrada = new FileInputStream(pathCarpeta + "/estudiantes.bin");
+                ObjectInputStream leerEstudiantes = new ObjectInputStream(archivoEntrada);
+
+                listaEstudiantes = (ArrayList<Estudiante>) leerEstudiantes.readObject();
+
+            } else {
+            }
+
+        } catch (IOException e) {
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public static void guardarSerializableLibros() {
+        try {
+            File directorio = new File("base_de_datos");
+
+            if (!directorio.exists()) {
+                directorio.mkdir();
+            }
+            
+            FileOutputStream archivo = new FileOutputStream(pathCarpeta + "/libros.bin");
+            ObjectOutputStream escribirProductos = new ObjectOutputStream(archivo);
+            escribirProductos.writeObject(listaLibros);
+            escribirProductos.close();
+            archivo.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void abrirSerializableLibros() {
+        try {
+            File file = new File(pathCarpeta + "/libros.bin");
+            if (file.exists()) {
+                FileInputStream archivoEntrada = new FileInputStream(pathCarpeta + "/libros.bin");
+                ObjectInputStream leerProductos = new ObjectInputStream(archivoEntrada);
+
+                listaLibros = (ArrayList<Libro>) leerProductos.readObject();
+
+            } else {
+                listadoLibros();
+
+            }
+
+        } catch (IOException e) {
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void listadoLibros() {
+
+    }
+
+    public static void guardarSerializablePrestamos() {
+        try {
+            File directorio = new File("base_de_datos");
+
+            if (!directorio.exists()) {
+                directorio.mkdir();
+            }
+            FileOutputStream archivo = new FileOutputStream(pathCarpeta + "prestamos.bin");
+            ObjectOutputStream escribirProductos = new ObjectOutputStream(archivo);
+            escribirProductos.writeObject(listaPrestamos);
+            escribirProductos.close();
+            archivo.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void abrirSerializablePrestamos() {
+        try {
+            File file = new File(pathCarpeta + "/prestamos.bin");
+            if (file.exists()) {
+                FileInputStream archivoEntrada = new FileInputStream(pathCarpeta + "/prestamos.bin");
+                ObjectInputStream leerProductos = new ObjectInputStream(archivoEntrada);
+
+                listaPrestamos = (ArrayList<Prestamo>) leerProductos.readObject();
+
+            } else {
+                listadoPrestamos();
+
+            }
+
+        } catch (IOException e) {
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void listadoPrestamos() {
+
     }
 }
