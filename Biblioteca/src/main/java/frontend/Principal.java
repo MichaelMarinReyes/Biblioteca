@@ -8,10 +8,13 @@ import backend.importaciondedatos.ImportarDatos;
 import backend.principal.FuncionamientoAplicacion;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
+import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.text.SimpleDateFormat;
@@ -19,6 +22,7 @@ import java.util.Date;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -26,6 +30,9 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import frontend.registrosinformacionnueva.RegistroLibroNuevo;
+import frontend.registrosinformacionnueva.RegistroEstudianteNuevo;
+import javax.swing.Box;
 
 /**
  *
@@ -33,19 +40,39 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Principal extends javax.swing.JFrame {
 
-    private Toolkit toolkit = Toolkit.getDefaultToolkit();
-    private Dimension dimension = toolkit.getScreenSize();
     private Image imagenFondo = new ImageIcon(getClass().getResource("/imagenes/logo.jpg")).getImage();
     private JLabel relojLabel;
+    private JPanel contenedorPanel;
+    private RegistroEstudianteNuevo estudianteNuevo = new RegistroEstudianteNuevo();
+    private RegistroLibroNuevo libroNuevo = new RegistroLibroNuevo();
+    private RegistroEstudianteNuevo newStudents = new RegistroEstudianteNuevo();
+    private boolean relojActivo = true;
+    private Dimension tamañoPanelFondo;
 
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
-        this.setSize(dimension.width - 350, dimension.height - 200);
+        initUI();
+        iniciarReloj();
+    }
+
+    private void initUI() {
         this.setTitle("BIBLIOTECA");
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        contenedorPanel = new JPanel();
+        contenedorPanel.setLayout(new BorderLayout());
+
+        // Obtenemos el tamaño de la pantalla
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
+        screenSize.width -= (insets.left + insets.right);
+        screenSize.height -= (insets.top + insets.bottom);
+        this.setBounds(0, 0, screenSize.width, screenSize.height);
+        tamañoPanelFondo = new Dimension(screenSize.width, screenSize.height);
 
         setContentPane(new JPanel() {
             @Override
@@ -55,7 +82,19 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        getContentPane().add(contenedorPanel, BorderLayout.CENTER);
+        contenedorPanel.removeAll();
+
         JMenuBar menuPrincipal = new JMenuBar();
+        addMenus(menuPrincipal);
+
+        setJMenuBar(menuPrincipal);
+
+        addMessageLabel(menuPrincipal);
+        addClockLabel(menuPrincipal);
+    }
+
+    private void addMenus(JMenuBar menuPrincipal) {
         JMenu menuLibros = new JMenu("Libros");
         JMenu menuUsuarios = new JMenu("Usuarios");
         JMenu menuRegistros = new JMenu("Registros");
@@ -85,30 +124,54 @@ public class Principal extends javax.swing.JFrame {
         Image imageReportes = iconoReportes.getImage();
         Image newImageReportes = imageReportes.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
         iconoReportes = new ImageIcon(newImageReportes);
+        ImageIcon iconoListas = new ImageIcon(getClass().getResource("/imagenes/listas_icono.png"));
+        Image imageListas = iconoListas.getImage();
+        Image newImageListas = imageListas.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+        iconoListas = new ImageIcon(newImageListas);
         //creacion de items en cada menu
         //items libros
         JMenuItem itemLibros01 = new JMenuItem("Nuevo Libro", iconoLibros);
         JMenuItem itemLibros02 = new JMenuItem("Editar Libro", iconoLibros);
         JMenuItem itemLibros03 = new JMenuItem("Prestar Libro", iconoLibros);
         //items usuarios
-        JMenuItem itemUsuarios01 = new JMenuItem("Nuevo Estudiante", iconoUsuarioNuevo);
+        JMenuItem itemNuevoEstudiante = new JMenuItem("Nuevo Estudiante", iconoUsuarioNuevo);
         JMenuItem itemUsuarios02 = new JMenuItem("Editar Estudiante", iconoUsuario);
         //items registros
         JMenuItem itemImportarRegistros = new JMenuItem("Importar Registros", iconoAbrirRegistros);
+        JMenuItem itemListaEstudiantes = new JMenuItem("Listado de Estudiantes", iconoListas);
+        JMenuItem itemListaLibros = new JMenuItem("Listado de Libros", iconoListas);
         //items reportes
+<<<<<<< HEAD
         JMenuItem itemGenerarReporte = new JMenuItem("Generar Reporte", iconoReportes);
+=======
+        JMenuItem itemPrestamosMismoDia = new JMenuItem("Prestamos a Devolver Este Día", iconoReportes);
+        JMenuItem itemPrestamosMora = new JMenuItem("Prestamos con Mora", iconoReportes);
+        JMenuItem itemIngresosIntervalo = new JMenuItem("Ingresos en un Intervalo de Tiempo", iconoReportes);
+        JMenuItem itemPrestamosPorEstudiante = new JMenuItem("Prestamos Hechos por Estudiante", iconoReportes);
+        JMenuItem itemPrestamosVigentesPorEstudiante = new JMenuItem("Prestamos Vigentes de Cada  Estudiante", iconoReportes);
+        JMenuItem itemPrestamosPorCarrera = new JMenuItem("Prestamos Realizados por Carrera en Intervalo de Tiempo", iconoReportes);
+>>>>>>> frontend
         //agregar al menu
         menuLibros.add(itemLibros01);
         menuLibros.add(itemLibros02);
         menuLibros.add(itemLibros03);
-        menuUsuarios.add(itemUsuarios01);
+        menuUsuarios.add(itemNuevoEstudiante);
         menuUsuarios.add(itemUsuarios02);
         menuRegistros.add(itemImportarRegistros);
-        menuReportes.add(itemGenerarReporte);
-
-        // Acción para Abrir Registros
+        menuRegistros.add(itemListaEstudiantes);
+        menuRegistros.add(itemListaLibros);
+        menuReportes.add(itemPrestamosMismoDia);
+        menuReportes.add(itemPrestamosMora);
+        menuReportes.add(itemIngresosIntervalo);
+        menuReportes.add(itemPrestamosPorEstudiante);
+        menuReportes.add(itemPrestamosVigentesPorEstudiante);
+        menuReportes.add(itemPrestamosPorCarrera);
+        //ACCIONES
+        //Importar registros
         itemImportarRegistros.addActionListener((ActionEvent e) -> {
             JFileChooser chooser = new JFileChooser();
+            // Establecer el tamaño del cuadro de diálogo
+            chooser.setPreferredSize(new Dimension(800, 600)); // tamaño buscador
             FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivos de texto (*.txt)", "txt");
             chooser.setFileFilter(filtro);
             int seleccion = chooser.showOpenDialog(this);
@@ -128,9 +191,15 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
         });
+        itemNuevoEstudiante.addActionListener((ActionEvent e) -> {
+            pintarPanel(newStudents);
+        });
+        itemLibros01.addActionListener((ActionEvent e) -> {
+            pintarPanel(libroNuevo);
+        });
 
         //personalizar menu
-        Font menuFont = new Font("Arial", Font.BOLD, 25);
+        Font menuFont = new Font("Bitstream Charter", Font.BOLD, 30);
         menuPrincipal.setFont(menuFont);
         for (int i = 0; i < menuPrincipal.getMenuCount(); i++) {
             JMenu menu = menuPrincipal.getMenu(i);
@@ -143,42 +212,50 @@ public class Principal extends javax.swing.JFrame {
 
         // Establece el diseño de la barra de menú
         menuPrincipal.setLayout(new BoxLayout(menuPrincipal, BoxLayout.X_AXIS));
-
         // Establece la barra de menú en el marco
         setJMenuBar(menuPrincipal);
-        //panel de mensaje random
-        JPanel panelTexto = new JPanel(new BorderLayout());
-        JLabel label = new JLabel("¿QUE TE GUSTARÍA HACER HOY?");
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setFont(new Font("Arial", Font.BOLD, 30));
-        label.setForeground(Color.BLUE);
-        label.setOpaque(true);
-        label.setBackground(new Color(251, 250, 248));
-        panelTexto.add(label, BorderLayout.CENTER);
-        add(panelTexto, BorderLayout.CENTER); // Añade el panel de texto al centro del JFrame
-        //panel de fecha y hora
-        JPanel panelReloj = new JPanel(new BorderLayout());
-        relojLabel = new JLabel();
-        relojLabel.setHorizontalAlignment(JLabel.RIGHT);
-        relojLabel.setFont(new Font("Bitstream Charter", Font.BOLD, 30));
-        relojLabel.setForeground(Color.BLACK);
-        panelReloj.add(relojLabel, BorderLayout.CENTER);
-        panelReloj.setPreferredSize(new Dimension(getWidth(), 50)); // Establece el tamaño del panel del reloj
-        panelReloj.setBackground(new Color(251, 250, 248)); // Establece el color de fondo del panel del reloj
-        add(panelReloj, BorderLayout.PAGE_END); // Añade el panel del reloj a la parte inferior del JFrame
+    }
 
-        // Iniciar el reloj
-        iniciarReloj();
+    private void pintarPanel(Component panel) {
+        contenedorPanel.removeAll();
+        contenedorPanel.setLayout(new BorderLayout());
+        contenedorPanel.add(panel, BorderLayout.CENTER);
+        if (tamañoPanelFondo != null) {
+            panel.setPreferredSize(tamañoPanelFondo);
+        }
+        // Repintar y validar el contenedor
+        contenedorPanel.repaint();
+        contenedorPanel.revalidate();
+    }
+
+    private void addMessageLabel(JMenuBar menuPrincipal) {
+        JLabel mensajeLabel = new JLabel("¿QUÉ TE GUSTARÍA HACER HOY?");
+        mensajeLabel.setFont(new Font("Bitstream Charter", Font.BOLD, 25));
+        mensajeLabel.setForeground(Color.BLUE);
+        mensajeLabel.setBackground(new Color(251, 250, 248));
+        menuPrincipal.add(Box.createHorizontalGlue());
+        menuPrincipal.add(mensajeLabel);
+    }
+
+    private void addClockLabel(JMenuBar menuPrincipal) {
+        relojLabel = new JLabel();
+        relojLabel.setFont(new Font("Bitstream Charter", Font.BOLD, 28));
+        relojLabel.setForeground(Color.BLACK);
+        actualizarReloj();
+        menuPrincipal.add(Box.createHorizontalGlue());
+        menuPrincipal.add(relojLabel);
     }
 
     private void iniciarReloj() {
         Thread hiloReloj = new Thread(() -> {
             while (true) {
-                SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
-                SimpleDateFormat formatoHora = new SimpleDateFormat("hh:mm:ss a");
-                String fecha = formatoFecha.format(new Date());
-                String hora = formatoHora.format(new Date());
-                relojLabel.setText("CUNOC;" + " " + fecha + " " + hora);
+                if (relojActivo) {
+                    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
+                    SimpleDateFormat formatoHora = new SimpleDateFormat("hh:mm:ss a");
+                    String fecha = formatoFecha.format(new Date());
+                    String hora = formatoHora.format(new Date());
+                    relojLabel.setText("CUNOC;" + " " + fecha + " " + hora);
+                }
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException ex) {
@@ -187,6 +264,14 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         hiloReloj.start();
+    }
+
+    private void actualizarReloj() {
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/YYYY");
+        SimpleDateFormat formatoHora = new SimpleDateFormat("hh:mm:ss a");
+        String fecha = formatoFecha.format(new Date());
+        String hora = formatoHora.format(new Date());
+        relojLabel.setText("CUNOC;" + " " + fecha + " " + hora);
     }
 
     /**
