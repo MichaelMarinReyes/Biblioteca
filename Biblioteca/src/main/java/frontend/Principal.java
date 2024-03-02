@@ -200,7 +200,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         //personalizar menu
-        Font menuFont = new Font("Bitstream Charter", Font.BOLD, 30);
+        Font menuFont = new Font("Bitstream Charter", Font.BOLD, 20);
         menuPrincipal.setFont(menuFont);
         for (int i = 0; i < menuPrincipal.getMenuCount(); i++) {
             JMenu menu = menuPrincipal.getMenu(i);
@@ -240,7 +240,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void addClockLabel(JMenuBar menuPrincipal) {
         relojLabel = new JLabel();
-        relojLabel.setFont(new Font("Bitstream Charter", Font.BOLD, 28));
+        relojLabel.setFont(new Font("Bitstream Charter", Font.BOLD, 20));
         relojLabel.setForeground(Color.BLACK);
         actualizarReloj();
         menuPrincipal.add(Box.createHorizontalGlue());
