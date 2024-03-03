@@ -5,6 +5,7 @@
 package frontend;
 
 import backend.importaciondedatos.ImportarDatos;
+import frontend.registrosinformacionnueva.HacerPrestamo;
 import frontend.registrosinformacionnueva.ListadoEstudiantes;
 import frontend.registrosinformacionnueva.ListadoLibros;
 import java.awt.BorderLayout;
@@ -47,6 +48,7 @@ public class Principal extends javax.swing.JFrame {
     private RegistroEstudianteNuevo estudianteNuevo = new RegistroEstudianteNuevo();
     private RegistroLibroNuevo libroNuevo = new RegistroLibroNuevo();
     private RegistroEstudianteNuevo newStudents = new RegistroEstudianteNuevo();
+    private HacerPrestamo newPrestamo = new HacerPrestamo();
     private boolean relojActivo = true;
     private Dimension tamañoPanelFondo;
 
@@ -143,9 +145,9 @@ public class Principal extends javax.swing.JFrame {
         JMenuItem itemUsuarios02 = new JMenuItem("Editar Estudiante", iconoUsuario);
         //items registros
         JMenuItem itemImportarRegistros = new JMenuItem("Importar Registros", iconoAbrirRegistros);
-        JMenuItem itemListaEstudiantes = new JMenuItem("Listado de Estudiantes Importados", iconoListas);
-        JMenuItem itemListaLibros = new JMenuItem("Listado de Libros Importados", iconoListas);
-        JMenuItem itemListaPrestamos = new JMenuItem("Listado de Prestamos Importados", iconoListas);
+        JMenuItem itemListaEstudiantes = new JMenuItem("Listado de Estudiantes", iconoListas);
+        JMenuItem itemListaLibros = new JMenuItem("Listado de Libros", iconoListas);
+        JMenuItem itemListaPrestamos = new JMenuItem("Listado de Prestamos", iconoListas);
         //items reportes
         JMenuItem itemPrestamosMismoDia = new JMenuItem("Prestamos a Devolver Este Día", iconoReportes);
         JMenuItem itemPrestamosMora = new JMenuItem("Prestamos con Mora", iconoReportes);
@@ -218,6 +220,9 @@ public class Principal extends javax.swing.JFrame {
             ListadoLibros listadoLibros = new ListadoLibros();
 
             pintarPanel(listadoLibros);
+        });
+        itemLibros03.addActionListener((ActionEvent e) -> {
+            pintarPanel(newPrestamo);
         });
         //personalizar menu
         Font menuFont = new Font("Bitstream Charter", Font.BOLD, 20);

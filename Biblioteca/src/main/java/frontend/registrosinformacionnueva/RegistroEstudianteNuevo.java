@@ -169,22 +169,25 @@ public class RegistroEstudianteNuevo extends javax.swing.JPanel {
     }
 
     private void guardarEstudianteBotonActionPerformed(java.awt.event.ActionEvent evt) throws ParseException {
-        String codigoCarrera = codigoCarreraComboBox.getSelectedItem().toString().split(" ")[0];
-        if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), codigoCarrera) && !fechaText.getText().isEmpty()) {
-            try {
-                verificarFormatoFecha(fechaText.getText());
-                guardarEstudianteBoton.setBackground(Color.green);
-                app.agregarNuevoEstudiante(carnetText.getText(), nombreText.getText(), codigoCarreraComboBox.getSelectedIndex(), fechaText.getText());
-                limpiarCampos();
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Código de carrera inválido.\n\nCódigos de carreras:\nIngeniería: 1\nMedicina: 2\nDerecho: 3\nArquitectura: 4\nAdministración: 5");
-                guardarEstudianteBoton.setBackground(Color.red);
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Por favor llene los campos obligatorios.");
+    String carreraSeleccionada = codigoCarreraComboBox.getSelectedItem().toString();
+    String[] partesCarrera = carreraSeleccionada.split(" ");
+    String numeroCarrera = partesCarrera[0]; // Extraer el número de la carrera seleccionada
+    
+    if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), numeroCarrera) && !fechaText.getText().isEmpty()) {
+        try {
+            verificarFormatoFecha(fechaText.getText());
+            guardarEstudianteBoton.setBackground(Color.green);
+            app.agregarNuevoEstudiante(carnetText.getText(), nombreText.getText(), Integer.parseInt(numeroCarrera), fechaText.getText());
+            limpiarCampos();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Código de carrera inválido.\n\nCódigos de carreras:\nIngeniería: 1\nMedicina: 2\nDerecho: 3\nArquitectura: 4\nAdministración: 5");
             guardarEstudianteBoton.setBackground(Color.red);
         }
+    } else {
+        JOptionPane.showMessageDialog(this, "Por favor llene los campos obligatorios.");
+        guardarEstudianteBoton.setBackground(Color.red);
     }
+}
 
     private boolean verificarCamposObligatorios(String carnet, String nombre, String codigoCarrera) {
         return !(carnet.isEmpty() || nombre.isEmpty() || codigoCarrera.isEmpty());

@@ -267,4 +267,22 @@ public class FuncionamientoAplicacion {
     public void listadoPrestamos() {
 
     }
+
+    public Libro buscarLibroPorCodigo(String codigoLibro) {
+    for (Libro libro : listaLibros) {
+        if (libro.getCodigo().equals(codigoLibro)) {
+            return libro;
+        }
+    }
+    return null; // Si no se encuentra el libro con el código especificado
+}
+
+    public Estudiante buscarEstudiantePorCarnet(String carnetEstudiante) {
+    for (Estudiante estudiante : listaEstudiantes) {
+        if (estudiante.getCarnet().equals(carnetEstudiante)) {
+            return estudiante;
+        }
+    }
+    return null; // Si no se encuentra el estudiante con el carnet especificado
+}
 }
