@@ -80,7 +80,7 @@ public class ListadoPrestamos extends javax.swing.JPanel {
         TableModel modeloDatos = tablaPrestamos.getModel();
         for (int i = 0; i < FuncionamientoAplicacion.listaPrestamos.size(); i++) {
             Estudiante estudiante = FuncionamientoAplicacion.listaEstudiantes.get(i);
-            modeloDatos.setValueAt(estudiante.getCarnet(), i, 0);
+            modeloDatos.setValueAt(estudiante.getCarne(), i, 0);
             modeloDatos.setValueAt(estudiante.getNombre(), i, 1);
             modeloDatos.setValueAt(estudiante.getCodigoCarrera(), i, 2);
             modeloDatos.setValueAt(estudiante.getFechaNacimiento(), i, 3);

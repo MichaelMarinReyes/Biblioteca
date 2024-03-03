@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 public class RegistroEstudianteNuevo extends javax.swing.JPanel {
 
     private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
-    
+
     public RegistroEstudianteNuevo() {
         initComponents();
         this.setBackground(new Color(251, 250, 248));

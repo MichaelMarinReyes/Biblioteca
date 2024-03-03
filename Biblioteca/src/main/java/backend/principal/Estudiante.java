@@ -8,25 +8,31 @@ import java.util.ArrayList;
  * @author michael
  */
 public class Estudiante implements Serializable {
+
     private String carnet;
+
     private String nombre;
     private int codigoCarrera;
     private String fechaNacimiento;
     private ArrayList<Libro> librosPrestados = new ArrayList<>();
 
+
     public Estudiante(String carnet, String nombre, int codigoCarrera, String fechaNacimiento) {
+
         this.carnet = carnet;
         this.nombre = nombre;
         this.codigoCarrera = codigoCarrera;
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getCarnet() {
+
+    public String getCarne() {
         return carnet;
     }
 
-    public void setCarnet(String carne) {
-        this.carnet = carnet;
+    public void setCarne(String carne) {
+        this.carnet = carne;
+
     }
 
     public String getNombre() {

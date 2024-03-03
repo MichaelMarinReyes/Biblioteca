@@ -2,11 +2,9 @@ package frontend.registrosinformacionnueva;
 
 import backend.principal.Estudiante;
 import backend.principal.FuncionamientoAplicacion;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -18,7 +16,7 @@ import javax.swing.table.TableRowSorter;
 public class ListadoEstudiantes extends javax.swing.JPanel {
 
     private JTextField textFieldBusqueda;
-    private DefaultTableModel modelo;
+    private TableRowSorter<TableModel> rowSorter;
 
     /**
      * Creates new form ListadoEstudiantes
@@ -26,7 +24,7 @@ public class ListadoEstudiantes extends javax.swing.JPanel {
     public ListadoEstudiantes() {
         initComponents();
         actualizarTablaEstudiantes();
-        mostrarArray();
+        agregarCampoBusqueda();
     }
 
     /**
@@ -70,7 +68,38 @@ public class ListadoEstudiantes extends javax.swing.JPanel {
     private javax.swing.JTable tablaEstudiantes;
     // End of variables declaration//GEN-END:variables
 
-    
+    private void agregarCampoBusqueda() {
+        textFieldBusqueda = new JTextField();
+        textFieldBusqueda.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+        });
+        add(textFieldBusqueda, java.awt.BorderLayout.NORTH);
+    }
+
+    private void filtrarTabla(String texto) {
+        if (rowSorter == null) {
+            rowSorter = new TableRowSorter<>(tablaEstudiantes.getModel());
+            tablaEstudiantes.setRowSorter(rowSorter);
+        }
+        if (texto.trim().length() == 0) {
+            rowSorter.setRowFilter(null);
+        } else {
+            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+        }
+    }
 
     public void actualizarTablaEstudiantes() {
         String[] columnas = {"Carné", "Nombre", "Carrera", "Fecha de nacimiento"};
@@ -80,19 +109,11 @@ public class ListadoEstudiantes extends javax.swing.JPanel {
         TableModel modeloDatos = tablaEstudiantes.getModel();
         for (int i = 0; i < FuncionamientoAplicacion.listaEstudiantes.size(); i++) {
             Estudiante estudiante = FuncionamientoAplicacion.listaEstudiantes.get(i);
-            modeloDatos.setValueAt(estudiante.getCarnet(), i, 0);
+            modeloDatos.setValueAt(estudiante.getCarne(), i, 0);
             modeloDatos.setValueAt(estudiante.getNombre(), i, 1);
             modeloDatos.setValueAt(estudiante.getCodigoCarrera(), i, 2);
             modeloDatos.setValueAt(estudiante.getFechaNacimiento(), i, 3);
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
-    }
-    
-    private void mostrarArray() {
-        System.out.println("mostrando array");
-        for (int i = 0; i < FuncionamientoAplicacion.listaEstudiantes.size(); i++) {
-            System.out.println(FuncionamientoAplicacion.listaEstudiantes.get(i).toString());
-            
-        }
     }
 }

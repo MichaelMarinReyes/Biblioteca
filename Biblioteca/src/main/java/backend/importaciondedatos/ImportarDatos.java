@@ -30,6 +30,8 @@ public class ImportarDatos {
                     importarEstudiante(buffer);
                 } else if (linea.startsWith("PRESTAMO")) {
                     importarPrestamo(buffer);
+                } else {
+
                 }
                 texto += linea + "\n";
             }
@@ -45,15 +47,19 @@ public class ImportarDatos {
         String autor = br.readLine().substring("AUTOR:".length());
         String codigo = br.readLine().substring("CODIGO:".length());
         int cantidad = Integer.parseInt(br.readLine().substring("CANTIDAD:".length()));
-        clasificar.agregarNuevoLibro(codigo, autor, titulo, cantidad, " ", " ");
-    }
+        if (!clasificar.validarLibroRepetido(codigo)) {
+            clasificar.agregarNuevoLibro(codigo, autor, titulo, cantidad, " ", " ");
+        }
 
+    }
 
     private void importarEstudiante(BufferedReader br) throws IOException {
         String carnet = br.readLine().substring("CARNET:".length());
         String nombre = br.readLine().substring("NOMBRE:".length());
         int numeroCarrera = Integer.parseInt(br.readLine().substring("CARRERA:".length()));
-        clasificar.agregarNuevoEstudiante(carnet, nombre, numeroCarrera, "");
+        if (!clasificar.validarEstudiantesRepetidos(carnet)) {
+            clasificar.agregarNuevoEstudiante(carnet, nombre, numeroCarrera, "");
+        }
     }
 
     private void importarPrestamo(BufferedReader br) throws IOException {

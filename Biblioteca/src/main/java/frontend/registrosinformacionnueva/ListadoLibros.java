@@ -18,8 +18,10 @@ import javax.swing.table.TableRowSorter;
  * @author michael
  */
 public class ListadoLibros extends javax.swing.JPanel {
-private JTextField textFieldBusqueda;
+
+    private JTextField textFieldBusqueda;
     private TableRowSorter<TableModel> rowSorter;
+
     /**
      * Creates new form ListadoLibros
      */
@@ -96,6 +98,7 @@ private JTextField textFieldBusqueda;
             rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
         }
     }
+
     public void actualizarTablaLibros() {
         String[] columnas = {"Código", "Título", "Autor", "Editorial", "Fecha de publicación", "NO. Copias"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, FuncionamientoAplicacion.listaLibros.size());
