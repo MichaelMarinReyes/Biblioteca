@@ -21,7 +21,7 @@ import javax.swing.JOptionPane;
 public class RegistroEstudianteNuevo extends javax.swing.JPanel {
 
     private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
-    
+
     public RegistroEstudianteNuevo() {
         initComponents();
         this.setBackground(new Color(251, 250, 248));
@@ -173,9 +173,15 @@ public class RegistroEstudianteNuevo extends javax.swing.JPanel {
         if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), codigoCarrera) && !fechaText.getText().isEmpty()) {
             try {
                 verificarFormatoFecha(fechaText.getText());
-                guardarEstudianteBoton.setBackground(Color.green);
-                app.agregarNuevoEstudiante(carnetText.getText(), nombreText.getText(), codigoCarreraComboBox.getSelectedIndex(), fechaText.getText());
-                limpiarCampos();
+
+                if (!app.validarEstudiantesRepetidos(carnetText.getText())) {
+                    app.agregarNuevoEstudiante(Integer.parseInt(carnetText.getText()), nombreText.getText(), codigoCarreraComboBox.getSelectedIndex(), fechaText.getText());
+                    guardarEstudianteBoton.setBackground(Color.green);
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(this, "El estudiante ya se encuentra registrado en la base de datos");
+                }
+
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Código de carrera inválido.\n\nCódigos de carreras:\nIngeniería: 1\nMedicina: 2\nDerecho: 3\nArquitectura: 4\nAdministración: 5");
                 guardarEstudianteBoton.setBackground(Color.red);

@@ -187,7 +187,6 @@ public class Principal extends javax.swing.JFrame {
 
                 if (extension.equals("txt")) {
                     String rutaArchivo = chooser.getSelectedFile().getAbsolutePath();
-                    //System.out.println("Ruta del archivo seleccionado: " + rutaArchivo);
                     ImportarDatos importar = new ImportarDatos();
                     int opcion = JOptionPane.showConfirmDialog(this, "Se ha encontrado el archivo \"" + chooser.getSelectedFile().getName() + "\"\n¿Desea importar los datos?", "IMPORTAR DATOS", JOptionPane.YES_NO_OPTION);
                     if (opcion == 0) {
