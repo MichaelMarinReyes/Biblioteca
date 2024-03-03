@@ -129,6 +129,10 @@ public class Principal extends javax.swing.JFrame {
         Image imageListas = iconoListas.getImage();
         Image newImageListas = imageListas.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
         iconoListas = new ImageIcon(newImageListas);
+        ImageIcon iconoErrores = new ImageIcon(getClass().getResource("/imagenes/errores_logo.png"));
+        Image imageErrores = iconoErrores.getImage();
+        Image newImageErrores = imageErrores.getScaledInstance(30, 30, java.awt.Image.SCALE_SMOOTH);
+        iconoErrores = new ImageIcon(newImageErrores);
         //creacion de items en cada menu
         //items libros
         JMenuItem itemLibros01 = new JMenuItem("Nuevo Libro", iconoLibros);
@@ -139,15 +143,17 @@ public class Principal extends javax.swing.JFrame {
         JMenuItem itemUsuarios02 = new JMenuItem("Editar Estudiante", iconoUsuario);
         //items registros
         JMenuItem itemImportarRegistros = new JMenuItem("Importar Registros", iconoAbrirRegistros);
-        JMenuItem itemListaEstudiantes = new JMenuItem("Listado de Estudiantes", iconoListas);
-        JMenuItem itemListaLibros = new JMenuItem("Listado de Libros", iconoListas);
+        JMenuItem itemListaEstudiantes = new JMenuItem("Listado de Estudiantes Importados", iconoListas);
+        JMenuItem itemListaLibros = new JMenuItem("Listado de Libros Importados", iconoListas);
+        JMenuItem itemListaPrestamos = new JMenuItem("Listado de Prestamos Importados", iconoListas);
         //items reportes
         JMenuItem itemPrestamosMismoDia = new JMenuItem("Prestamos a Devolver Este Día", iconoReportes);
         JMenuItem itemPrestamosMora = new JMenuItem("Prestamos con Mora", iconoReportes);
         JMenuItem itemIngresosIntervalo = new JMenuItem("Ingresos en un Intervalo de Tiempo", iconoReportes);
         JMenuItem itemPrestamosPorEstudiante = new JMenuItem("Prestamos Hechos por Estudiante", iconoReportes);
-        JMenuItem itemPrestamosVigentesPorEstudiante = new JMenuItem("Prestamos Vigentes de Cada  Estudiante", iconoReportes);
-        JMenuItem itemPrestamosPorCarrera = new JMenuItem("Prestamos Realizados por Carrera en Intervalo de Tiempo", iconoReportes);
+        JMenuItem itemPrestamosVigentesPorEstudiante = new JMenuItem("Prestamos Vigentes de Cada Estudiante", iconoReportes);
+        JMenuItem itemPrestamosPorCarrera = new JMenuItem("Prestamos Realizados por Carrera en un Intervalo de Tiempo", iconoReportes);
+        JMenuItem itemErroresEncontrados = new JMenuItem("Errores Encontrados en la Importación", iconoErrores);
         //agregar al menu
         menuLibros.add(itemLibros01);
         menuLibros.add(itemLibros02);
@@ -157,12 +163,14 @@ public class Principal extends javax.swing.JFrame {
         menuRegistros.add(itemImportarRegistros);
         menuRegistros.add(itemListaEstudiantes);
         menuRegistros.add(itemListaLibros);
+        menuRegistros.add(itemListaPrestamos);
         menuReportes.add(itemPrestamosMismoDia);
         menuReportes.add(itemPrestamosMora);
         menuReportes.add(itemIngresosIntervalo);
         menuReportes.add(itemPrestamosPorEstudiante);
         menuReportes.add(itemPrestamosVigentesPorEstudiante);
         menuReportes.add(itemPrestamosPorCarrera);
+        menuReportes.add(itemErroresEncontrados);
         //ACCIONES
         //Importar registros
         itemImportarRegistros.addActionListener((ActionEvent e) -> {
@@ -184,7 +192,7 @@ public class Principal extends javax.swing.JFrame {
                     int opcion = JOptionPane.showConfirmDialog(this, "Se ha encontrado el archivo \"" + chooser.getSelectedFile().getName() + "\"\n¿Desea importar los datos?", "IMPORTAR DATOS", JOptionPane.YES_NO_OPTION);
                     if (opcion == 0) {
                         importar.abrirArchivo(rutaArchivo);
-                        JOptionPane.showMessageDialog(this, "Importación finalizada.\nConsulte los reportes para más información");
+                        JOptionPane.showMessageDialog(this, "Importación finalizada.\nConsulte los registros para más información");
                     } else {
                         JOptionPane.showMessageDialog(this, "Importación cancelada.");
                     }

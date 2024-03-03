@@ -6,21 +6,27 @@ package frontend.registrosinformacionnueva;
 
 import backend.principal.FuncionamientoAplicacion;
 import backend.principal.Libro;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
  * @author michael
  */
 public class ListadoLibros extends javax.swing.JPanel {
-
+private JTextField textFieldBusqueda;
+    private TableRowSorter<TableModel> rowSorter;
     /**
      * Creates new form ListadoLibros
      */
     public ListadoLibros() {
         initComponents();
         this.actualizarTablaLibros();
+        agregarCampoBusqueda();
     }
 
     /**
@@ -58,7 +64,38 @@ public class ListadoLibros extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tablaLibros;
     // End of variables declaration//GEN-END:variables
+ private void agregarCampoBusqueda() {
+        textFieldBusqueda = new JTextField();
+        textFieldBusqueda.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
 
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+        });
+        add(textFieldBusqueda, java.awt.BorderLayout.NORTH);
+    }
+
+    private void filtrarTabla(String texto) {
+        if (rowSorter == null) {
+            rowSorter = new TableRowSorter<>(tablaLibros.getModel());
+            tablaLibros.setRowSorter(rowSorter);
+        }
+        if (texto.trim().length() == 0) {
+            rowSorter.setRowFilter(null);
+        } else {
+            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+        }
+    }
     public void actualizarTablaLibros() {
         String[] columnas = {"Código", "Título", "Autor", "Editorial", "Fecha de publicación", "NO. Copias"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, FuncionamientoAplicacion.listaLibros.size());
@@ -73,7 +110,7 @@ public class ListadoLibros extends javax.swing.JPanel {
             modeloDatos.setValueAt(libro.getEditorial(), i, 3);
             modeloDatos.setValueAt(libro.getFechaPublicacion(), i, 4);
             modeloDatos.setValueAt(libro.getCantidadCopias(), i, 5);
-        }    
+        }
         FuncionamientoAplicacion.guardarSerializableLibros();
     }
 }

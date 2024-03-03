@@ -48,11 +48,12 @@ public class ImportarDatos {
         clasificar.agregarNuevoLibro(codigo, autor, titulo, cantidad, " ", " ");
     }
 
+
     private void importarEstudiante(BufferedReader br) throws IOException {
         String carnet = br.readLine().substring("CARNET:".length());
         String nombre = br.readLine().substring("NOMBRE:".length());
-        int carrera = Integer.parseInt(br.readLine().substring("CARRERA:".length()));
-        clasificar.agregarNuevoEstudiante(carnet, nombre, carrera, " ");
+        int numeroCarrera = Integer.parseInt(br.readLine().substring("CARRERA:".length()));
+        clasificar.agregarNuevoEstudiante(carnet, nombre, numeroCarrera, "");
     }
 
     private void importarPrestamo(BufferedReader br) throws IOException {
