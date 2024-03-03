@@ -4,6 +4,7 @@
  */
 package frontend.registrosinformacionnueva;
 
+import backend.principal.FuncionamientoAplicacion;
 import java.awt.Color;
 import java.awt.Font;
 import java.text.ParseException;
@@ -18,6 +19,8 @@ import javax.swing.JOptionPane;
  * @author ryoumen_kyoma
  */
 public class RegistroEstudianteNuevo extends javax.swing.JPanel {
+
+    private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
 
     public RegistroEstudianteNuevo() {
         initComponents();
@@ -166,12 +169,22 @@ public class RegistroEstudianteNuevo extends javax.swing.JPanel {
     }
 
     private void guardarEstudianteBotonActionPerformed(java.awt.event.ActionEvent evt) throws ParseException {
-        String codigoCarrera = codigoCarreraComboBox.getSelectedItem().toString().split(" ")[0];
-        if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), codigoCarrera) && !fechaText.getText().isEmpty()) {
+        String carreraSeleccionada = codigoCarreraComboBox.getSelectedItem().toString();
+        String[] partesCarrera = carreraSeleccionada.split(" ");
+        String numeroCarrera = partesCarrera[0]; // Extraer el número de la carrera seleccionada
+
+        if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), numeroCarrera) && !fechaText.getText().isEmpty()) {
             try {
                 verificarFormatoFecha(fechaText.getText());
-                guardarEstudianteBoton.setBackground(Color.green);
-                limpiarCampos();
+
+                if (!app.validarEstudiantesRepetidos(carnetText.getText())) {
+                    app.agregarNuevoEstudiante(Integer.parseInt(carnetText.getText()), nombreText.getText(), codigoCarreraComboBox.getSelectedIndex(), fechaText.getText());
+                    guardarEstudianteBoton.setBackground(Color.green);
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(this, "El estudiante ya se encuentra registrado en la base de datos");
+                    guardarEstudianteBoton.setBackground(Color.red);
+                }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(this, "Código de carrera inválido.\n\nCódigos de carreras:\nIngeniería: 1\nMedicina: 2\nDerecho: 3\nArquitectura: 4\nAdministración: 5");
                 guardarEstudianteBoton.setBackground(Color.red);

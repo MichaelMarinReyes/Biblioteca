@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package frontend.registrosinformacionnueva;
 
+import backend.principal.FuncionamientoAplicacion;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -18,12 +15,14 @@ import javax.swing.JOptionPane;
  */
 public class RegistroLibroNuevo extends javax.swing.JPanel {
 
+    private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
+
     public RegistroLibroNuevo() {
         initComponents();
         this.setBackground(new Color(251, 250, 248)); // Establecer el color de fondo del panel
         // Ajustar el tamaño de los componentes y la fuente
-        Font font = new Font("Bitstream Charter", Font.BOLD, 30);
-        jLabel1.setFont(new Font("Bitstream Charter", Font.BOLD, 30));
+        Font font = new Font("Bitstream Charter", Font.BOLD, 25);
+        jLabel1.setFont(new Font("Bitstream Charter", Font.BOLD, 25));
         jLabel2.setFont(font);
         jLabel3.setFont(font);
         jLabel4.setFont(font);
@@ -240,24 +239,54 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
 
     private void guardarLibroBotonActionPerformed(java.awt.event.ActionEvent evt) {
         if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && !fechaText.getText().equals(" ") && !editorialText.getText().equals(" ")) {
-            //MANDAR DATOS AL BACKEND
+            //TODOS LOS CAMPOS LLENOS
             validarCodigo(codigoLibroText.getText());
             validarNumero(copiasText.getText());
-            limpiarCampos();
-            guardarLibroBoton.setBackground(Color.GREEN);
+
+            if (!app.validarLibroRepetido(codigoLibroText.getText())) {
+                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), fechaText.getText(), editorialText.getText());
+                limpiarCampos();
+                guardarLibroBoton.setBackground(Color.GREEN);
+            } else {
+                JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
+            }
+
         } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && !fechaText.getText().equals(" ") && editorialText.getText().equals(" ")) {
+            //CAMPO DE FECHA VACÍO
             validarCodigo(codigoLibroText.getText());
             validarNumero(copiasText.getText());
             verificarFormatoFecha(fechaText.getText());
+            if (!app.validarLibroRepetido(codigoLibroText.getText())) {
+                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), fechaText.getText(), editorialText.getText());
+                limpiarCampos();
+                guardarLibroBoton.setBackground(Color.GREEN);
+            } else {
+                JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
+            }
         } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && fechaText.getText().equals(" ") && !editorialText.getText().equals(" ")) {
+            //CAMPO DE EDITORIAL VACÍO
             validarCodigo(codigoLibroText.getText());
             validarNumero(copiasText.getText());
+
+            if (!app.validarLibroRepetido(codigoLibroText.getText())) {
+                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), fechaText.getText(), editorialText.getText());
+                limpiarCampos();
+                guardarLibroBoton.setBackground(Color.GREEN);
+            } else {
+                JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
+            }
         } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && fechaText.getText().equals(" ") && editorialText.getText().equals(" ")) {
-            //MANDAR DATOS AL BACKEND
+            //CAMPO DE FECHA Y EDITORIAL VACÍO
             validarCodigo(codigoLibroText.getText());
             validarNumero(copiasText.getText());
-            limpiarCampos();
-            guardarLibroBoton.setBackground(Color.GREEN);
+            if (!app.validarLibroRepetido(codigoLibroText.getText())) {
+                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), fechaText.getText(), editorialText.getText());
+                limpiarCampos();
+                guardarLibroBoton.setBackground(Color.GREEN);
+            } else {
+                JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
+            }
+            app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), " ", " ");
         } else {
             guardarLibroBoton.setBackground(Color.red);
         }

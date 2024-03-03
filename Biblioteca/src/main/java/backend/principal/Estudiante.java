@@ -2,32 +2,33 @@ package backend.principal;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
  * @author michael
  */
 public class Estudiante implements Serializable {
-    private String carne;
+
+    private int carnet;
     private String nombre;
     private int codigoCarrera;
-    private Date fechaNacimiento;
+    private String fechaNacimiento;
     private ArrayList<Libro> librosPrestados = new ArrayList<>();
 
-    public Estudiante(String carne, String nombre, int codigoCarrera, Date fechaNacimiento) {
-        this.carne = carne;
+    public Estudiante(int carnet, String nombre, int codigoCarrera, String fechaNacimiento) {
+        this.carnet = carnet;
         this.nombre = nombre;
         this.codigoCarrera = codigoCarrera;
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public String getCarne() {
-        return carne;
+
+    public int getCarnet() {
+        return carnet;
     }
 
-    public void setCarne(String carne) {
-        this.carne = carne;
+    public void setCarnet(int carnet) {
+        this.carnet = carnet;
     }
 
     public String getNombre() {
@@ -46,14 +47,14 @@ public class Estudiante implements Serializable {
         this.codigoCarrera = codigoCarrera;
     }
 
-    public Date getFechaNacimiento() {
+    public String getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
-    
+
     public void añadirLibro(Libro libro) {
         librosPrestados.add(libro);
     }

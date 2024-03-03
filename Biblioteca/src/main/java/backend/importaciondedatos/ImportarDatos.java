@@ -15,7 +15,7 @@ public class ImportarDatos {
     private FuncionamientoAplicacion clasificar = new FuncionamientoAplicacion();
     private String path;
 
-    public String abrirArchivo(String ruta) {
+    public void abrirArchivo(String ruta) {
         String texto = "";
         path = ruta;
         try {
@@ -24,7 +24,15 @@ public class ImportarDatos {
             BufferedReader buffer = new BufferedReader(lector);
             String linea;
             while ((linea = buffer.readLine()) != null) {
-                clasificar.importarDatos(linea);
+                if (linea.startsWith("LIBRO")) {
+                    importarLibro(buffer);
+                } else if (linea.startsWith("ESTUDIANTE")) {
+                    importarEstudiante(buffer);
+                } else if (linea.startsWith("PRESTAMO")) {
+                    importarPrestamo(buffer);
+                } else {
+
+                }
                 texto += linea + "\n";
             }
             buffer.close();
@@ -32,6 +40,32 @@ public class ImportarDatos {
         } catch (IOException error) {
             System.out.println(error);
         }
-        return texto;
+    }
+
+    private void importarLibro(BufferedReader br) throws IOException {
+        String titulo = br.readLine().substring("TITULO:".length());
+        String autor = br.readLine().substring("AUTOR:".length());
+        String codigo = br.readLine().substring("CODIGO:".length());
+        int cantidad = Integer.parseInt(br.readLine().substring("CANTIDAD:".length()));
+        if (!clasificar.validarLibroRepetido(codigo)) {
+            clasificar.agregarNuevoLibro(codigo, autor, titulo, cantidad, " ", " ");
+        }
+
+    }
+
+    private void importarEstudiante(BufferedReader br) throws IOException {
+        String carnet = br.readLine().substring("CARNET:".length());
+        String nombre = br.readLine().substring("NOMBRE:".length());
+        int numeroCarrera = Integer.parseInt(br.readLine().substring("CARRERA:".length()));
+        if (!clasificar.validarEstudiantesRepetidos(carnet)) {
+            clasificar.agregarNuevoEstudiante(Integer.parseInt(carnet), nombre, numeroCarrera, "");
+        }
+    }
+
+    private void importarPrestamo(BufferedReader br) throws IOException {
+        String codigoLibro = br.readLine().substring("CODIGOLIBRO:".length());
+        String carnet = br.readLine().substring("CARNET:".length());
+        String fecha = br.readLine().substring("FECHA:".length());
+        // agregar para préstamos
     }
 }
