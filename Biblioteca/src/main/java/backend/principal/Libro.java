@@ -1,7 +1,7 @@
 package backend.principal;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -13,10 +13,10 @@ public class Libro implements Serializable {
     private String autor;
     private String codigo;
     private int cantidadCopias;
-    private String fechaPublicacion;
+    private LocalDate fechaPublicacion;
     private String editorial;
 
-    public Libro(String titulo, String autor, String codigo, int cantidadCopias, String fechaPublicacion, String editorial) {
+    public Libro(String titulo, String autor, String codigo, int cantidadCopias, LocalDate fechaPublicacion, String editorial) {
         this.titulo = titulo;
         this.autor = autor;
         this.codigo = codigo;
@@ -57,11 +57,11 @@ public class Libro implements Serializable {
         this.cantidadCopias = cantidadCopias;
     }
 
-    public String getFechaPublicacion() {
+    public LocalDate getFechaPublicacion() {
         return fechaPublicacion;
     }
 
-    public void setFechaPublicacion(String fechaPublicacion) {
+    public void setFechaPublicacion(LocalDate fechaPublicacion) {
         this.fechaPublicacion = fechaPublicacion;
     }
 

@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -175,10 +177,11 @@ public class RegistroEstudianteNuevo extends javax.swing.JPanel {
 
         if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), numeroCarrera) && !fechaText.getText().isEmpty()) {
             try {
-                verificarFormatoFecha(fechaText.getText());
-
+                verificarFormatoFecha(fechaText.getText());                
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate fecha = LocalDate.parse(fechaText.getText(), format);
                 if (!app.validarEstudiantesRepetidos(carnetText.getText())) {
-                    app.agregarNuevoEstudiante(Integer.parseInt(carnetText.getText()), nombreText.getText(), codigoCarreraComboBox.getSelectedIndex(), fechaText.getText());
+                    app.agregarNuevoEstudiante(Integer.parseInt(carnetText.getText()), nombreText.getText(), codigoCarreraComboBox.getSelectedIndex(), fecha);
                     guardarEstudianteBoton.setBackground(Color.green);
                     limpiarCampos();
                 } else {

@@ -45,6 +45,11 @@ public class ListadoLibros extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
+        tablaLibros = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
         tablaLibros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},

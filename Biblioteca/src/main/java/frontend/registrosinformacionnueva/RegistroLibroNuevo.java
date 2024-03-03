@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 
 /**
@@ -244,7 +246,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
             validarNumero(copiasText.getText());
 
             if (!app.validarLibroRepetido(codigoLibroText.getText())) {
-                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), fechaText.getText(), editorialText.getText());
+                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), editorialText.getText());
                 limpiarCampos();
                 guardarLibroBoton.setBackground(Color.GREEN);
             } else {
@@ -257,7 +259,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
             validarNumero(copiasText.getText());
             verificarFormatoFecha(fechaText.getText());
             if (!app.validarLibroRepetido(codigoLibroText.getText())) {
-                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), fechaText.getText(), editorialText.getText());
+                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), editorialText.getText());
                 limpiarCampos();
                 guardarLibroBoton.setBackground(Color.GREEN);
             } else {
@@ -269,7 +271,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
             validarNumero(copiasText.getText());
 
             if (!app.validarLibroRepetido(codigoLibroText.getText())) {
-                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), fechaText.getText(), editorialText.getText());
+                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), editorialText.getText());
                 limpiarCampos();
                 guardarLibroBoton.setBackground(Color.GREEN);
             } else {
@@ -280,13 +282,13 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
             validarCodigo(codigoLibroText.getText());
             validarNumero(copiasText.getText());
             if (!app.validarLibroRepetido(codigoLibroText.getText())) {
-                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), fechaText.getText(), editorialText.getText());
+                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), editorialText.getText());
                 limpiarCampos();
                 guardarLibroBoton.setBackground(Color.GREEN);
             } else {
                 JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
             }
-            app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), " ", " ");
+            app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), null, " ");
         } else {
             guardarLibroBoton.setBackground(Color.red);
         }
@@ -344,9 +346,22 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         guardarLibroBoton.setBackground(Color.GREEN);
     }
 
-    private void mostrarDatos() {
-        System.out.println(fechaText.getText());
-        System.out.println(editorialText.getText());
+    private LocalDate obtenerFecha(String fechaEnString) {
+        // Define el formato esperado
+        String formatoEsperado = "yyyy-MM-dd";
+
+        // Verifica si el string cumple con el formato esperado
+        if (!fechaEnString.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            throw new IllegalArgumentException("El formato del string debe ser 'yyyy-MM-dd'");
+        }
+
+        // Crea un formateador para el formato esperado
+        DateTimeFormatter formateador = DateTimeFormatter.ofPattern(formatoEsperado);
+
+        // Convierte el string en LocalDate
+        LocalDate fecha = LocalDate.parse(fechaEnString, formateador);
+
+        return fecha;
     }
 
     // Variables declaration - do not modify                     
