@@ -221,7 +221,7 @@ public class FuncionamientoAplicacion {
 
     public boolean validarEstudiantesRepetidos(String carnet) {
         for (int i = 0; i < listaEstudiantes.size(); i++) {
-            if (listaEstudiantes.get(i).getCarne() == Integer.parseInt(carnet)) {
+            if (listaEstudiantes.get(i).getCarnet() == Integer.parseInt(carnet)) {
                 return true;
             }
         }
@@ -236,4 +236,22 @@ public class FuncionamientoAplicacion {
         }
         return false;
     }
+
+    public Libro buscarLibroPorCodigo(String codigoLibro) {
+    for (Libro libro : listaLibros) {
+        if (libro.getCodigo().equals(codigoLibro)) {
+            return libro;
+        }
+    }
+    return null; // Si no se encuentra el libro con el código especificado
+}
+
+    public Estudiante buscarEstudiantePorCarnet(String carnetEstudiante) {
+        for (int i = 0; i < listaEstudiantes.size(); i++) {
+            if (listaEstudiantes.get(i).getCarnet() == Integer.parseInt(carnetEstudiante)) {
+                return listaEstudiantes.get(i);
+            }
+        }
+    return null; // Si no se encuentra el estudiante con el carnet especificado
+}
 }
