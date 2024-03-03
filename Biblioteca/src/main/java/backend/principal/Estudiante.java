@@ -22,12 +22,13 @@ public class Estudiante implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
+
     public int getCarnet() {
         return carnet;
     }
 
-    public void setCarnet(int carne) {
-        this.carnet = carne;
+    public void setCarnet(int carnet) {
+        this.carnet = carnet;
     }
 
     public String getNombre() {
