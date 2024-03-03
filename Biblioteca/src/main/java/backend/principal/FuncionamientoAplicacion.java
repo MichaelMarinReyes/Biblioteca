@@ -7,9 +7,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -42,7 +44,7 @@ public class FuncionamientoAplicacion {
     /**
      * Sirve para agregar un nuevo libro a la base de datos.
      */
-    public void agregarNuevoLibro(String codigo, String autor, String titulo, int cantidadCopias, String fechaPublicación, String editorial) {
+    public void agregarNuevoLibro(String codigo, String autor, String titulo, int cantidadCopias, LocalDate fechaPublicación, String editorial) {
         listaLibros.add(new Libro(titulo, autor, codigo, cantidadCopias, fechaPublicación, editorial));
     }
 
@@ -56,7 +58,7 @@ public class FuncionamientoAplicacion {
     /**
      * Sirve para agregar a un nuevo estudiante en la base de datos.
      */
-    public void agregarNuevoEstudiante(int carnet, String nombre, int codigoCarrera, String fechaNacimiento) {
+    public void agregarNuevoEstudiante(int carnet, String nombre, int codigoCarrera, LocalDate fechaNacimiento) {
         listaEstudiantes.add(new Estudiante(carnet, nombre, codigoCarrera, fechaNacimiento));
     }
 

@@ -48,7 +48,7 @@ public class ImportarDatos {
         String codigo = br.readLine().substring("CODIGO:".length());
         int cantidad = Integer.parseInt(br.readLine().substring("CANTIDAD:".length()));
         if (!clasificar.validarLibroRepetido(codigo)) {
-            clasificar.agregarNuevoLibro(codigo, autor, titulo, cantidad, " ", " ");
+            clasificar.agregarNuevoLibro(codigo, autor, titulo, cantidad, null, " ");
         }
 
     }
@@ -58,7 +58,7 @@ public class ImportarDatos {
         String nombre = br.readLine().substring("NOMBRE:".length());
         int numeroCarrera = Integer.parseInt(br.readLine().substring("CARRERA:".length()));
         if (!clasificar.validarEstudiantesRepetidos(carnet)) {
-            clasificar.agregarNuevoEstudiante(Integer.parseInt(carnet), nombre, numeroCarrera, "");
+            clasificar.agregarNuevoEstudiante(Integer.parseInt(carnet), nombre, numeroCarrera, null);
         }
     }
 
