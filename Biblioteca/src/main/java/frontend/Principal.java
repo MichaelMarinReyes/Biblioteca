@@ -156,6 +156,7 @@ public class Principal extends javax.swing.JFrame {
         JMenuItem itemPrestamosVigentesPorEstudiante = new JMenuItem("Prestamos Vigentes de Cada Estudiante", iconoReportes);
         JMenuItem itemPrestamosPorCarrera = new JMenuItem("Prestamos Realizados por Carrera en un Intervalo de Tiempo", iconoReportes);
         JMenuItem itemErroresEncontrados = new JMenuItem("Errores Encontrados en la Importación", iconoErrores);
+
         //agregar al menu
         menuLibros.add(itemLibros01);
         menuLibros.add(itemLibros02);
