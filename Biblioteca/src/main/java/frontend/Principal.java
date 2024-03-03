@@ -5,7 +5,6 @@
 package frontend;
 
 import backend.importaciondedatos.ImportarDatos;
-import backend.principal.FuncionamientoAplicacion;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -141,16 +140,12 @@ public class Principal extends javax.swing.JFrame {
         JMenuItem itemListaEstudiantes = new JMenuItem("Listado de Estudiantes", iconoListas);
         JMenuItem itemListaLibros = new JMenuItem("Listado de Libros", iconoListas);
         //items reportes
-<<<<<<< HEAD
-        JMenuItem itemGenerarReporte = new JMenuItem("Generar Reporte", iconoReportes);
-=======
         JMenuItem itemPrestamosMismoDia = new JMenuItem("Prestamos a Devolver Este Día", iconoReportes);
         JMenuItem itemPrestamosMora = new JMenuItem("Prestamos con Mora", iconoReportes);
         JMenuItem itemIngresosIntervalo = new JMenuItem("Ingresos en un Intervalo de Tiempo", iconoReportes);
         JMenuItem itemPrestamosPorEstudiante = new JMenuItem("Prestamos Hechos por Estudiante", iconoReportes);
         JMenuItem itemPrestamosVigentesPorEstudiante = new JMenuItem("Prestamos Vigentes de Cada  Estudiante", iconoReportes);
         JMenuItem itemPrestamosPorCarrera = new JMenuItem("Prestamos Realizados por Carrera en Intervalo de Tiempo", iconoReportes);
->>>>>>> frontend
         //agregar al menu
         menuLibros.add(itemLibros01);
         menuLibros.add(itemLibros02);
@@ -184,8 +179,14 @@ public class Principal extends javax.swing.JFrame {
                     String rutaArchivo = chooser.getSelectedFile().getAbsolutePath();
                     //System.out.println("Ruta del archivo seleccionado: " + rutaArchivo);
                     ImportarDatos importar = new ImportarDatos();
-                    importar.abrirArchivo(rutaArchivo);
-                    
+                    int opcion = JOptionPane.showConfirmDialog(this, "Se ha encontrado el archivo \"" + chooser.getSelectedFile().getName() + "\"\n¿Desea importar los datos?", "IMPORTAR DATOS", JOptionPane.YES_NO_OPTION);
+                    if (opcion == 0) {
+                        importar.abrirArchivo(rutaArchivo);
+                        JOptionPane.showMessageDialog(this, "Importación finalizada.\nConsulte los reportes para más información");
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Importación cancelada.");
+                    }
+
                 } else {
                     JOptionPane.showMessageDialog(this, "Solo se permiten archivos .txt", "Error", JOptionPane.ERROR_MESSAGE);
                 }
@@ -199,7 +200,7 @@ public class Principal extends javax.swing.JFrame {
         });
 
         //personalizar menu
-        Font menuFont = new Font("Bitstream Charter", Font.BOLD, 30);
+        Font menuFont = new Font("Bitstream Charter", Font.BOLD, 20);
         menuPrincipal.setFont(menuFont);
         for (int i = 0; i < menuPrincipal.getMenuCount(); i++) {
             JMenu menu = menuPrincipal.getMenu(i);
@@ -239,7 +240,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void addClockLabel(JMenuBar menuPrincipal) {
         relojLabel = new JLabel();
-        relojLabel.setFont(new Font("Bitstream Charter", Font.BOLD, 28));
+        relojLabel.setFont(new Font("Bitstream Charter", Font.BOLD, 20));
         relojLabel.setForeground(Color.BLACK);
         actualizarReloj();
         menuPrincipal.add(Box.createHorizontalGlue());
