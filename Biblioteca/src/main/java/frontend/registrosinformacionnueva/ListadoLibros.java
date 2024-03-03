@@ -60,7 +60,7 @@ public class ListadoLibros extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void actualizarTablaLibros() {
-        String[] columnas = {"Código", "Título", "Autor", "Editorial", "Fecha de publicación,", "NO. Copias"};
+        String[] columnas = {"Código", "Título", "Autor", "Editorial", "Fecha de publicación", "NO. Copias"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, FuncionamientoAplicacion.listaLibros.size());
         tablaLibros.setModel(modelo);
 
