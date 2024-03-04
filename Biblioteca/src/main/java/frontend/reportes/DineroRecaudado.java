@@ -1,7 +1,6 @@
 package frontend.reportes;
 
 import backend.principal.FuncionamientoAplicacion;
-import backend.principal.Prestamo;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -9,14 +8,14 @@ import javax.swing.table.TableModel;
  *
  * @author michael
  */
-public class PrestamosConMora extends javax.swing.JPanel {
+public class DineroRecaudado extends javax.swing.JPanel {
 
     /**
-     * Creates new form PrestamosConMora
+     * Creates new form DineroRecaudado
      */
-    public PrestamosConMora() {
+    public DineroRecaudado() {
         initComponents();
-        actualizarTablaEntregasConMora();
+        actualizarTablaPrestamosPorTiempo();
     }
 
     /**
@@ -33,11 +32,6 @@ public class PrestamosConMora extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
-        tablaReportes = new javax.swing.JTable(){
-            public boolean isCellEditable(int row, int col) {
-                return false;
-            }
-        };
         tablaReportes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -60,19 +54,18 @@ public class PrestamosConMora extends javax.swing.JPanel {
     private javax.swing.JTable tablaReportes;
     // End of variables declaration//GEN-END:variables
 
-    public void actualizarTablaEntregasConMora() {
-        String[] columnaDevolucionMora = {"Carnet", "Nombre", "Código de libro", "Título", "Fecha de préstamo", "Días de atraso"};
-        DefaultTableModel modelo = new DefaultTableModel(columnaDevolucionMora, FuncionamientoAplicacion.listaPrestamos.size());
+        public void actualizarTablaPrestamosPorTiempo() {
+        String[] columnaIngresosIntervaloTiempo = {"Fecha inicio", "Fecha final", "Total"};
+        DefaultTableModel modelo = new DefaultTableModel(columnaIngresosIntervaloTiempo, FuncionamientoAplicacion.listaPrestamos.size());
         tablaReportes.setModel(modelo);
 
         TableModel modeloDatos = tablaReportes.getModel();
         for (int i = 0; i < FuncionamientoAplicacion.listaPrestamos.size(); i++) {
-            Prestamo prestamo = FuncionamientoAplicacion.listaPrestamos.get(i);
-            modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 0);
-            modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 1);
-            modeloDatos.setValueAt(prestamo.getLibro().getCodigo(), i, 2);
-            modeloDatos.setValueAt(prestamo.getLibro().getTitulo(), i, 3);
-            modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 4);
+            /*   Prestamo estudiante = FuncionamientoAplicacion.listaPrestamos.get(i);
+            modeloDatos.setValueAt(estudiante.getCarnet(), i, 0);
+            modeloDatos.setValueAt(estudiante.getNombre(), i, 1);
+            modeloDatos.setValueAt(estudiante.getCodigoCarrera(), i, 2);
+            modeloDatos.setValueAt(estudiante.getFechaNacimiento(), i, 3);*/
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
     }

@@ -27,7 +27,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tablaReportes">
+        <Component class="javax.swing.JTable" name="jTable1">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="4">
@@ -38,9 +38,6 @@
               </Table>
             </Property>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="tablaReportes = new javax.swing.JTable(){&#xa;    public boolean isCellEditable(int row, int col) {&#xa;        return false;&#xa;    }  &#xa;};"/>
-          </AuxValues>
         </Component>
       </SubComponents>
     </Container>

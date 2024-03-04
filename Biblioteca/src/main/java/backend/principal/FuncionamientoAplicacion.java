@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,29 +45,28 @@ public class FuncionamientoAplicacion {
      * Sirve para actualizar los datos de un libro específico.
      */
     public void actualizarLibro(Libro libroActualizado) {
-    // Buscar el libro en la lista de libros
-    for (int i = 0; i < listaLibros.size(); i++) {
-        Libro libro = listaLibros.get(i);
-        if (libro.getCodigo().equals(libroActualizado.getCodigo())) {
-            // Actualizar los campos del libro con los nuevos valores
-            libro.setTitulo(libroActualizado.getTitulo());
-            libro.setAutor(libroActualizado.getAutor());
-            libro.setEditorial(libroActualizado.getEditorial());
-            libro.setFechaPublicacion(libroActualizado.getFechaPublicacion());
-            libro.setCantidadCopias(libroActualizado.getCantidadCopias());
-            // Mostrar mensaje de éxito o realizar otras acciones necesarias
-            System.out.println("El libro ha sido actualizado correctamente.");
-            return; // Salir del bucle una vez que se ha actualizado el libro
+        // Buscar el libro en la lista de libros
+        for (int i = 0; i < listaLibros.size(); i++) {
+            Libro libro = listaLibros.get(i);
+            if (libro.getCodigo().equals(libroActualizado.getCodigo())) {
+                // Actualizar los campos del libro con los nuevos valores
+                libro.setTitulo(libroActualizado.getTitulo());
+                libro.setAutor(libroActualizado.getAutor());
+                libro.setEditorial(libroActualizado.getEditorial());
+                libro.setFechaPublicacion(libroActualizado.getFechaPublicacion());
+                libro.setCantidadCopias(libroActualizado.getCantidadCopias());
+                // Mostrar mensaje de éxito o realizar otras acciones necesarias
+                System.out.println("El libro ha sido actualizado correctamente.");
+                return; // Salir del bucle una vez que se ha actualizado el libro
+            }
         }
+        // Si el libro no se encuentra en la lista, mostrar mensaje de error
+        System.out.println("El libro no se encuentra en la base de datos.");
     }
-    // Si el libro no se encuentra en la lista, mostrar mensaje de error
-    System.out.println("El libro no se encuentra en la base de datos.");
-}
 
     /**
      * Sirve para agregar a un nuevo estudiante en la base de datos.
      */
-
     public void agregarNuevoEstudiante(int carnet, String nombre, int codigoCarrera, LocalDate fechaNacimiento) {
         listaEstudiantes.add(new Estudiante(carnet, nombre, codigoCarrera, fechaNacimiento));
     }
@@ -77,9 +75,9 @@ public class FuncionamientoAplicacion {
      * Método que gestionará los préstamos de los libros.
      */
     public void prestarLibro(Libro codigoLibro, Estudiante estudiante, LocalDate fecha) {
-       /* Libro libro = buscarLibroDisponible(codigoLibro.getCodigo());
+        /* Libro libro = buscarLibroDisponible(codigoLibro.getCodigo());
         if (libro != null) {*/
-            listaPrestamos.add(new Prestamo(codigoLibro, estudiante, fecha));
+        listaPrestamos.add(new Prestamo(codigoLibro, estudiante, fecha));
 
         //}
     }
@@ -97,6 +95,7 @@ public class FuncionamientoAplicacion {
         }
         return null;
     }
+
     public void guardarDatosEnArchivo() {
         try {
             File directorio = new File("base_de_datos");
@@ -309,18 +308,18 @@ public class FuncionamientoAplicacion {
     }
 
     public void actualizarEstudiante(Estudiante estudianteActualizado) {
-    // Buscar el estudiante en la lista de estudiantes
-    for (int i = 0; i < listaEstudiantes.size(); i++) {
-        Estudiante estudiante = listaEstudiantes.get(i);
-        if (estudiante.getCarnet() == estudianteActualizado.getCarnet()) {
-            estudiante.setNombre(estudianteActualizado.getNombre());
-            estudiante.setCodigoCarrera(estudianteActualizado.getCodigoCarrera());
-            estudiante.setFechaNacimiento(estudianteActualizado.getFechaNacimiento());
-            System.out.println("El estudiante ha sido actualizado correctamente.");
-            return;
+        // Buscar el estudiante en la lista de estudiantes
+        for (int i = 0; i < listaEstudiantes.size(); i++) {
+            Estudiante estudiante = listaEstudiantes.get(i);
+            if (estudiante.getCarnet() == estudianteActualizado.getCarnet()) {
+                estudiante.setNombre(estudianteActualizado.getNombre());
+                estudiante.setCodigoCarrera(estudianteActualizado.getCodigoCarrera());
+                estudiante.setFechaNacimiento(estudianteActualizado.getFechaNacimiento());
+                // System.out.println("El estudiante ha sido actualizado correctamente.");
+                return;
+            }
         }
+        //System.out.println("El estudiante no se encuentra en la base de datos.");
     }
-    System.out.println("El estudiante no se encuentra en la base de datos.");
-}
 
 }

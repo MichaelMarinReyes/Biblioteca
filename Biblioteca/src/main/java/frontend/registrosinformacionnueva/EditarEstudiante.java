@@ -210,6 +210,7 @@ public class EditarEstudiante extends JPanel {
             estudiante.setFechaNacimiento(nuevaFechaNacimiento);
             app.actualizarEstudiante(estudiante);
             JOptionPane.showMessageDialog(this, "Cambios guardados exitosamente.");
+            limpiarCampos();
         }
     } else {
         JOptionPane.showMessageDialog(this, "El estudiante no existe.");
