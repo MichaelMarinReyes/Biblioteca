@@ -17,6 +17,7 @@ import javax.swing.JPanel;
  * @author ryoumen_kyoma
  */
 public class HacerPrestamo extends JPanel {
+
     private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
 
     public HacerPrestamo() {
@@ -167,11 +168,13 @@ public class HacerPrestamo extends JPanel {
         String codigoLibro = codigoLibroText.getText();
         Libro libro = app.buscarLibroPorCodigo(codigoLibro);
         if (libro != null) {
-            informacionLibroTextArea.setText("Título: " + libro.getTitulo() + "\n" +
-                                              "Autor: " + libro.getAutor() + "\n" +
-                                              "Editorial: " + libro.getEditorial() + "\n" +
-                                              "Fecha de Publicación: " + libro.getFechaPublicacion() + "\n" +
-                                              "Cantidad Disponible: " + libro.getCantidadCopias());
+            Font font = new Font("Bitstream Charter", Font.PLAIN, 20); // Tamaño de la fuente adaptable
+            informacionLibroTextArea.setFont(font);
+            informacionLibroTextArea.setText("Título: " + libro.getTitulo() + "\n"
+                    + "Autor: " + libro.getAutor() + "\n"
+                    + "Editorial: " + libro.getEditorial() + "\n"
+                    + "Fecha de Publicación: " + libro.getFechaPublicacion() + "\n"
+                    + "Cantidad Disponible: " + libro.getCantidadCopias());
         } else {
             JOptionPane.showMessageDialog(this, "El libro no existe.");
             limpiarCampos();
@@ -180,21 +183,21 @@ public class HacerPrestamo extends JPanel {
 
     private void realizarPrestamoButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String carnetEstudiante = carnetEstudianteText.getText();
-    
-    // Buscar al estudiante por su carnet
-    Estudiante estudiante = app.buscarEstudiantePorCarnet(carnetEstudiante);
-    
-    // Verificar si el estudiante existe
-    if (estudiante != null) {
-        // Lógica para realizar el préstamo
-        // Puedes llamar al método prestarLibro de FuncionamientoAplicacion pasando el código del libro y el estudiante
-        // Ejemplo: app.prestarLibro(codigoLibroText.getText(), estudiante);
-    } else {
-        // Si el estudiante no existe, mostrar un mensaje
-        JOptionPane.showMessageDialog(this, "El estudiante no existe.");
-        // Limpiar los campos
-        limpiarCampos();
-    }
+
+        // Buscar al estudiante por su carnet
+        Estudiante estudiante = app.buscarEstudiantePorCarnet(carnetEstudiante);
+
+        // Verificar si el estudiante existe
+        if (estudiante != null) {
+            // Lógica para realizar el préstamo
+            // Puedes llamar al método prestarLibro de FuncionamientoAplicacion pasando el código del libro y el estudiante
+            // Ejemplo: app.prestarLibro(codigoLibroText.getText(), estudiante);
+        } else {
+            // Si el estudiante no existe, mostrar un mensaje
+            JOptionPane.showMessageDialog(this, "El estudiante no existe.");
+            // Limpiar los campos
+            limpiarCampos();
+        }
     }
 
     private void limpiarCampos() {
