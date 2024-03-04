@@ -9,6 +9,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -169,25 +171,34 @@ public class RegistroEstudianteNuevo extends javax.swing.JPanel {
     }
 
     private void guardarEstudianteBotonActionPerformed(java.awt.event.ActionEvent evt) throws ParseException {
-    String carreraSeleccionada = codigoCarreraComboBox.getSelectedItem().toString();
-    String[] partesCarrera = carreraSeleccionada.split(" ");
-    String numeroCarrera = partesCarrera[0]; // Extraer el número de la carrera seleccionada
-    
-    if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), numeroCarrera) && !fechaText.getText().isEmpty()) {
-        try {
-            verificarFormatoFecha(fechaText.getText());
-            guardarEstudianteBoton.setBackground(Color.green);
-            app.agregarNuevoEstudiante(carnetText.getText(), nombreText.getText(), Integer.parseInt(numeroCarrera), fechaText.getText());
-            limpiarCampos();
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Código de carrera inválido.\n\nCódigos de carreras:\nIngeniería: 1\nMedicina: 2\nDerecho: 3\nArquitectura: 4\nAdministración: 5");
+
+        String carreraSeleccionada = codigoCarreraComboBox.getSelectedItem().toString();
+        String[] partesCarrera = carreraSeleccionada.split(" ");
+        String numeroCarrera = partesCarrera[0]; // Extraer el número de la carrera seleccionada
+
+        if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), numeroCarrera) && !fechaText.getText().isEmpty()) {
+            try {
+                verificarFormatoFecha(fechaText.getText());                
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                LocalDate fecha = LocalDate.parse(fechaText.getText(), format);
+                if (!app.validarEstudiantesRepetidos(carnetText.getText())) {
+                    app.agregarNuevoEstudiante(Integer.parseInt(carnetText.getText()), nombreText.getText(), codigoCarreraComboBox.getSelectedIndex(), fecha);
+                    guardarEstudianteBoton.setBackground(Color.green);
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(this, "El estudiante ya se encuentra registrado en la base de datos");
+                    guardarEstudianteBoton.setBackground(Color.red);
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Código de carrera inválido.\n\nCódigos de carreras:\nIngeniería: 1\nMedicina: 2\nDerecho: 3\nArquitectura: 4\nAdministración: 5");
+                guardarEstudianteBoton.setBackground(Color.red);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Por favor llene los campos obligatorios.");
+
             guardarEstudianteBoton.setBackground(Color.red);
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Por favor llene los campos obligatorios.");
-        guardarEstudianteBoton.setBackground(Color.red);
     }
-}
 
     private boolean verificarCamposObligatorios(String carnet, String nombre, String codigoCarrera) {
         return !(carnet.isEmpty() || nombre.isEmpty() || codigoCarrera.isEmpty());

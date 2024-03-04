@@ -9,6 +9,8 @@ import backend.principal.FuncionamientoAplicacion;
 import backend.principal.Libro;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -19,6 +21,7 @@ import javax.swing.JPanel;
 public class HacerPrestamo extends JPanel {
 
     private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
+    private Libro libro;
 
     public HacerPrestamo() {
         initComponents();
@@ -166,10 +169,12 @@ public class HacerPrestamo extends JPanel {
 
     private void buscarLibroButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String codigoLibro = codigoLibroText.getText();
-        Libro libro = app.buscarLibroPorCodigo(codigoLibro);
+        libro = app.buscarLibroPorCodigo(codigoLibro);
         if (libro != null) {
+
             Font font = new Font("Bitstream Charter", Font.PLAIN, 20); // Tamaño de la fuente adaptable
             informacionLibroTextArea.setFont(font);
+
             informacionLibroTextArea.setText("Título: " + libro.getTitulo() + "\n"
                     + "Autor: " + libro.getAutor() + "\n"
                     + "Editorial: " + libro.getEditorial() + "\n"
@@ -192,6 +197,23 @@ public class HacerPrestamo extends JPanel {
             // Lógica para realizar el préstamo
             // Puedes llamar al método prestarLibro de FuncionamientoAplicacion pasando el código del libro y el estudiante
             // Ejemplo: app.prestarLibro(codigoLibroText.getText(), estudiante);
+
+            String formatoEsperado = "yyyy-MM-dd";
+
+            // Verifica si el string cumple con el formato esperado
+            if (!fechaPrestamoText.getText().matches("\\d{4}-\\d{2}-\\d{2}")) {
+                throw new IllegalArgumentException("El formato del string debe ser 'yyyy-MM-dd'");
+            }
+
+            // Crea un formateador para el formato esperado
+            DateTimeFormatter formateador = DateTimeFormatter.ofPattern(formatoEsperado);
+
+            // Convierte el string en LocalDate
+            LocalDate fecha = LocalDate.parse(fechaPrestamoText.getText(), formateador);
+            app.prestarLibro(libro, estudiante, fecha);
+            JOptionPane.showMessageDialog(this, "Préstamo realizado con éxito");
+            limpiarCampos();
+
         } else {
             // Si el estudiante no existe, mostrar un mensaje
             JOptionPane.showMessageDialog(this, "El estudiante no existe.");

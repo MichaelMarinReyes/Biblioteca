@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -48,7 +50,7 @@ public class ImportarDatos {
         String codigo = br.readLine().substring("CODIGO:".length());
         int cantidad = Integer.parseInt(br.readLine().substring("CANTIDAD:".length()));
         if (!clasificar.validarLibroRepetido(codigo)) {
-            clasificar.agregarNuevoLibro(codigo, autor, titulo, cantidad, " ", " ");
+            clasificar.agregarNuevoLibro(codigo, autor, titulo, cantidad, null, " ");
         }
 
     }
@@ -58,7 +60,9 @@ public class ImportarDatos {
         String nombre = br.readLine().substring("NOMBRE:".length());
         int numeroCarrera = Integer.parseInt(br.readLine().substring("CARRERA:".length()));
         if (!clasificar.validarEstudiantesRepetidos(carnet)) {
-            clasificar.agregarNuevoEstudiante(carnet, nombre, numeroCarrera, "");
+
+            clasificar.agregarNuevoEstudiante(Integer.parseInt(carnet), nombre, numeroCarrera, null);
+
         }
     }
 
@@ -66,6 +70,10 @@ public class ImportarDatos {
         String codigoLibro = br.readLine().substring("CODIGOLIBRO:".length());
         String carnet = br.readLine().substring("CARNET:".length());
         String fecha = br.readLine().substring("FECHA:".length());
-        // agregar para préstamos
+
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fechaFormateada = LocalDate.parse(fecha, format);
+        clasificar.prestarLibro(clasificar.buscarLibroPorCodigo(codigoLibro), clasificar.buscarEstudiantePorCarnet(carnet), fechaFormateada);
+        System.out.println("TAMAÑO "+FuncionamientoAplicacion.listaPrestamos.size());
     }
 }
