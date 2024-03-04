@@ -59,14 +59,11 @@ public class FuncionamientoAplicacion {
      * Método que gestionará los préstamos de los libros.
      */
     public void prestarLibro(Libro codigoLibro, Estudiante estudiante, LocalDate fecha) {
-        Libro libro = buscarLibroDisponible(codigoLibro.getCodigo());
-        if (libro != null) {
-            if (libro.getCantidadCopias() > 0) {
-                listaPrestamos.add(new Prestamo(codigoLibro, estudiante, fecha));
-            } else {
+       /* Libro libro = buscarLibroDisponible(codigoLibro.getCodigo());
+        if (libro != null) {*/
+            listaPrestamos.add(new Prestamo(codigoLibro, estudiante, fecha));
 
-            }
-        }
+        //}
     }
 
     private Libro buscarLibroDisponible(String codigoLibro) {
@@ -222,7 +219,7 @@ public class FuncionamientoAplicacion {
         }
         return false;
     }
-    
+
     public boolean validarLibroRepetido(String codigo) {
         for (int i = 0; i < listaLibros.size(); i++) {
             if (listaLibros.get(i).getCodigo().equals(codigo)) {
@@ -233,13 +230,13 @@ public class FuncionamientoAplicacion {
     }
 
     public Libro buscarLibroPorCodigo(String codigoLibro) {
-    for (Libro libro : listaLibros) {
-        if (libro.getCodigo().equals(codigoLibro)) {
-            return libro;
+        for (Libro libro : listaLibros) {
+            if (libro.getCodigo().equals(codigoLibro)) {
+                return libro;
+            }
         }
+        return null; // Si no se encuentra el libro con el código especificado
     }
-    return null; // Si no se encuentra el libro con el código especificado
-}
 
     public Estudiante buscarEstudiantePorCarnet(String carnetEstudiante) {
         for (int i = 0; i < listaEstudiantes.size(); i++) {
@@ -247,6 +244,6 @@ public class FuncionamientoAplicacion {
                 return listaEstudiantes.get(i);
             }
         }
-    return null; // Si no se encuentra el estudiante con el carnet especificado
-}
+        return null; // Si no se encuentra el estudiante con el carnet especificado
+    }
 }

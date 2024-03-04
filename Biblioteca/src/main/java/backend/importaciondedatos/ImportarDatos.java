@@ -69,9 +69,9 @@ public class ImportarDatos {
         String carnet = br.readLine().substring("CARNET:".length());
         String fecha = br.readLine().substring("FECHA:".length());
 
-        System.out.println(codigoLibro + " lo presta " + carnet);
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate fechaFormateada = LocalDate.parse(fecha, format);
         clasificar.prestarLibro(clasificar.buscarLibroPorCodigo(codigoLibro), clasificar.buscarEstudiantePorCarnet(carnet), fechaFormateada);
+        System.out.println("TAMAÑO "+FuncionamientoAplicacion.listaPrestamos.size());
     }
 }

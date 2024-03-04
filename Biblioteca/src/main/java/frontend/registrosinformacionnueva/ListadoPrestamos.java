@@ -102,7 +102,7 @@ public class ListadoPrestamos extends javax.swing.JPanel {
     }
 
     public void actualizarTablaPrestamos() {
-        String[] columnas = {"Codigo del libro", "Carnet de estudiante", "Nombre estudiante", "Fecha de préstamo", "Días con mora", "Libros prestados"};
+        String[] columnas = {"Codigo del libro","Título del libro", "Carnet de estudiante", "Nombre estudiante", "Fecha de préstamo", "Días con mora", "Libros prestados"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, FuncionamientoAplicacion.listaPrestamos.size());
         tablaPrestamos.setModel(modelo);
 
@@ -110,11 +110,12 @@ public class ListadoPrestamos extends javax.swing.JPanel {
         for (int i = 0; i < FuncionamientoAplicacion.listaPrestamos.size(); i++) {
             Prestamo prestamo = FuncionamientoAplicacion.listaPrestamos.get(i);
             modeloDatos.setValueAt(prestamo.getLibro().getCodigo(), i, 0);
-            modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 1);
-            modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 2);
-            modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 3);
-            modeloDatos.setValueAt(prestamo.getDiasConMora(), i, 4);
-            modeloDatos.setValueAt(prestamo.getLibrosMaximosPrestados(), i, 5);
+            modeloDatos.setValueAt(prestamo.getLibro().getTitulo(), i, 1);
+            modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 2);
+            modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 3);
+            modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 4);
+            modeloDatos.setValueAt(prestamo.getDiasConMora(), i, 5);
+            modeloDatos.setValueAt(prestamo.getLibrosMaximosPrestados(), i, 6);
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
     }
