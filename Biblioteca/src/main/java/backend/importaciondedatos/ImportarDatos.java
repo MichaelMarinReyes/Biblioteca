@@ -5,6 +5,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -66,6 +68,10 @@ public class ImportarDatos {
         String codigoLibro = br.readLine().substring("CODIGOLIBRO:".length());
         String carnet = br.readLine().substring("CARNET:".length());
         String fecha = br.readLine().substring("FECHA:".length());
-        // agregar para préstamos
+
+        System.out.println(codigoLibro + " lo presta " + carnet);
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate fechaFormateada = LocalDate.parse(fecha, format);
+        clasificar.prestarLibro(clasificar.buscarLibroPorCodigo(codigoLibro), clasificar.buscarEstudiantePorCarnet(carnet), fechaFormateada);
     }
 }

@@ -35,13 +35,6 @@ public class FuncionamientoAplicacion {
     }
 
     /**
-     * Muestra los datos de que no pudieron ser ingresados al importar datos.
-     */
-    public void mostrarErroresDeImportacion() {
-
-    }
-
-    /**
      * Sirve para agregar un nuevo libro a la base de datos.
      */
     public void agregarNuevoLibro(String codigo, String autor, String titulo, int cantidadCopias, LocalDate fechaPublicación, String editorial) {
@@ -65,11 +58,11 @@ public class FuncionamientoAplicacion {
     /**
      * Método que gestionará los préstamos de los libros.
      */
-    public void prestarLibro(String codigoLibro, Estudiante estudiante) {
-        Libro libro = buscarLibroDisponible(codigoLibro);
+    public void prestarLibro(Libro codigoLibro, Estudiante estudiante, LocalDate fecha) {
+        Libro libro = buscarLibroDisponible(codigoLibro.getCodigo());
         if (libro != null) {
             if (libro.getCantidadCopias() > 0) {
-                estudiante.añadirLibro(libro);
+                listaPrestamos.add(new Prestamo(codigoLibro, estudiante, fecha));
             } else {
 
             }

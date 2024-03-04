@@ -8,6 +8,7 @@ import backend.importaciondedatos.ImportarDatos;
 import frontend.registrosinformacionnueva.HacerPrestamo;
 import frontend.registrosinformacionnueva.ListadoEstudiantes;
 import frontend.registrosinformacionnueva.ListadoLibros;
+import frontend.registrosinformacionnueva.ListadoPrestamos;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -203,9 +204,11 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
         });
+
         itemNuevoEstudiante.addActionListener((ActionEvent e) -> {
             pintarPanel(newStudents);
         });
+
         itemLibros01.addActionListener((ActionEvent e) -> {
             pintarPanel(libroNuevo);
         });
@@ -223,6 +226,12 @@ public class Principal extends javax.swing.JFrame {
         itemLibros03.addActionListener((ActionEvent e) -> {
             pintarPanel(newPrestamo);
         });
+
+        itemListaPrestamos.addActionListener((ActionEvent e) -> {
+            ListadoPrestamos prestamos = new ListadoPrestamos();
+            pintarPanel(prestamos);
+        });
+
         //personalizar menu
         Font menuFont = new Font("Bitstream Charter", Font.BOLD, 20);
         menuPrincipal.setFont(menuFont);
