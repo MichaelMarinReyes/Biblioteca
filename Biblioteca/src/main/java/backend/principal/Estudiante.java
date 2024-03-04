@@ -16,13 +16,14 @@ public class Estudiante implements Serializable {
     private LocalDate fechaNacimiento;
     private ArrayList<Libro> librosPrestados = new ArrayList<>();
 
+
     public Estudiante(int carnet, String nombre, int codigoCarrera, LocalDate fechaNacimiento) {
+
         this.carnet = carnet;
         this.nombre = nombre;
         this.codigoCarrera = codigoCarrera;
         this.fechaNacimiento = fechaNacimiento;
     }
-
 
     public int getCarnet() {
         return carnet;
@@ -30,6 +31,7 @@ public class Estudiante implements Serializable {
 
     public void setCarnet(int carnet) {
         this.carnet = carnet;
+
     }
 
     public String getNombre() {

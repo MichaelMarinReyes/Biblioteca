@@ -5,6 +5,8 @@
 package frontend;
 
 import backend.importaciondedatos.ImportarDatos;
+import frontend.registrosinformacionnueva.EditarEstudiante;
+import frontend.registrosinformacionnueva.EditarLibro;
 import frontend.registrosinformacionnueva.HacerPrestamo;
 import frontend.registrosinformacionnueva.ListadoEstudiantes;
 import frontend.registrosinformacionnueva.ListadoLibros;
@@ -35,6 +37,11 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import frontend.registrosinformacionnueva.RegistroLibroNuevo;
 import frontend.registrosinformacionnueva.RegistroEstudianteNuevo;
+import frontend.reportes.DevolucionDiaEnCurso;
+import frontend.reportes.PrestamosConMora;
+import frontend.reportes.PrestamosPorCarrera;
+import frontend.reportes.PrestamosPorUnEstudiante;
+import frontend.reportes.RecaudadoEnIntervaloTiempo;
 import javax.swing.Box;
 
 /**
@@ -50,6 +57,8 @@ public class Principal extends javax.swing.JFrame {
     private RegistroLibroNuevo libroNuevo = new RegistroLibroNuevo();
     private RegistroEstudianteNuevo newStudents = new RegistroEstudianteNuevo();
     private HacerPrestamo newPrestamo = new HacerPrestamo();
+    private EditarLibro newEditarLibro = new EditarLibro();
+    private EditarEstudiante newEditarEstudiante = new EditarEstudiante();
     private boolean relojActivo = true;
     private Dimension tamañoPanelFondo;
 
@@ -157,6 +166,7 @@ public class Principal extends javax.swing.JFrame {
         JMenuItem itemPrestamosVigentesPorEstudiante = new JMenuItem("Prestamos Vigentes de Cada Estudiante", iconoReportes);
         JMenuItem itemPrestamosPorCarrera = new JMenuItem("Prestamos Realizados por Carrera en un Intervalo de Tiempo", iconoReportes);
         JMenuItem itemErroresEncontrados = new JMenuItem("Errores Encontrados en la Importación", iconoErrores);
+
         //agregar al menu
         menuLibros.add(itemLibros01);
         menuLibros.add(itemLibros02);
@@ -208,7 +218,9 @@ public class Principal extends javax.swing.JFrame {
         itemNuevoEstudiante.addActionListener((ActionEvent e) -> {
             pintarPanel(newStudents);
         });
-
+        itemUsuarios02.addActionListener((ActionEvent e) -> {
+            pintarPanel(newEditarEstudiante);
+        });
         itemLibros01.addActionListener((ActionEvent e) -> {
             pintarPanel(libroNuevo);
         });
@@ -227,9 +239,38 @@ public class Principal extends javax.swing.JFrame {
             pintarPanel(newPrestamo);
         });
 
+        itemLibros02.addActionListener((ActionEvent e) -> {
+            pintarPanel(newEditarLibro);
+        });
+
         itemListaPrestamos.addActionListener((ActionEvent e) -> {
             ListadoPrestamos prestamos = new ListadoPrestamos();
             pintarPanel(prestamos);
+        });
+
+        itemPrestamosMismoDia.addActionListener((ActionEvent e) -> {
+            DevolucionDiaEnCurso diaEnCurso = new DevolucionDiaEnCurso();
+            pintarPanel(diaEnCurso);
+        });
+
+        itemPrestamosMora.addActionListener((ActionEvent e) -> {
+            PrestamosConMora mora = new PrestamosConMora();
+            pintarPanel(mora);
+        });
+
+        itemIngresosIntervalo.addActionListener((ActionEvent e) -> {
+            RecaudadoEnIntervaloTiempo recaudado = new RecaudadoEnIntervaloTiempo();
+            pintarPanel(recaudado);
+        });
+
+        itemPrestamosPorEstudiante.addActionListener((ActionEvent e) -> {
+            PrestamosPorUnEstudiante prestamoEstudiante = new PrestamosPorUnEstudiante();
+            pintarPanel(prestamoEstudiante);
+        });
+
+        itemPrestamosPorCarrera.addActionListener((ActionEvent e) -> {
+            PrestamosPorCarrera prestamoCarrera = new PrestamosPorCarrera();
+            pintarPanel(prestamoCarrera);
         });
 
         //personalizar menu

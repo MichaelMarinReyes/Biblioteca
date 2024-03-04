@@ -171,6 +171,7 @@ public class RegistroEstudianteNuevo extends javax.swing.JPanel {
     }
 
     private void guardarEstudianteBotonActionPerformed(java.awt.event.ActionEvent evt) throws ParseException {
+
         String carreraSeleccionada = codigoCarreraComboBox.getSelectedItem().toString();
         String[] partesCarrera = carreraSeleccionada.split(" ");
         String numeroCarrera = partesCarrera[0]; // Extraer el número de la carrera seleccionada
@@ -194,6 +195,7 @@ public class RegistroEstudianteNuevo extends javax.swing.JPanel {
             }
         } else {
             JOptionPane.showMessageDialog(this, "Por favor llene los campos obligatorios.");
+
             guardarEstudianteBoton.setBackground(Color.red);
         }
     }

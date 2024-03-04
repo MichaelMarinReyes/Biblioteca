@@ -171,6 +171,10 @@ public class HacerPrestamo extends JPanel {
         String codigoLibro = codigoLibroText.getText();
         libro = app.buscarLibroPorCodigo(codigoLibro);
         if (libro != null) {
+
+            Font font = new Font("Bitstream Charter", Font.PLAIN, 20); // Tamaño de la fuente adaptable
+            informacionLibroTextArea.setFont(font);
+
             informacionLibroTextArea.setText("Título: " + libro.getTitulo() + "\n"
                     + "Autor: " + libro.getAutor() + "\n"
                     + "Editorial: " + libro.getEditorial() + "\n"
@@ -193,6 +197,7 @@ public class HacerPrestamo extends JPanel {
             // Lógica para realizar el préstamo
             // Puedes llamar al método prestarLibro de FuncionamientoAplicacion pasando el código del libro y el estudiante
             // Ejemplo: app.prestarLibro(codigoLibroText.getText(), estudiante);
+
             String formatoEsperado = "yyyy-MM-dd";
 
             // Verifica si el string cumple con el formato esperado
@@ -208,6 +213,7 @@ public class HacerPrestamo extends JPanel {
             app.prestarLibro(libro, estudiante, fecha);
             JOptionPane.showMessageDialog(this, "Préstamo realizado con éxito");
             limpiarCampos();
+
         } else {
             // Si el estudiante no existe, mostrar un mensaje
             JOptionPane.showMessageDialog(this, "El estudiante no existe.");
