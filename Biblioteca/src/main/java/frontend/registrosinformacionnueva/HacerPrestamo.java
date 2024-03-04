@@ -9,6 +9,8 @@ import backend.principal.FuncionamientoAplicacion;
 import backend.principal.Libro;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -17,7 +19,9 @@ import javax.swing.JPanel;
  * @author ryoumen_kyoma
  */
 public class HacerPrestamo extends JPanel {
+
     private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
+    private Libro libro;
 
     public HacerPrestamo() {
         initComponents();
@@ -165,13 +169,13 @@ public class HacerPrestamo extends JPanel {
 
     private void buscarLibroButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String codigoLibro = codigoLibroText.getText();
-        Libro libro = app.buscarLibroPorCodigo(codigoLibro);
+        libro = app.buscarLibroPorCodigo(codigoLibro);
         if (libro != null) {
-            informacionLibroTextArea.setText("Título: " + libro.getTitulo() + "\n" +
-                                              "Autor: " + libro.getAutor() + "\n" +
-                                              "Editorial: " + libro.getEditorial() + "\n" +
-                                              "Fecha de Publicación: " + libro.getFechaPublicacion() + "\n" +
-                                              "Cantidad Disponible: " + libro.getCantidadCopias());
+            informacionLibroTextArea.setText("Título: " + libro.getTitulo() + "\n"
+                    + "Autor: " + libro.getAutor() + "\n"
+                    + "Editorial: " + libro.getEditorial() + "\n"
+                    + "Fecha de Publicación: " + libro.getFechaPublicacion() + "\n"
+                    + "Cantidad Disponible: " + libro.getCantidadCopias());
         } else {
             JOptionPane.showMessageDialog(this, "El libro no existe.");
             limpiarCampos();
@@ -180,21 +184,36 @@ public class HacerPrestamo extends JPanel {
 
     private void realizarPrestamoButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String carnetEstudiante = carnetEstudianteText.getText();
-    
-    // Buscar al estudiante por su carnet
-    Estudiante estudiante = app.buscarEstudiantePorCarnet(carnetEstudiante);
-    
-    // Verificar si el estudiante existe
-    if (estudiante != null) {
-        // Lógica para realizar el préstamo
-        // Puedes llamar al método prestarLibro de FuncionamientoAplicacion pasando el código del libro y el estudiante
-        // Ejemplo: app.prestarLibro(codigoLibroText.getText(), estudiante);
-    } else {
-        // Si el estudiante no existe, mostrar un mensaje
-        JOptionPane.showMessageDialog(this, "El estudiante no existe.");
-        // Limpiar los campos
-        limpiarCampos();
-    }
+
+        // Buscar al estudiante por su carnet
+        Estudiante estudiante = app.buscarEstudiantePorCarnet(carnetEstudiante);
+
+        // Verificar si el estudiante existe
+        if (estudiante != null) {
+            // Lógica para realizar el préstamo
+            // Puedes llamar al método prestarLibro de FuncionamientoAplicacion pasando el código del libro y el estudiante
+            // Ejemplo: app.prestarLibro(codigoLibroText.getText(), estudiante);
+            String formatoEsperado = "yyyy-MM-dd";
+
+            // Verifica si el string cumple con el formato esperado
+            if (!fechaPrestamoText.getText().matches("\\d{4}-\\d{2}-\\d{2}")) {
+                throw new IllegalArgumentException("El formato del string debe ser 'yyyy-MM-dd'");
+            }
+
+            // Crea un formateador para el formato esperado
+            DateTimeFormatter formateador = DateTimeFormatter.ofPattern(formatoEsperado);
+
+            // Convierte el string en LocalDate
+            LocalDate fecha = LocalDate.parse(fechaPrestamoText.getText(), formateador);
+            app.prestarLibro(libro, estudiante, fecha);
+            JOptionPane.showMessageDialog(this, "Préstamo realizado con éxito");
+            limpiarCampos();
+        } else {
+            // Si el estudiante no existe, mostrar un mensaje
+            JOptionPane.showMessageDialog(this, "El estudiante no existe.");
+            // Limpiar los campos
+            limpiarCampos();
+        }
     }
 
     private void limpiarCampos() {

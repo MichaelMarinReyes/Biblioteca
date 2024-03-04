@@ -1,12 +1,10 @@
 package frontend.registrosinformacionnueva;
 
-import backend.principal.Estudiante;
 import backend.principal.FuncionamientoAplicacion;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import backend.principal.Prestamo;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -18,7 +16,7 @@ import javax.swing.table.TableRowSorter;
 public class ListadoPrestamos extends javax.swing.JPanel {
 
     private JTextField textFieldBusqueda;
-    private DefaultTableModel modelo;
+    private TableRowSorter<TableModel> rowSorter;
 
     /**
      * Creates new form ListadoEstudiantes
@@ -26,7 +24,7 @@ public class ListadoPrestamos extends javax.swing.JPanel {
     public ListadoPrestamos() {
         initComponents();
         actualizarTablaPrestamos();
-        mostrarArray();
+        agregarCampoBusqueda();
     }
 
     /**
@@ -70,29 +68,54 @@ public class ListadoPrestamos extends javax.swing.JPanel {
     private javax.swing.JTable tablaPrestamos;
     // End of variables declaration//GEN-END:variables
 
-    
+    private void agregarCampoBusqueda() {
+        textFieldBusqueda = new JTextField();
+        textFieldBusqueda.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+        });
+        add(textFieldBusqueda, java.awt.BorderLayout.NORTH);
+    }
+
+    private void filtrarTabla(String texto) {
+        if (rowSorter == null) {
+            rowSorter = new TableRowSorter<>(tablaPrestamos.getModel());
+            tablaPrestamos.setRowSorter(rowSorter);
+        }
+        if (texto.trim().length() == 0) {
+            rowSorter.setRowFilter(null);
+        } else {
+            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+        }
+    }
 
     public void actualizarTablaPrestamos() {
-        String[] columnas = {"Codigo del Libro", "Carnet", "Fecha"};
-        DefaultTableModel modelo = new DefaultTableModel(columnas, FuncionamientoAplicacion.listaEstudiantes.size());
+        String[] columnas = {"Codigo del libro", "Carnet de estudiante", "Nombre estudiante", "Fecha de préstamo", "Días con mora", "Libros prestados"};
+        DefaultTableModel modelo = new DefaultTableModel(columnas, FuncionamientoAplicacion.listaPrestamos.size());
         tablaPrestamos.setModel(modelo);
 
         TableModel modeloDatos = tablaPrestamos.getModel();
         for (int i = 0; i < FuncionamientoAplicacion.listaPrestamos.size(); i++) {
-            Estudiante estudiante = FuncionamientoAplicacion.listaEstudiantes.get(i);
-            modeloDatos.setValueAt(estudiante.getCarnet(), i, 0);
-            modeloDatos.setValueAt(estudiante.getNombre(), i, 1);
-            modeloDatos.setValueAt(estudiante.getCodigoCarrera(), i, 2);
-            modeloDatos.setValueAt(estudiante.getFechaNacimiento(), i, 3);
+            Prestamo prestamo = FuncionamientoAplicacion.listaPrestamos.get(i);
+            modeloDatos.setValueAt(prestamo.getLibro().getCodigo(), i, 0);
+            modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 1);
+            modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 2);
+            modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 3);
+            modeloDatos.setValueAt(prestamo.getDiasConMora(), i, 4);
+            modeloDatos.setValueAt(prestamo.getLibrosMaximosPrestados(), i, 5);
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
-    }
-    
-    private void mostrarArray() {
-        System.out.println("mostrando array");
-        for (int i = 0; i < FuncionamientoAplicacion.listaEstudiantes.size(); i++) {
-            System.out.println(FuncionamientoAplicacion.listaEstudiantes.get(i).toString());
-            
-        }
     }
 }
