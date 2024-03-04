@@ -32,6 +32,7 @@ public class FuncionamientoAplicacion {
         guardarSerializableEstudiantes();
         guardarSerializableLibros();
         guardarSerializablePrestamos();
+        cargarDatosDesdeArchivo();
     }
 
     /**
@@ -44,9 +45,25 @@ public class FuncionamientoAplicacion {
     /**
      * Sirve para actualizar los datos de un libro específico.
      */
-    public void actualizarLibro() {
-
+    public void actualizarLibro(Libro libroActualizado) {
+    // Buscar el libro en la lista de libros
+    for (int i = 0; i < listaLibros.size(); i++) {
+        Libro libro = listaLibros.get(i);
+        if (libro.getCodigo().equals(libroActualizado.getCodigo())) {
+            // Actualizar los campos del libro con los nuevos valores
+            libro.setTitulo(libroActualizado.getTitulo());
+            libro.setAutor(libroActualizado.getAutor());
+            libro.setEditorial(libroActualizado.getEditorial());
+            libro.setFechaPublicacion(libroActualizado.getFechaPublicacion());
+            libro.setCantidadCopias(libroActualizado.getCantidadCopias());
+            // Mostrar mensaje de éxito o realizar otras acciones necesarias
+            System.out.println("El libro ha sido actualizado correctamente.");
+            return; // Salir del bucle una vez que se ha actualizado el libro
+        }
     }
+    // Si el libro no se encuentra en la lista, mostrar mensaje de error
+    System.out.println("El libro no se encuentra en la base de datos.");
+}
 
     /**
      * Sirve para agregar a un nuevo estudiante en la base de datos.
@@ -79,6 +96,46 @@ public class FuncionamientoAplicacion {
             }
         }
         return null;
+    }
+    public void guardarDatosEnArchivo() {
+        try {
+            File directorio = new File("base_de_datos");
+
+            if (!directorio.exists()) {
+                directorio.mkdir();
+            }
+            pathCarpeta = directorio.getAbsolutePath();
+            FileOutputStream archivo = new FileOutputStream(pathCarpeta + "/libros.bin");
+            ObjectOutputStream escribirProductos = new ObjectOutputStream(archivo);
+            escribirProductos.writeObject(listaLibros);
+            escribirProductos.close();
+            archivo.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void cargarDatosDesdeArchivo() {
+        try {
+            File file = new File(pathCarpeta + "/libros.bin");
+            if (file.exists()) {
+                FileInputStream archivoEntrada = new FileInputStream(pathCarpeta + "/libros.bin");
+                ObjectInputStream leerProductos = new ObjectInputStream(archivoEntrada);
+
+                listaLibros = (ArrayList<Libro>) leerProductos.readObject();
+
+            } else {
+
+            }
+
+        } catch (IOException e) {
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void ordenarLibros() {
@@ -250,4 +307,20 @@ public class FuncionamientoAplicacion {
         }
         return null; // Si no se encuentra el estudiante con el carnet especificado
     }
+
+    public void actualizarEstudiante(Estudiante estudianteActualizado) {
+    // Buscar el estudiante en la lista de estudiantes
+    for (int i = 0; i < listaEstudiantes.size(); i++) {
+        Estudiante estudiante = listaEstudiantes.get(i);
+        if (estudiante.getCarnet() == estudianteActualizado.getCarnet()) {
+            estudiante.setNombre(estudianteActualizado.getNombre());
+            estudiante.setCodigoCarrera(estudianteActualizado.getCodigoCarrera());
+            estudiante.setFechaNacimiento(estudianteActualizado.getFechaNacimiento());
+            System.out.println("El estudiante ha sido actualizado correctamente.");
+            return;
+        }
+    }
+    System.out.println("El estudiante no se encuentra en la base de datos.");
+}
+
 }

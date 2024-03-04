@@ -5,6 +5,7 @@
 package frontend;
 
 import backend.importaciondedatos.ImportarDatos;
+import frontend.registrosinformacionnueva.EditarEstudiante;
 import frontend.registrosinformacionnueva.EditarLibro;
 import frontend.registrosinformacionnueva.HacerPrestamo;
 import frontend.registrosinformacionnueva.ListadoEstudiantes;
@@ -52,6 +53,7 @@ public class Principal extends javax.swing.JFrame {
     private RegistroEstudianteNuevo newStudents = new RegistroEstudianteNuevo();
     private HacerPrestamo newPrestamo = new HacerPrestamo();
     private EditarLibro newEditarLibro = new EditarLibro();
+    private EditarEstudiante newEditarEstudiante = new EditarEstudiante();
     private boolean relojActivo = true;
     private Dimension tamañoPanelFondo;
 
@@ -211,7 +213,9 @@ public class Principal extends javax.swing.JFrame {
         itemNuevoEstudiante.addActionListener((ActionEvent e) -> {
             pintarPanel(newStudents);
         });
-
+        itemUsuarios02.addActionListener((ActionEvent e) -> {
+            pintarPanel(newEditarEstudiante);
+        });
         itemLibros01.addActionListener((ActionEvent e) -> {
             pintarPanel(libroNuevo);
         });
@@ -234,12 +238,10 @@ public class Principal extends javax.swing.JFrame {
             pintarPanel(newEditarLibro);
         });
 
-
         itemListaPrestamos.addActionListener((ActionEvent e) -> {
             ListadoPrestamos prestamos = new ListadoPrestamos();
             pintarPanel(prestamos);
         });
-
 
         //personalizar menu
         Font menuFont = new Font("Bitstream Charter", Font.BOLD, 20);

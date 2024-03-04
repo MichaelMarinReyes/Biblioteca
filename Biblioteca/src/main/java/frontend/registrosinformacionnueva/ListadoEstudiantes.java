@@ -102,7 +102,7 @@ public class ListadoEstudiantes extends javax.swing.JPanel {
     }
 
     public void actualizarTablaEstudiantes() {
-        String[] columnas = {"Carné", "Nombre", "Carrera", "Fecha de nacimiento"};
+        String[] columnas = {"Carnet", "Nombre", "Carrera", "Fecha de nacimiento"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, FuncionamientoAplicacion.listaEstudiantes.size());
         tablaEstudiantes.setModel(modelo);
 
