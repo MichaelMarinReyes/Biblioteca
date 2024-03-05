@@ -267,9 +267,8 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
                 } else {
                     JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
                 }
-            } else if (!fechaText.getText().trim().isEmpty() && !editorialText.getText().trim().isEmpty()) {
-                verificarFormatoFecha(fechaText.getText());
-                if (!app.validarLibroRepetido(codigoLibroText.getText()) && validarCodigo(codigoLibroText.getText()) && validarNumero(copiasText.getText())) {
+            } else if (!fechaText.getText().trim().isEmpty() && !editorialText.getText().trim().isEmpty()) { //TODOS LOS CAMPOS LLENOS
+                if (!app.validarLibroRepetido(codigoLibroText.getText()) && validarCodigo(codigoLibroText.getText()) && validarNumero(copiasText.getText()) && verificarFormatoFecha(fechaText.getText())) {
                     app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), editorialText.getText());
                     limpiarCampos();
                     guardarLibroBoton.setBackground(Color.GREEN);
@@ -284,7 +283,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
     }
 
     private boolean verificarCamposObligatorios() {
-        return !codigoLibroText.getText().trim().isEmpty() && !codigoLibroText.getText().trim().isEmpty() && !codigoLibroText.getText().trim().isEmpty() && !codigoLibroText.getText().trim().isEmpty();
+        return !codigoLibroText.getText().trim().isEmpty() && !autorLibroText.getText().trim().isEmpty() && !tituloLibroText.getText().trim().isEmpty() && !copiasText.getText().trim().isEmpty();
     }
 
     private boolean validarCodigo(String codigo) {
@@ -312,16 +311,16 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
         return false;
     }
 
-    private void verificarFormatoFecha(String texto) {
+    private boolean verificarFormatoFecha(String texto) {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         try {
             formato.parse(texto);
-            limpiarCampos();
-            guardarLibroBoton.setBackground(Color.GREEN);
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al ingresar la fecha\nEl formato es yyyy-mm-dd");
             guardarLibroBoton.setBackground(Color.RED);
         }
+        return false;
     }
 
     private void limpiarCampos() {
