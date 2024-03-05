@@ -5,6 +5,7 @@
 package frontend;
 
 import backend.importaciondedatos.ImportarDatos;
+import backend.principal.FuncionamientoAplicacion;
 import frontend.registrosinformacionnueva.EditarEstudiante;
 import frontend.registrosinformacionnueva.EditarLibro;
 import frontend.registrosinformacionnueva.HacerPrestamo;
@@ -69,6 +70,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         initUI();
         iniciarReloj();
+        
     }
 
     private void initUI() {
@@ -204,6 +206,9 @@ public class Principal extends javax.swing.JFrame {
                     int opcion = JOptionPane.showConfirmDialog(this, "Se ha encontrado el archivo \"" + chooser.getSelectedFile().getName() + "\"\n¿Desea importar los datos?", "IMPORTAR DATOS", JOptionPane.YES_NO_OPTION);
                     if (opcion == 0) {
                         importar.abrirArchivo(rutaArchivo);
+                        FuncionamientoAplicacion.guardarSerializableEstudiantes();
+                        FuncionamientoAplicacion.guardarSerializableLibros();
+                        FuncionamientoAplicacion.guardarSerializablePrestamos();
                         JOptionPane.showMessageDialog(this, "Importación finalizada.\nConsulte los registros para más información");
                     } else {
                         JOptionPane.showMessageDialog(this, "Importación cancelada.");
