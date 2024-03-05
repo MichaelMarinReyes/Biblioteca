@@ -25,13 +25,12 @@ public class FuncionamientoAplicacion {
     public static ArrayList<Prestamo> listaPrestamos = new ArrayList<>();
     public static ArrayList<Libro> listaLibros = new ArrayList<>();
     public static ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
-    private static String pathCarpeta;
+    private static String pathCarpeta = "./base_de_datos";
 
     public FuncionamientoAplicacion() {
-        guardarSerializableEstudiantes();
-        guardarSerializableLibros();
-        guardarSerializablePrestamos();
-        cargarDatosDesdeArchivo();
+        abrirSerializableEstudiantes();
+        abrirSerializableLibros();
+        abrirSerializablePrestamos();
     }
 
     /**
@@ -96,47 +95,6 @@ public class FuncionamientoAplicacion {
         return null;
     }
 
-    public void guardarDatosEnArchivo() {
-        try {
-            File directorio = new File("base_de_datos");
-
-            if (!directorio.exists()) {
-                directorio.mkdir();
-            }
-            pathCarpeta = directorio.getAbsolutePath();
-            FileOutputStream archivo = new FileOutputStream(pathCarpeta + "/libros.bin");
-            ObjectOutputStream escribirProductos = new ObjectOutputStream(archivo);
-            escribirProductos.writeObject(listaLibros);
-            escribirProductos.close();
-            archivo.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void cargarDatosDesdeArchivo() {
-        try {
-            File file = new File(pathCarpeta + "/libros.bin");
-            if (file.exists()) {
-                FileInputStream archivoEntrada = new FileInputStream(pathCarpeta + "/libros.bin");
-                ObjectInputStream leerProductos = new ObjectInputStream(archivoEntrada);
-
-                listaLibros = (ArrayList<Libro>) leerProductos.readObject();
-
-            } else {
-
-            }
-
-        } catch (IOException e) {
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(FuncionamientoAplicacion.class
-                    .getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public void ordenarLibros() {
         Comparator<Libro> comparadorPorCodigo = new Comparator<Libro>() {
             @Override
@@ -147,14 +105,16 @@ public class FuncionamientoAplicacion {
         Collections.sort(listaLibros, comparadorPorCodigo);
     }
 
+    /**
+     * Crea el archivo binario para guardar estudiantes
+     */
     public static void guardarSerializableEstudiantes() {
         try {
-            File directorio = new File("base_de_datos");
+            File directorio = new File(pathCarpeta);
 
             if (!directorio.exists()) {
                 directorio.mkdir();
             }
-            pathCarpeta = directorio.getAbsolutePath();
             FileOutputStream archivo = new FileOutputStream(pathCarpeta + "/estudiantes.bin");
             ObjectOutputStream escribirProductos = new ObjectOutputStream(archivo);
             escribirProductos.writeObject(listaEstudiantes);
@@ -167,6 +127,9 @@ public class FuncionamientoAplicacion {
         }
     }
 
+    /**
+     * Lee el archivo binario que contiene información de estudiantes
+     */
     public void abrirSerializableEstudiantes() {
         try {
             File file = new File(pathCarpeta + "/estudiantes.bin");
@@ -187,9 +150,12 @@ public class FuncionamientoAplicacion {
 
     }
 
+    /**
+     * Crea el archivo binario para guardar información de libros
+     */
     public static void guardarSerializableLibros() {
         try {
-            File directorio = new File("base_de_datos");
+            File directorio = new File(pathCarpeta);
 
             if (!directorio.exists()) {
                 directorio.mkdir();
@@ -207,6 +173,9 @@ public class FuncionamientoAplicacion {
         }
     }
 
+    /**
+     * Lee el archivo binario que contiene información de los libros
+     */
     public void abrirSerializableLibros() {
         try {
             File file = new File(pathCarpeta + "/libros.bin");
@@ -228,14 +197,17 @@ public class FuncionamientoAplicacion {
         }
     }
 
+    /**
+     * Crea el archivo binario que contiene la información de los préstamos
+     */
     public static void guardarSerializablePrestamos() {
         try {
-            File directorio = new File("base_de_datos");
+            File directorio = new File(pathCarpeta);
 
             if (!directorio.exists()) {
                 directorio.mkdir();
             }
-            FileOutputStream archivo = new FileOutputStream(pathCarpeta + "prestamos.bin");
+            FileOutputStream archivo = new FileOutputStream(pathCarpeta + "/prestamos.bin");
             ObjectOutputStream escribirProductos = new ObjectOutputStream(archivo);
             escribirProductos.writeObject(listaPrestamos);
             escribirProductos.close();
@@ -247,6 +219,9 @@ public class FuncionamientoAplicacion {
         }
     }
 
+    /**
+     * Lee el archivo binario para leer los préstamos
+     */
     public void abrirSerializablePrestamos() {
         try {
             File file = new File(pathCarpeta + "/prestamos.bin");
