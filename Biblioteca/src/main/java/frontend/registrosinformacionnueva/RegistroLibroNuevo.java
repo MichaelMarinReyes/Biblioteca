@@ -240,100 +240,87 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
     }
 
     private void guardarLibroBotonActionPerformed(java.awt.event.ActionEvent evt) {
-        if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && !fechaText.getText().equals(" ") && !editorialText.getText().equals(" ")) {
-            //TODOS LOS CAMPOS LLENOS
-            validarCodigo(codigoLibroText.getText());
-            validarNumero(copiasText.getText());
+        if (verificarCamposObligatorios()) {
+            if (fechaText.getText().trim().isEmpty() && editorialText.getText().trim().isEmpty()) { //ÚNICAMENTE LOS CAMPOS OBLIGATORIOS
 
-            if (!app.validarLibroRepetido(codigoLibroText.getText())) {
-                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), editorialText.getText());
-                limpiarCampos();
-                guardarLibroBoton.setBackground(Color.GREEN);
-            } else {
-                JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
+                if (!app.validarLibroRepetido(codigoLibroText.getText()) && validarCodigo(codigoLibroText.getText()) && validarNumero(copiasText.getText())) {
+                    app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), null, "");
+                    limpiarCampos();
+                    guardarLibroBoton.setBackground(Color.GREEN);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
+                }
+            } else if (!fechaText.getText().trim().isEmpty() && editorialText.getText().trim().isEmpty()) {//CAMPO DE FECHA INGRESADO Y CAMPO DE EDITORIAL VACÍO
+                verificarFormatoFecha(fechaText.getText());
+                if (!app.validarLibroRepetido(codigoLibroText.getText()) && validarCodigo(codigoLibroText.getText()) && validarNumero(copiasText.getText())) {
+                    app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), "");
+                    limpiarCampos();
+                    guardarLibroBoton.setBackground(Color.GREEN);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
+                }
+            } else if (fechaText.getText().trim().isEmpty() && !editorialText.getText().trim().isEmpty()) { //CAMPO DE EDITORIAL INGRESADO Y CAMPO DE FECHA VACÍO
+                if (!app.validarLibroRepetido(codigoLibroText.getText()) && validarCodigo(codigoLibroText.getText()) && validarNumero(copiasText.getText())) {
+                    app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), null, editorialText.getText());
+                    limpiarCampos();
+                    guardarLibroBoton.setBackground(Color.GREEN);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
+                }
+            } else if (!fechaText.getText().trim().isEmpty() && !editorialText.getText().trim().isEmpty()) { //TODOS LOS CAMPOS LLENOS
+                if (!app.validarLibroRepetido(codigoLibroText.getText()) && validarCodigo(codigoLibroText.getText()) && validarNumero(copiasText.getText()) && verificarFormatoFecha(fechaText.getText())) {
+                    app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), editorialText.getText());
+                    limpiarCampos();
+                    guardarLibroBoton.setBackground(Color.GREEN);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
+                }
             }
-
-        } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && !fechaText.getText().equals(" ") && editorialText.getText().equals(" ")) {
-            //CAMPO DE FECHA VACÍO
-            validarCodigo(codigoLibroText.getText());
-            validarNumero(copiasText.getText());
-            verificarFormatoFecha(fechaText.getText());
-            if (!app.validarLibroRepetido(codigoLibroText.getText())) {
-                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), editorialText.getText());
-                limpiarCampos();
-                guardarLibroBoton.setBackground(Color.GREEN);
-            } else {
-                JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
-            }
-        } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && fechaText.getText().equals(" ") && !editorialText.getText().equals(" ")) {
-            //CAMPO DE EDITORIAL VACÍO
-            validarCodigo(codigoLibroText.getText());
-            validarNumero(copiasText.getText());
-
-            if (!app.validarLibroRepetido(codigoLibroText.getText())) {
-                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), editorialText.getText());
-                limpiarCampos();
-                guardarLibroBoton.setBackground(Color.GREEN);
-            } else {
-                JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
-            }
-        } else if (validarCamposObligatorios(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), copiasText.getText()) == true && fechaText.getText().equals(" ") && editorialText.getText().equals(" ")) {
-            //CAMPO DE FECHA Y EDITORIAL VACÍO
-            validarCodigo(codigoLibroText.getText());
-            validarNumero(copiasText.getText());
-            if (!app.validarLibroRepetido(codigoLibroText.getText())) {
-                app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), editorialText.getText());
-                limpiarCampos();
-                guardarLibroBoton.setBackground(Color.GREEN);
-            } else {
-                JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
-            }
-            app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), null, " ");
         } else {
+            JOptionPane.showMessageDialog(this, "Por favor llene los campos obligatorios.\nCampos obligatorios: Código de libro, autor, título, cantidad de copias");
             guardarLibroBoton.setBackground(Color.red);
         }
     }
 
-    private void validarCodigo(String codigo) {
-        String[] codigoLibro = codigo.split("-");
+    private boolean verificarCamposObligatorios() {
+        return !codigoLibroText.getText().trim().isEmpty() && !autorLibroText.getText().trim().isEmpty() && !tituloLibroText.getText().trim().isEmpty() && !copiasText.getText().trim().isEmpty();
+    }
 
+    private boolean validarCodigo(String codigo) {
+        String[] codigoLibro = codigo.split("-");
         try {
             int formato = Integer.parseInt(codigoLibro[0]);
 
-            if (codigoLibro[0].length() != 3 || codigoLibro[1].length() != 3) {
+            if (codigoLibro[0].length() != 3 || codigoLibro[1].length() != 3 || !codigoLibro[1].equals(codigoLibro[1].toUpperCase())) {
                 JOptionPane.showMessageDialog(this, "Formáto de código de libro inválido.\n\nEl formáto debe contener tres dígitos, guión, tres mayúsculas.\nEj. 123-ABC");
+                return false;
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Formáto de código de libro inválido.\n\nEl formáto debe contener tres dígitos, guión, tres mayúsculas.\nEj. 123-ABC");
         }
-    }
-
-    private void validarNumero(String texto) {
-        try {
-            int numero = Integer.parseInt(texto);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "ERROR.\nDebe llenar el campo con números");
-        }
-    }
-
-    private boolean validarCamposObligatorios(String codigo, String autor, String titulo, String cantidadCopias) {
-        if (codigo.equals(" ") && autor.equals(" ") && titulo.equals(" ") && cantidadCopias.equals(" ")) {
-            JOptionPane.showMessageDialog(this, "Por favor llene los campos obligatorios.\n\n Campos obligatorios: Código, Autor, Título, Cantidad de copias");
-            return false;
-        }
         return true;
     }
 
-    private void verificarFormatoFecha(String texto) {
+    private boolean validarNumero(String texto) {
+        try {
+            int numero = Integer.parseInt(texto);
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "ERROR.\nDebe llenar el campo con números");
+        }
+        return false;
+    }
+
+    private boolean verificarFormatoFecha(String texto) {
         SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
         try {
             formato.parse(texto);
-            limpiarCampos();
-            guardarLibroBoton.setBackground(Color.GREEN);
+            return true;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error al ingresar la fecha\nEl formato es yyyy-mm-dd");
             guardarLibroBoton.setBackground(Color.RED);
         }
+        return false;
     }
 
     private void limpiarCampos() {
