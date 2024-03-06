@@ -5,6 +5,7 @@
 package frontend;
 
 import backend.importaciondedatos.ImportarDatos;
+import frontend.registrosinformacionnueva.Devolucion;
 import frontend.registrosinformacionnueva.EditarEstudiante;
 import frontend.registrosinformacionnueva.EditarLibro;
 import frontend.registrosinformacionnueva.HacerPrestamo;
@@ -54,6 +55,7 @@ public class Principal extends javax.swing.JFrame {
     private HacerPrestamo newPrestamo = new HacerPrestamo();
     private EditarLibro newEditarLibro = new EditarLibro();
     private EditarEstudiante newEditarEstudiante = new EditarEstudiante();
+    private Devolucion newDevolucion = new Devolucion();
     private boolean relojActivo = true;
     private Dimension tamañoPanelFondo;
 
@@ -145,6 +147,7 @@ public class Principal extends javax.swing.JFrame {
         JMenuItem itemLibros01 = new JMenuItem("Nuevo Libro", iconoLibros);
         JMenuItem itemLibros02 = new JMenuItem("Editar Libro", iconoLibros);
         JMenuItem itemLibros03 = new JMenuItem("Prestar Libro", iconoLibros);
+        JMenuItem itemLibros04 = new JMenuItem("Devolver Libro", iconoLibros);
         //items usuarios
         JMenuItem itemNuevoEstudiante = new JMenuItem("Nuevo Estudiante", iconoUsuarioNuevo);
         JMenuItem itemUsuarios02 = new JMenuItem("Editar Estudiante", iconoUsuario);
@@ -166,6 +169,7 @@ public class Principal extends javax.swing.JFrame {
         menuLibros.add(itemLibros01);
         menuLibros.add(itemLibros02);
         menuLibros.add(itemLibros03);
+        menuLibros.add(itemLibros04);
         menuUsuarios.add(itemNuevoEstudiante);
         menuUsuarios.add(itemUsuarios02);
         menuRegistros.add(itemImportarRegistros);
@@ -236,6 +240,9 @@ public class Principal extends javax.swing.JFrame {
 
         itemLibros02.addActionListener((ActionEvent e) -> {
             pintarPanel(newEditarLibro);
+        });
+        itemLibros04.addActionListener((ActionEvent e) -> {
+            pintarPanel(newDevolucion);
         });
 
         itemListaPrestamos.addActionListener((ActionEvent e) -> {
