@@ -26,7 +26,7 @@ public class HacerPrestamo extends JPanel {
 
     private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
     private Libro libro;
-    private JComboBox<String> fechaPrestamoComboBox;
+    private JComboBox<String> fechaDevolucionBox;
 
     public HacerPrestamo() {
         initComponents();
@@ -43,12 +43,12 @@ public class HacerPrestamo extends JPanel {
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        fechaPrestamoComboBox = new JComboBox<>();
+        fechaDevolucionBox = new JComboBox<>();
         agregarFechasLimiteComboBox();
-        fechaPrestamoComboBox.addActionListener(new ActionListener() {
+        fechaDevolucionBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int selectedIndex = fechaPrestamoComboBox.getSelectedIndex();
+                int selectedIndex = fechaDevolucionBox.getSelectedIndex();
                 int monto = (selectedIndex + 1) * 5;
                 jLabel5.setText("Monto: $" + monto);
             }
@@ -160,8 +160,7 @@ public class HacerPrestamo extends JPanel {
         gridBagConstraints.ipadx = 100;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 20, 0, 0);
-        add(fechaPrestamoComboBox, gridBagConstraints);
-
+        add(fechaDevolucionBox, gridBagConstraints);
 
         jLabel6.setText("Monto: Q. 0.00"); // Puedes establecer un valor inicial
         GridBagConstraints gridBagConstraints6 = new java.awt.GridBagConstraints();
@@ -172,11 +171,11 @@ public class HacerPrestamo extends JPanel {
         add(jLabel6, gridBagConstraints6);
 
 // Agrega un ActionListener al JComboBox fechaPrestamoComboBox
-        fechaPrestamoComboBox.addActionListener(new ActionListener() {
+        fechaDevolucionBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Obtén el índice seleccionado en el JComboBox
-                int selectedIndex = fechaPrestamoComboBox.getSelectedIndex();
+                int selectedIndex = fechaDevolucionBox.getSelectedIndex();
 
                 // Calcula el monto según el día seleccionado
                 int monto = (selectedIndex + 1) * 5;
@@ -230,17 +229,15 @@ public class HacerPrestamo extends JPanel {
 
             String formatoEsperado = "yyyy-MM-dd";
 
-            // Verifica si el string cumple con el formato esperado
-            if (!fechaPrestamoText.getText().matches("\\d{4}-\\d{2}-\\d{2}")) {
-                throw new IllegalArgumentException("El formato del string debe ser 'yyyy-MM-dd'");
-            }
-
+            // Parsear el texto a LocalDate con el formato deseado
+            LocalDate fechaPrestamo = LocalDate.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             // Crea un formateador para el formato esperado
-            DateTimeFormatter formateador = DateTimeFormatter.ofPattern(formatoEsperado);
 
             // Convierte el string en LocalDate
-            LocalDate fecha = LocalDate.parse(fechaPrestamoText.getText(), formateador);
-            app.prestarLibro(libro, estudiante, fecha);
+            LocalDate fechaDevolucion = LocalDate.parse(fechaDevolucionBox.getSelectedItem().toString(), formatter);
+
+            app.prestarLibro(libro, estudiante, fechaPrestamo, fechaDevolucion);
             JOptionPane.showMessageDialog(this, "Préstamo realizado con éxito");
             limpiarCampos();
 
@@ -261,7 +258,7 @@ public class HacerPrestamo extends JPanel {
             LocalDate fechaLimite = fechaActual.plusDays(i);
             modeloCombo.addElement(fechaLimite.format(formato));
         }
-        fechaPrestamoComboBox.setModel(modeloCombo); // Establece el modelo del JComboBox
+        fechaDevolucionBox.setModel(modeloCombo); // Establece el modelo del JComboBox
     }
 
     private void limpiarCampos() {

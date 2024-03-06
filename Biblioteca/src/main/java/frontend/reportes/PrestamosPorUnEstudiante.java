@@ -79,7 +79,7 @@ public class PrestamosPorUnEstudiante extends javax.swing.JPanel {
             modeloDatos.setValueAt(prestamo.getLibro().getCodigo(), i, 3);
             modeloDatos.setValueAt(prestamo.getLibro().getTitulo(), i, 4);
             modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 5);
-            modeloDatos.setValueAt(prestamo.getLibro().getTitulo(), i, 6);
+            modeloDatos.setValueAt(prestamo.getFechaDevolucion(), i, 6);
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
     }

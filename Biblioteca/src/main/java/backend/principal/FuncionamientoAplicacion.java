@@ -68,15 +68,16 @@ public class FuncionamientoAplicacion {
      */
     public void agregarNuevoEstudiante(int carnet, String nombre, int codigoCarrera, LocalDate fechaNacimiento) {
         listaEstudiantes.add(new Estudiante(carnet, nombre, codigoCarrera, fechaNacimiento));
+        FuncionamientoAplicacion.guardarSerializableEstudiantes();
     }
 
     /**
      * Método que gestionará los préstamos de los libros.
      */
-    public void prestarLibro(Libro codigoLibro, Estudiante estudiante, LocalDate fecha) {
+    public void prestarLibro(Libro codigoLibro, Estudiante estudiante, LocalDate fechaPrestamo, LocalDate fechaDevolucion) {
         /* Libro libro = buscarLibroDisponible(codigoLibro.getCodigo());
         if (libro != null) {*/
-        listaPrestamos.add(new Prestamo(codigoLibro, estudiante, fecha));
+        listaPrestamos.add(new Prestamo(codigoLibro, estudiante, fechaPrestamo, fechaDevolucion));
 
         //}
     }
