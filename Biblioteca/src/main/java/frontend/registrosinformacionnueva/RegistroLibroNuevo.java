@@ -240,9 +240,9 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
     }
 
     private void guardarLibroBotonActionPerformed(java.awt.event.ActionEvent evt) {
+        // Verificar si todos los campos obligatorios están llenos
         if (verificarCamposObligatorios()) {
             if (fechaText.getText().trim().isEmpty() && editorialText.getText().trim().isEmpty()) { //ÚNICAMENTE LOS CAMPOS OBLIGATORIOS
-
                 if (!app.validarLibroRepetido(codigoLibroText.getText()) && validarCodigo(codigoLibroText.getText()) && validarNumero(copiasText.getText())) {
                     app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), null, "");
                     limpiarCampos();
@@ -250,7 +250,7 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
                 } else {
                     JOptionPane.showMessageDialog(this, "El libro ya se encuentra registrado en la base de datos");
                 }
-            } else if (!fechaText.getText().trim().isEmpty() && editorialText.getText().trim().isEmpty()) {//CAMPO DE FECHA INGRESADO Y CAMPO DE EDITORIAL VACÍO
+            } else if (!fechaText.getText().trim().isEmpty() && editorialText.getText().trim().isEmpty()) { //CAMPO DE FECHA INGRESADO Y CAMPO DE EDITORIAL VACÍO
                 verificarFormatoFecha(fechaText.getText());
                 if (!app.validarLibroRepetido(codigoLibroText.getText()) && validarCodigo(codigoLibroText.getText()) && validarNumero(copiasText.getText())) {
                     app.agregarNuevoLibro(codigoLibroText.getText(), autorLibroText.getText(), tituloLibroText.getText(), Integer.parseInt(copiasText.getText()), obtenerFecha(fechaText.getText()), "");
@@ -277,8 +277,10 @@ public class RegistroLibroNuevo extends javax.swing.JPanel {
                 }
             }
         } else {
+            // Mostrar mensaje indicando que hay campos obligatorios sin llenar y limpiar campos
             JOptionPane.showMessageDialog(this, "Por favor llene los campos obligatorios.\nCampos obligatorios: Código de libro, autor, título, cantidad de copias");
-            guardarLibroBoton.setBackground(Color.red);
+            limpiarCampos();
+            guardarLibroBoton.setBackground(Color.RED);
         }
     }
 

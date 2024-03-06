@@ -104,7 +104,7 @@ public class ListadoPrestamos extends javax.swing.JPanel {
     }
 
     public void actualizarTablaPrestamos() {
-        String[] columnas = {"No.", "Codigo del libro", "Título del libro", "Carnet de estudiante", "Nombre estudiante", "Fecha de préstamo","Fecha de devolución", "Días con mora", "Libros prestados"};
+        String[] columnas = {"No.", "Codigo del libro", "Título del libro", "Carnet de estudiante", "Nombre estudiante", "Fecha de préstamo", "Fecha de devolución", "Días con mora", "Libros prestados"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, FuncionamientoAplicacion.listaPrestamos.size());
         tablaPrestamos.setModel(modelo);
 

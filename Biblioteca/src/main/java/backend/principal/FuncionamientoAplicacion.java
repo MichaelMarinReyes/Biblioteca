@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +28,7 @@ public class FuncionamientoAplicacion {
     public static ArrayList<Libro> listaLibros = new ArrayList<>();
     public static ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
     private static String pathCarpeta = "./base_de_datos";
+    private Map<String, Integer> librosPrestadosPorEstudiante = new HashMap<>();
 
     public FuncionamientoAplicacion() {
         abrirSerializableEstudiantes();
@@ -94,6 +97,14 @@ public class FuncionamientoAplicacion {
             }
         }
         return null;
+    }
+
+    public void incrementarLibrosPrestadosPorEstudiante(String carnetEstudiante) {
+        librosPrestadosPorEstudiante.put(carnetEstudiante, librosPrestadosPorEstudiante.getOrDefault(carnetEstudiante, 0) + 1);
+    }
+
+    public int getLibrosPrestadosPorEstudiante(int carnetEstudiante) {
+        return librosPrestadosPorEstudiante.getOrDefault(carnetEstudiante, 0);
     }
 
     public void ordenarLibros() {
@@ -295,13 +306,19 @@ public class FuncionamientoAplicacion {
                 return;
             }
         }
-        //System.out.println("El estudiante no se encuentra en la base de datos.");
     }
 
     public LocalDate obtenerFechaActual() {
         LocalDate fechaActual = LocalDate.now();
-    System.out.println("Fecha actual: " + fechaActual);
-    return fechaActual;
+        System.out.println("Fecha actual: " + fechaActual);
+        return fechaActual;
     }
 
+    public void restarUnaCopia(Libro libro) {
+        libro.setCantidadCopias(libro.getCantidadCopias() - 1);
+    }
+
+    public void SumarUnaCopia(Libro libro) {
+        libro.setCantidadCopias(libro.getCantidadCopias() + 1);
+    }
 }

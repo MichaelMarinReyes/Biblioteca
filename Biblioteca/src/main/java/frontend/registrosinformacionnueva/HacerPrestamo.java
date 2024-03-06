@@ -50,7 +50,7 @@ public class HacerPrestamo extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int selectedIndex = fechaDevolucionBox.getSelectedIndex();
                 int monto = (selectedIndex + 1) * 5;
-                jLabel5.setText("Monto: $" + monto);
+                jLabel6.setText("Monto: Q. " + monto + ".00");
             }
         });
         jLabel1 = new javax.swing.JLabel();
@@ -170,21 +170,6 @@ public class HacerPrestamo extends JPanel {
         gridBagConstraints6.insets = new java.awt.Insets(20, 20, 20, 20); // Agrega márgenes
         add(jLabel6, gridBagConstraints6);
 
-// Agrega un ActionListener al JComboBox fechaPrestamoComboBox
-        fechaDevolucionBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Obtén el índice seleccionado en el JComboBox
-                int selectedIndex = fechaDevolucionBox.getSelectedIndex();
-
-                // Calcula el monto según el día seleccionado
-                int monto = (selectedIndex + 1) * 5;
-
-                // Muestra el monto en el JLabel correspondiente
-                jLabel6.setText("Monto: Q. " + monto + ".00");
-            }
-        });
-
         realizarPrestamoButton.setText("Realizar Préstamo");
         realizarPrestamoButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -203,15 +188,18 @@ public class HacerPrestamo extends JPanel {
         String codigoLibro = codigoLibroText.getText();
         libro = app.buscarLibroPorCodigo(codigoLibro);
         if (libro != null) {
-
-            Font font = new Font("Bitstream Charter", Font.PLAIN, 15); // Tamaño de la fuente adaptable
-            informacionLibroTextArea.setFont(font);
-
-            informacionLibroTextArea.setText("Título: " + libro.getTitulo() + "\n"
-                    + "Autor: " + libro.getAutor() + "\n"
-                    + "Editorial: " + libro.getEditorial() + "\n"
-                    + "Fecha de Publicación: " + libro.getFechaPublicacion() + "\n"
-                    + "Cantidad Disponible: " + libro.getCantidadCopias());
+            if (libro.getCantidadCopias() > 0) { // Verificar si hay copias disponibles
+                Font font = new Font("Bitstream Charter", Font.BOLD, 20);
+                informacionLibroTextArea.setFont(font);
+                informacionLibroTextArea.setText("Título: " + libro.getTitulo() + "\n"
+                        + "Autor: " + libro.getAutor() + "\n"
+                        + "Editorial: " + libro.getEditorial() + "\n"
+                        + "Fecha de Publicación: " + libro.getFechaPublicacion() + "\n"
+                        + "Cantidad Disponible: " + libro.getCantidadCopias());
+            } else {
+                JOptionPane.showMessageDialog(this, "No hay copias en existencia de este libro. No se puede realizar el préstamo.");
+                limpiarCampos();
+            }
         } else {
             JOptionPane.showMessageDialog(this, "El libro no existe.");
             limpiarCampos();
@@ -232,19 +220,19 @@ public class HacerPrestamo extends JPanel {
             // Parsear el texto a LocalDate con el formato deseado
             LocalDate fechaPrestamo = LocalDate.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            // Crea un formateador para el formato esperado
 
-            // Convierte el string en LocalDate
             LocalDate fechaDevolucion = LocalDate.parse(fechaDevolucionBox.getSelectedItem().toString(), formatter);
 
+            // Restar una copia del libro prestado
+            app.restarUnaCopia(libro);
+
+            // Realizar el préstamo
             app.prestarLibro(libro, estudiante, fechaPrestamo, fechaDevolucion);
             JOptionPane.showMessageDialog(this, "Préstamo realizado con éxito");
             limpiarCampos();
 
         } else {
-            // Si el estudiante no existe, mostrar un mensaje
             JOptionPane.showMessageDialog(this, "El estudiante no existe.");
-            // Limpiar los campos
             limpiarCampos();
         }
     }
@@ -252,13 +240,13 @@ public class HacerPrestamo extends JPanel {
     private void agregarFechasLimiteComboBox() {
         DefaultComboBoxModel<String> modeloCombo = new DefaultComboBoxModel<>();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate fechaActual = app.obtenerFechaActual(); // Obtener la fecha actual desde la clase principal
+        LocalDate fechaActual = app.obtenerFechaActual();
         // Agrega las fechas límite (3 días a partir de la fecha actual) al JComboBox
-        for (int i = 0; i < 3; i++) {
+        for (int i = 1; i < 4; i++) {
             LocalDate fechaLimite = fechaActual.plusDays(i);
             modeloCombo.addElement(fechaLimite.format(formato));
         }
-        fechaDevolucionBox.setModel(modeloCombo); // Establece el modelo del JComboBox
+        fechaDevolucionBox.setModel(modeloCombo);
     }
 
     private void limpiarCampos() {

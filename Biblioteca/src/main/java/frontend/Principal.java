@@ -6,7 +6,7 @@ package frontend;
 
 import backend.importaciondedatos.ImportarDatos;
 import backend.principal.FuncionamientoAplicacion;
-import frontend.registrosinformacionnueva.Devolucion;
+import frontend.registrosinformacionnueva.DevolucionLibro;
 import frontend.registrosinformacionnueva.EditarEstudiante;
 import frontend.registrosinformacionnueva.EditarLibro;
 import frontend.registrosinformacionnueva.HacerPrestamo;
@@ -61,7 +61,7 @@ public class Principal extends javax.swing.JFrame {
     private HacerPrestamo newPrestamo = new HacerPrestamo();
     private EditarLibro newEditarLibro = new EditarLibro();
     private EditarEstudiante newEditarEstudiante = new EditarEstudiante();
-    private Devolucion newDevolucion = new Devolucion();
+    private DevolucionLibro newDevolucion = new DevolucionLibro();
     private boolean relojActivo = true;
     private Dimension tamañoPanelFondo;
 
