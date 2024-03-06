@@ -145,7 +145,7 @@ public class EditarEstudiante extends JPanel {
         carreras.put(4, "Arquitectura");
         carreras.put(5, "Administración");
         String codigoEstudiante = codigoEstudianteText.getText();
-        Estudiante estudiante = app.buscarEstudiantePorCarnet(codigoEstudiante);
+        Estudiante estudiante = app.buscarEstudiantePorCarnet(Integer.parseInt(codigoEstudiante));
         if (estudiante != null) {
             // Obtener el nombre de la carrera basado en el código de carrera
             String nombreCarrera = carreras.get(estudiante.getCodigoCarrera());
@@ -162,7 +162,7 @@ public class EditarEstudiante extends JPanel {
 
     private void cambiosButtonActionPerformed(ActionEvent evt) {
         String codigoEstudiante = codigoEstudianteText.getText();
-        Estudiante estudiante = app.buscarEstudiantePorCarnet(codigoEstudiante);
+        Estudiante estudiante = app.buscarEstudiantePorCarnet(Integer.parseInt(codigoEstudiante));
         if (estudiante != null) {
             String nuevoNombre = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre:", estudiante.getNombre());
             int nuevoCodigoCarrera = Integer.parseInt(JOptionPane.showInputDialog(this, "Ingrese el nuevo código de carrera:", estudiante.getCodigoCarrera()));
@@ -190,7 +190,7 @@ public class EditarEstudiante extends JPanel {
 
     private void guardarCambiosConfirmarButtonActionPerformed(ActionEvent evt) {
     String codigoEstudiante = codigoEstudianteText.getText();
-    Estudiante estudiante = app.buscarEstudiantePorCarnet(codigoEstudiante);
+    Estudiante estudiante = app.buscarEstudiantePorCarnet(Integer.parseInt(codigoEstudiante));
     if (estudiante != null) {
         int option = JOptionPane.showConfirmDialog(this, "¿Desea guardar los cambios?", "Guardar Cambios", JOptionPane.YES_NO_OPTION);
         if (option == JOptionPane.YES_OPTION) {

@@ -209,32 +209,44 @@ public class HacerPrestamo extends JPanel {
     private void realizarPrestamoButtonActionPerformed(java.awt.event.ActionEvent evt) {
         String carnetEstudiante = carnetEstudianteText.getText();
 
-        // Buscar al estudiante por su carnet
-        Estudiante estudiante = app.buscarEstudiantePorCarnet(carnetEstudiante);
+        try {
+            // Buscar al estudiante por su carnet
+            Estudiante estudiante = app.buscarEstudiantePorCarnet(Integer.parseInt(carnetEstudiante));
+            if (!carnetEstudianteText.getText().trim().isEmpty()) {
+                // Verificar si el estudiante existe
+                if (estudiante != null) {
 
-        // Verificar si el estudiante existe
-        if (estudiante != null) {
+                    String formatoEsperado = "yyyy-MM-dd";
 
-            String formatoEsperado = "yyyy-MM-dd";
+                    // Parsear el texto a LocalDate con el formato deseado
+                    LocalDate fechaPrestamo = LocalDate.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-            // Parsear el texto a LocalDate con el formato deseado
-            LocalDate fechaPrestamo = LocalDate.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                    LocalDate fechaDevolucion = LocalDate.parse(fechaDevolucionBox.getSelectedItem().toString(), formatter);
 
-            LocalDate fechaDevolucion = LocalDate.parse(fechaDevolucionBox.getSelectedItem().toString(), formatter);
+                    if (app.buscarEstudiantePorCarnet(Integer.parseInt(carnetEstudiante)).puedePrestarLibros()) {
+                        // Restar una copia del libro prestado
+                        app.restarUnaCopia(libro);
 
-            // Restar una copia del libro prestado
-            app.restarUnaCopia(libro);
+                        // Realizar el préstamo
+                        app.prestarLibro(libro, estudiante, fechaPrestamo, fechaDevolucion);
+                        JOptionPane.showMessageDialog(this, "Préstamo realizado con éxito");
+                        limpiarCampos();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "El estudiante no puede prestar más de 3 libros");
+                    }
 
-            // Realizar el préstamo
-            app.prestarLibro(libro, estudiante, fechaPrestamo, fechaDevolucion);
-            JOptionPane.showMessageDialog(this, "Préstamo realizado con éxito");
-            limpiarCampos();
-
-        } else {
-            JOptionPane.showMessageDialog(this, "El estudiante no existe.");
-            limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(this, "El estudiante no existe.");
+                    limpiarCampos();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Ingrese el carné del estudiante");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Verifique que el campo \"Carné de estudiante\" ha sido ingresado correctamente");
         }
+
     }
 
     private void agregarFechasLimiteComboBox() {

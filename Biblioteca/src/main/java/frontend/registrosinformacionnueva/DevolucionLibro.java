@@ -127,68 +127,74 @@ public class DevolucionLibro extends JPanel {
             return;
         }
 
-        // Verificar si el estudiante existe
-        estudiante = app.buscarEstudiantePorCarnet(carnet);
-        if (estudiante == null) {
-            JOptionPane.showMessageDialog(this, "El estudiante no existe.");
-            return;
+        try {
+            // Verificar si el estudiante existe
+            estudiante = app.buscarEstudiantePorCarnet(Integer.parseInt(carnet));
+            if (estudiante == null) {
+                JOptionPane.showMessageDialog(this, "El estudiante no existe.");
+                return;
+            }
+
+            // Verificar si el libro existe
+            libro = app.buscarLibroPorCodigo(codigoLibro);
+            if (libro == null) {
+                JOptionPane.showMessageDialog(this, "El libro no existe.");
+                return;
+            }
+
+            // Verificar formato de fecha de devolución
+            if (!fechaDevolucionString.matches("\\d{4}-\\d{2}-\\d{2}")) {
+                JOptionPane.showMessageDialog(this, "Formato de fecha de devolución inválido. Utilice el formato yyyy-mm-dd.");
+                return;
+            }
+            LocalDate fechaDevolucion = LocalDate.parse(fechaDevolucionString);
+
+            // Obtener la fecha actual
+            LocalDate fechaActual = LocalDate.now();
+
+            // Calcular días de préstamo desde la fecha de inicio hasta la fecha de devolución
+            long diasPrestamo = fechaActual.until(fechaDevolucion).getDays();
+
+            // Variable para almacenar la fecha de devolución tardía del libro
+            LocalDate fechaDevolucionTardia;
+
+            // Verificar si la fecha de devolución ya pasó
+            if (fechaActual.isAfter(fechaDevolucion)) {
+                // La fecha de devolución tardía es la fecha actual
+                fechaDevolucionTardia = fechaActual;
+            } else {
+                // La fecha de devolución tardía es la fecha de devolución seleccionada
+                fechaDevolucionTardia = fechaDevolucion;
+            }
+
+            // Calcular días de mora si la fecha de devolución tardía es posterior a la fecha límite
+            long diasMora = 0;
+            if (fechaDevolucionTardia.isAfter(fechaDevolucion)) {
+                diasMora = fechaDevolucion.until(fechaDevolucionTardia).getDays();
+            }
+
+            // Calcular monto del préstamo
+            double monto = (5 * diasPrestamo) + (10 * diasMora);
+
+            // Mostrar información del préstamo en el TextArea
+            informacionTextArea.setText("Carnet del Estudiante: " + estudiante.getCarnet() + "\n"
+                    + "Nombre del Estudiante: " + estudiante.getNombre() + "\n"
+                    + "Código del Libro: " + libro.getCodigo() + "\n"
+                    + "Nombre del Libro: " + libro.getTitulo() + "\n"
+                    + "Fecha de Préstamo: " + fechaActual + "\n"
+                    + "Fecha de Devolución: " + fechaDevolucion + "\n"
+                    + "Días de Préstamo: " + diasPrestamo + "\n"
+                    + "Días de Mora: " + diasMora + "\n"
+                    + "Monto del Préstamo: Q. " + monto);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Error.\nVerifique que haya ingresado correctamente los datos");
         }
 
-        // Verificar si el libro existe
-        libro = app.buscarLibroPorCodigo(codigoLibro);
-        if (libro == null) {
-            JOptionPane.showMessageDialog(this, "El libro no existe.");
-            return;
-        }
-
-        // Verificar formato de fecha de devolución
-        if (!fechaDevolucionString.matches("\\d{4}-\\d{2}-\\d{2}")) {
-            JOptionPane.showMessageDialog(this, "Formato de fecha de devolución inválido. Utilice el formato yyyy-mm-dd.");
-            return;
-        }
-        LocalDate fechaDevolucion = LocalDate.parse(fechaDevolucionString);
-
-        // Obtener la fecha actual
-        LocalDate fechaActual = LocalDate.now();
-
-        // Calcular días de préstamo desde la fecha de inicio hasta la fecha de devolución
-        long diasPrestamo = fechaActual.until(fechaDevolucion).getDays();
-
-        // Variable para almacenar la fecha de devolución tardía del libro
-        LocalDate fechaDevolucionTardia;
-
-        // Verificar si la fecha de devolución ya pasó
-        if (fechaActual.isAfter(fechaDevolucion)) {
-            // La fecha de devolución tardía es la fecha actual
-            fechaDevolucionTardia = fechaActual;
-        } else {
-            // La fecha de devolución tardía es la fecha de devolución seleccionada
-            fechaDevolucionTardia = fechaDevolucion;
-        }
-
-        // Calcular días de mora si la fecha de devolución tardía es posterior a la fecha límite
-        long diasMora = 0;
-        if (fechaDevolucionTardia.isAfter(fechaDevolucion)) {
-            diasMora = fechaDevolucion.until(fechaDevolucionTardia).getDays();
-        }
-
-        // Calcular monto del préstamo
-        double monto = (5 * diasPrestamo) + (10 * diasMora);
-
-        // Mostrar información del préstamo en el TextArea
-        informacionTextArea.setText("Carnet del Estudiante: " + estudiante.getCarnet() + "\n"
-                + "Nombre del Estudiante: " + estudiante.getNombre() + "\n"
-                + "Código del Libro: " + libro.getCodigo() + "\n"
-                + "Nombre del Libro: " + libro.getTitulo() + "\n"
-                + "Fecha de Préstamo: " + fechaActual + "\n"
-                + "Fecha de Devolución: " + fechaDevolucion + "\n"
-                + "Días de Préstamo: " + diasPrestamo + "\n"
-                + "Días de Mora: " + diasMora + "\n"
-                + "Monto del Préstamo: Q. " + monto);
     }
 
     private void finalizarTransaccion() {
-        app.SumarUnaCopia(libro);
+        app.sumarUnaCopia(libro);
+        app.devolucionDeLibro(codigoLibroText.getText(), Integer.parseInt(carnetText.getText()));
         JOptionPane.showMessageDialog(this, "Transacción finalizada. ¡Gracias por su visita!");
         limpiarCampos();
     }

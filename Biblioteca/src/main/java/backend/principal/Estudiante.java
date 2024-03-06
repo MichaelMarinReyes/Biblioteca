@@ -2,7 +2,6 @@ package backend.principal;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
 
 /**
  *
@@ -14,15 +13,15 @@ public class Estudiante implements Serializable {
     private String nombre;
     private int codigoCarrera;
     private LocalDate fechaNacimiento;
-    private ArrayList<Libro> librosPrestados = new ArrayList<>();
+    private int librosPrestados = 0;
 
 
     public Estudiante(int carnet, String nombre, int codigoCarrera, LocalDate fechaNacimiento) {
-
         this.carnet = carnet;
         this.nombre = nombre;
         this.codigoCarrera = codigoCarrera;
         this.fechaNacimiento = fechaNacimiento;
+        this.librosPrestados =+ 1;
     }
 
     public int getCarnet() {
@@ -58,7 +57,15 @@ public class Estudiante implements Serializable {
         this.fechaNacimiento = fechaNacimiento;
     }
 
-    public void añadirLibro(Libro libro) {
-        librosPrestados.add(libro);
+    public int getLibrosPrestados() {
+        return librosPrestados;
+    }
+
+    public void setLibrosPrestados(int librosPrestados) {
+        this.librosPrestados = librosPrestados;
+    }
+    
+    public boolean puedePrestarLibros() {
+        return this.getLibrosPrestados() <= 3;
     }
 }
