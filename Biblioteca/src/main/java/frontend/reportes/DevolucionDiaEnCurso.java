@@ -3,6 +3,7 @@ package frontend.reportes;
 import backend.principal.FuncionamientoAplicacion;
 import backend.principal.Prestamo;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 
 /**
@@ -17,6 +18,7 @@ public class DevolucionDiaEnCurso extends javax.swing.JPanel {
     public DevolucionDiaEnCurso() {
         initComponents();
         actualizarTablaEntregasHoy();
+        ajustarColumnaTexto();
     }
 
     /**
@@ -61,19 +63,36 @@ public class DevolucionDiaEnCurso extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void actualizarTablaEntregasHoy() {
-        String[] columnaDevolucionHoy = {"Carnet", "Nombre", "Código de libro", "Título", "Fecha de préstamo"};
+        String[] columnaDevolucionHoy = {"No.", "Carnet", "Nombre", "Código de libro", "Título", "Fecha de préstamo"};
         DefaultTableModel modelo = new DefaultTableModel(columnaDevolucionHoy, FuncionamientoAplicacion.listaPrestamos.size());
         tablaReportes.setModel(modelo);
 
         TableModel modeloDatos = tablaReportes.getModel();
         for (int i = 0; i < FuncionamientoAplicacion.listaPrestamos.size(); i++) {
             Prestamo prestamo = FuncionamientoAplicacion.listaPrestamos.get(i);
-            modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 0);
-            modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 1);
-            modeloDatos.setValueAt(prestamo.getLibro().getCodigo(), i, 2);
-            modeloDatos.setValueAt(prestamo.getLibro().getAutor(), i, 3);
-            modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 4);
+            modeloDatos.setValueAt(String.valueOf((i + 1)), i, 0);
+            modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 1);
+            modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 2);
+            modeloDatos.setValueAt(prestamo.getLibro().getCodigo(), i, 3);
+            modeloDatos.setValueAt(prestamo.getLibro().getAutor(), i, 4);
+            modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 5);
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
+    }
+
+    private void ajustarColumnaTexto() {
+        TableColumnModel columnModel = tablaReportes.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(40); // Establecer ancho mínimo inicial a 0
+        columnModel.getColumn(0).setMaxWidth(40); // Establecer ancho máximo a 0
+        columnModel.getColumn(0).setMinWidth(40); // Establecer ancho mínimo a 0
+
+        int rowCount = tablaReportes.getRowCount();
+        int column = 0; // Columna que deseas ajustar
+
+        for (int row = 0; row < rowCount; row++) {
+            int width = (int) tablaReportes.getCellRenderer(row, column).getTableCellRendererComponent(tablaReportes, tablaReportes.getValueAt(row, column), false, false, row, column).getPreferredSize().getWidth();
+            width += 2 * tablaReportes.getIntercellSpacing().getWidth();
+            columnModel.getColumn(column).setPreferredWidth(Math.max(columnModel.getColumn(column).getPreferredWidth(), width));
+        }
     }
 }

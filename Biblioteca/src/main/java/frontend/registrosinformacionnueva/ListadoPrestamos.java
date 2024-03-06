@@ -6,6 +6,7 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -25,6 +26,7 @@ public class ListadoPrestamos extends javax.swing.JPanel {
         initComponents();
         actualizarTablaPrestamos();
         agregarCampoBusqueda();
+        ajustarColumnaTexto();
     }
 
     /**
@@ -102,22 +104,39 @@ public class ListadoPrestamos extends javax.swing.JPanel {
     }
 
     public void actualizarTablaPrestamos() {
-        String[] columnas = {"Codigo del libro","Título del libro", "Carnet de estudiante", "Nombre estudiante", "Fecha de préstamo", "Días con mora", "Libros prestados"};
+        String[] columnas = {"No.", "Codigo del libro", "Título del libro", "Carnet de estudiante", "Nombre estudiante", "Fecha de préstamo", "Días con mora", "Libros prestados"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, FuncionamientoAplicacion.listaPrestamos.size());
         tablaPrestamos.setModel(modelo);
 
         TableModel modeloDatos = tablaPrestamos.getModel();
         for (int i = 0; i < FuncionamientoAplicacion.listaPrestamos.size(); i++) {
             Prestamo prestamo = FuncionamientoAplicacion.listaPrestamos.get(i);
-            modeloDatos.setValueAt(prestamo.getLibro().getCodigo(), i, 0);
-            modeloDatos.setValueAt(prestamo.getLibro().getTitulo(), i, 1);
-            modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 2);
-            modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 3);
-            modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 4);
-            modeloDatos.setValueAt(prestamo.getDiasConMora(), i, 5);
-            modeloDatos.setValueAt(prestamo.getLibrosMaximosPrestados(), i, 6);
+            modeloDatos.setValueAt(String.valueOf(i + 1), i, 0);
+            modeloDatos.setValueAt(prestamo.getLibro().getCodigo(), i, 1);
+            modeloDatos.setValueAt(prestamo.getLibro().getTitulo(), i, 2);
+            modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 3);
+            modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 4);
+            modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 5);
+            modeloDatos.setValueAt(prestamo.getDiasConMora(), i, 6);
+            modeloDatos.setValueAt(prestamo.getLibrosMaximosPrestados(), i, 7);
 
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
+    }
+
+    private void ajustarColumnaTexto() {
+        TableColumnModel columnModel = tablaPrestamos.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(40); // Establecer ancho mínimo inicial a 0
+        columnModel.getColumn(0).setMaxWidth(40); // Establecer ancho máximo a 0
+        columnModel.getColumn(0).setMinWidth(40); // Establecer ancho mínimo a 0
+
+        int rowCount = tablaPrestamos.getRowCount();
+        int column = 0; // Columna que deseas ajustar
+
+        for (int row = 0; row < rowCount; row++) {
+            int width = (int) tablaPrestamos.getCellRenderer(row, column).getTableCellRendererComponent(tablaPrestamos, tablaPrestamos.getValueAt(row, column), false, false, row, column).getPreferredSize().getWidth();
+            width += 2 * tablaPrestamos.getIntercellSpacing().getWidth();
+            columnModel.getColumn(column).setPreferredWidth(Math.max(columnModel.getColumn(column).getPreferredWidth(), width));
+        }
     }
 }

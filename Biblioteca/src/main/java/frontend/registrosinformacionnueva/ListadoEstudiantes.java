@@ -6,6 +6,7 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -25,6 +26,7 @@ public class ListadoEstudiantes extends javax.swing.JPanel {
         initComponents();
         actualizarTablaEstudiantes();
         agregarCampoBusqueda();
+        ajustarColumnaTexto();
     }
 
     /**
@@ -102,18 +104,36 @@ public class ListadoEstudiantes extends javax.swing.JPanel {
     }
 
     public void actualizarTablaEstudiantes() {
-        String[] columnas = {"Carnet", "Nombre", "Carrera", "Fecha de nacimiento"};
+        String[] columnas = {"No.", "Carnet", "Nombre", "Carrera", "Fecha de nacimiento"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, FuncionamientoAplicacion.listaEstudiantes.size());
         tablaEstudiantes.setModel(modelo);
 
         TableModel modeloDatos = tablaEstudiantes.getModel();
         for (int i = 0; i < FuncionamientoAplicacion.listaEstudiantes.size(); i++) {
             Estudiante estudiante = FuncionamientoAplicacion.listaEstudiantes.get(i);
-            modeloDatos.setValueAt(estudiante.getCarnet(), i, 0);
-            modeloDatos.setValueAt(estudiante.getNombre(), i, 1);
-            modeloDatos.setValueAt(estudiante.getCodigoCarrera(), i, 2);
-            modeloDatos.setValueAt(estudiante.getFechaNacimiento(), i, 3);
+            modeloDatos.setValueAt(String.valueOf(i + 1), i, 0);
+            modeloDatos.setValueAt(estudiante.getCarnet(), i, 1);
+            modeloDatos.setValueAt(estudiante.getNombre(), i, 2);
+            modeloDatos.setValueAt(estudiante.getCodigoCarrera(), i, 3);
+            modeloDatos.setValueAt(estudiante.getFechaNacimiento(), i, 4);
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
+    }
+
+    private void ajustarColumnaTexto() {
+        TableColumnModel columnModel = tablaEstudiantes.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(40); // Establecer ancho mínimo inicial a 0
+        columnModel.getColumn(0).setMaxWidth(40); // Establecer ancho máximo a 0
+        columnModel.getColumn(0).setMinWidth(40); // Establecer ancho mínimo a 0
+
+        int rowCount = tablaEstudiantes.getRowCount();
+        int column = 0; // Columna que deseas ajustar
+
+        for (int row = 0; row < rowCount; row++) {
+            int width = (int) tablaEstudiantes.getCellRenderer(row, column).getTableCellRendererComponent(tablaEstudiantes,
+                    tablaEstudiantes.getValueAt(row, column), false, false, row, column).getPreferredSize().getWidth();
+            width += 2 * tablaEstudiantes.getIntercellSpacing().getWidth(); // Agregar espacios entre celdas
+            columnModel.getColumn(column).setPreferredWidth(Math.max(columnModel.getColumn(column).getPreferredWidth(), width));
+        }
     }
 }
