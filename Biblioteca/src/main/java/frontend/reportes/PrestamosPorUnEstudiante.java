@@ -1,16 +1,32 @@
 package frontend.reportes;
 
+import backend.principal.FuncionamientoAplicacion;
+import backend.principal.Prestamo;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 /**
  *
  * @author michael
  */
 public class PrestamosPorUnEstudiante extends javax.swing.JPanel {
 
+    private JTextField textFieldBusqueda;
+    private TableRowSorter<TableModel> rowSorter;
+
     /**
      * Creates new form PrestamosPorUnEstudiante
      */
     public PrestamosPorUnEstudiante() {
         initComponents();
+        actualizarTablaIngresosIntervaloTiempo();
+        agregarCampoBusqueda();
+        ajustarColumnaTexto();
     }
 
     /**
@@ -23,11 +39,11 @@ public class PrestamosPorUnEstudiante extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaReportes = new javax.swing.JTable();
 
         setLayout(new java.awt.BorderLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaReportes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -38,7 +54,7 @@ public class PrestamosPorUnEstudiante extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaReportes);
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -46,6 +62,74 @@ public class PrestamosPorUnEstudiante extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable tablaReportes;
     // End of variables declaration//GEN-END:variables
+
+    public void actualizarTablaIngresosIntervaloTiempo() {
+        String[] columnaDevolucionHoy = {"No.", "Carnet", "Nombre", "Código de libro", "Título", "Fecha de préstamo", "Fecha de devolución"};
+        DefaultTableModel modelo = new DefaultTableModel(columnaDevolucionHoy, FuncionamientoAplicacion.listaPrestamos.size());
+        tablaReportes.setModel(modelo);
+
+        TableModel modeloDatos = tablaReportes.getModel();
+        for (int i = 0; i < FuncionamientoAplicacion.listaPrestamos.size(); i++) {
+            Prestamo prestamo = FuncionamientoAplicacion.listaPrestamos.get(i);
+            modeloDatos.setValueAt(String.valueOf(i + 1), i, 0);
+            modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 1);
+            modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 2);
+            modeloDatos.setValueAt(prestamo.getLibro().getCodigo(), i, 3);
+            modeloDatos.setValueAt(prestamo.getLibro().getTitulo(), i, 4);
+            modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 5);
+            modeloDatos.setValueAt(prestamo.getLibro().getTitulo(), i, 6);
+        }
+        FuncionamientoAplicacion.guardarSerializableLibros();
+    }
+
+    private void ajustarColumnaTexto() {
+        TableColumnModel columnModel = tablaReportes.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(40);
+        columnModel.getColumn(0).setMaxWidth(40);
+        columnModel.getColumn(0).setMinWidth(40);
+
+        int rowCount = tablaReportes.getRowCount();
+        int column = 0; // Columna que deseas ajustar
+
+        for (int row = 0; row < rowCount; row++) {
+            int width = (int) tablaReportes.getCellRenderer(row, column).getTableCellRendererComponent(tablaReportes, tablaReportes.getValueAt(row, column), false, false, row, column).getPreferredSize().getWidth();
+            width += 2 * tablaReportes.getIntercellSpacing().getWidth();
+            columnModel.getColumn(column).setPreferredWidth(Math.max(columnModel.getColumn(column).getPreferredWidth(), width));
+        }
+    }
+
+    private void agregarCampoBusqueda() {
+        textFieldBusqueda = new JTextField();
+        textFieldBusqueda.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+        });
+        add(textFieldBusqueda, java.awt.BorderLayout.NORTH);
+    }
+
+    private void filtrarTabla(String texto) {
+        if (rowSorter == null) {
+            rowSorter = new TableRowSorter<>(tablaReportes.getModel());
+            tablaReportes.setRowSorter(rowSorter);
+        }
+        if (texto.trim().length() == 0) {
+            rowSorter.setRowFilter(null);
+        } else {
+            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+        }
+    }
 }

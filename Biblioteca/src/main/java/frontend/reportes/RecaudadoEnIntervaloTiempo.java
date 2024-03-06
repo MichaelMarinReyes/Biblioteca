@@ -1,8 +1,14 @@
 package frontend.reportes;
 
 import backend.principal.FuncionamientoAplicacion;
+import backend.principal.Prestamo;
+import javax.swing.JTextField;
+import javax.swing.RowFilter;
+import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -10,12 +16,17 @@ import javax.swing.table.TableModel;
  */
 public class RecaudadoEnIntervaloTiempo extends javax.swing.JPanel {
 
+    private JTextField textFieldBusqueda;
+    private TableRowSorter<TableModel> rowSorter;
+
     /**
      * Creates new form RecaudadoEnIntervaloTiempo
      */
     public RecaudadoEnIntervaloTiempo() {
         initComponents();
         actualizarTablaIngresosIntervaloTiempo();
+        ajustarColumnaTexto();
+        agregarCampoBusqueda();
     }
 
     /**
@@ -55,18 +66,70 @@ public class RecaudadoEnIntervaloTiempo extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void actualizarTablaIngresosIntervaloTiempo() {
-        String[] columnaDevolucionHoy = {"Carnet", "Nombre", "Código de libro", "Título", "Fecha de préstamo"};
+        String[] columnaDevolucionHoy = {"No.", "Carnet", "Nombre", "Código de libro", "Título", "Fecha de préstamo", "Fecha de devolución"};
         DefaultTableModel modelo = new DefaultTableModel(columnaDevolucionHoy, FuncionamientoAplicacion.listaPrestamos.size());
         tablaReportes.setModel(modelo);
 
         TableModel modeloDatos = tablaReportes.getModel();
         for (int i = 0; i < FuncionamientoAplicacion.listaPrestamos.size(); i++) {
-            /*  Prestamo estudiante = FuncionamientoAplicacion.listaPrestamos.get(i);
-            modeloDatos.setValueAt(estudiante.getCarnet(), i, 0);
-            modeloDatos.setValueAt(estudiante.getNombre(), i, 1);
-            modeloDatos.setValueAt(estudiante.getCodigoCarrera(), i, 2);
-            modeloDatos.setValueAt(estudiante.getFechaNacimiento(), i, 3);*/
+            Prestamo estudiante = FuncionamientoAplicacion.listaPrestamos.get(i);
+            modeloDatos.setValueAt(String.valueOf(i + 1), i, 0);
+            modeloDatos.setValueAt(estudiante.getEstudiante().getCarnet(), i, 1);
+            modeloDatos.setValueAt(estudiante.getEstudiante().getNombre(), i, 2);
+            modeloDatos.setValueAt(estudiante.getLibro().getCodigo(), i, 3);
+            modeloDatos.setValueAt(estudiante.getLibro().getTitulo(), i, 4);
+            modeloDatos.setValueAt(estudiante.getFechaPrestamo(), i, 5);
+            modeloDatos.setValueAt(estudiante.getFechaPrestamo(), i, 6);
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
+    }
+
+    private void ajustarColumnaTexto() {
+        TableColumnModel columnModel = tablaReportes.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(40);
+        columnModel.getColumn(0).setMaxWidth(40);
+        columnModel.getColumn(0).setMinWidth(40);
+
+        int rowCount = tablaReportes.getRowCount();
+        int column = 0;
+
+        for (int row = 0; row < rowCount; row++) {
+            int width = (int) tablaReportes.getCellRenderer(row, column).getTableCellRendererComponent(tablaReportes, tablaReportes.getValueAt(row, column), false, false, row, column).getPreferredSize().getWidth();
+            width += 2 * tablaReportes.getIntercellSpacing().getWidth();
+            columnModel.getColumn(column).setPreferredWidth(Math.max(columnModel.getColumn(column).getPreferredWidth(), width));
+        }
+    }
+
+    private void agregarCampoBusqueda() {
+        textFieldBusqueda = new JTextField();
+        textFieldBusqueda.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filtrarTabla(textFieldBusqueda.getText());
+            }
+        });
+        add(textFieldBusqueda, java.awt.BorderLayout.NORTH);
+    }
+
+    private void filtrarTabla(String texto) {
+        if (rowSorter == null) {
+            rowSorter = new TableRowSorter<>(tablaReportes.getModel());
+            tablaReportes.setRowSorter(rowSorter);
+        }
+        if (texto.trim().length() == 0) {
+            rowSorter.setRowFilter(null);
+        } else {
+            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
+        }
     }
 }

@@ -10,6 +10,7 @@ import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -29,6 +30,7 @@ public class ListadoLibros extends javax.swing.JPanel {
         initComponents();
         this.actualizarTablaLibros();
         agregarCampoBusqueda();
+        ajustarColumnaTexto();
     }
 
     /**
@@ -105,20 +107,38 @@ public class ListadoLibros extends javax.swing.JPanel {
     }
 
     public void actualizarTablaLibros() {
-        String[] columnas = {"Código", "Título", "Autor", "Editorial", "Fecha de publicación", "NO. Copias"};
+        String[] columnas = {"No.", "Código", "Título", "Autor", "Editorial", "Fecha de publicación", "NO. Copias"};
         DefaultTableModel modelo = new DefaultTableModel(columnas, FuncionamientoAplicacion.listaLibros.size());
         tablaLibros.setModel(modelo);
 
         TableModel modeloDatos = tablaLibros.getModel();
         for (int i = 0; i < FuncionamientoAplicacion.listaLibros.size(); i++) {
             Libro libro = FuncionamientoAplicacion.listaLibros.get(i);
-            modeloDatos.setValueAt(libro.getCodigo(), i, 0);
-            modeloDatos.setValueAt(libro.getTitulo(), i, 1);
-            modeloDatos.setValueAt(libro.getAutor(), i, 2);
-            modeloDatos.setValueAt(libro.getEditorial(), i, 3);
-            modeloDatos.setValueAt(libro.getFechaPublicacion(), i, 4);
-            modeloDatos.setValueAt(libro.getCantidadCopias(), i, 5);
+            modeloDatos.setValueAt(String.valueOf(i + 1), i, 0);
+            modeloDatos.setValueAt(libro.getCodigo(), i, 1);
+            modeloDatos.setValueAt(libro.getTitulo(), i, 2);
+            modeloDatos.setValueAt(libro.getAutor(), i, 3);
+            modeloDatos.setValueAt(libro.getEditorial(), i, 4);
+            modeloDatos.setValueAt(libro.getFechaPublicacion(), i, 5);
+            modeloDatos.setValueAt(libro.getCantidadCopias(), i, 6);
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
+    }
+
+    private void ajustarColumnaTexto() {
+        TableColumnModel columnModel = tablaLibros.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(40); // Establecer ancho mínimo inicial a 0
+        columnModel.getColumn(0).setMaxWidth(40); // Establecer ancho máximo a 0
+        columnModel.getColumn(0).setMinWidth(40); // Establecer ancho mínimo a 0
+
+        int rowCount = tablaLibros.getRowCount();
+        int column = 0; // Columna que deseas ajustar
+
+        for (int row = 0; row < rowCount; row++) {
+            int width = (int) tablaLibros.getCellRenderer(row, column).getTableCellRendererComponent(tablaLibros,
+                    tablaLibros.getValueAt(row, column), false, false, row, column).getPreferredSize().getWidth();
+            width += 2 * tablaLibros.getIntercellSpacing().getWidth(); // Agregar espacios entre celdas
+            columnModel.getColumn(column).setPreferredWidth(Math.max(columnModel.getColumn(column).getPreferredWidth(), width));
+        }
     }
 }
