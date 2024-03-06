@@ -38,6 +38,11 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import frontend.registrosinformacionnueva.RegistroLibroNuevo;
 import frontend.registrosinformacionnueva.RegistroEstudianteNuevo;
+import frontend.reportes.DevolucionDiaEnCurso;
+import frontend.reportes.PrestamosConMora;
+import frontend.reportes.PrestamosPorCarrera;
+import frontend.reportes.PrestamosPorUnEstudiante;
+import frontend.reportes.RecaudadoEnIntervaloTiempo;
 import javax.swing.Box;
 
 /**
@@ -248,6 +253,31 @@ public class Principal extends javax.swing.JFrame {
         itemListaPrestamos.addActionListener((ActionEvent e) -> {
             ListadoPrestamos prestamos = new ListadoPrestamos();
             pintarPanel(prestamos);
+        });
+
+        itemPrestamosMismoDia.addActionListener((ActionEvent e) -> {
+            DevolucionDiaEnCurso diaEnCurso = new DevolucionDiaEnCurso();
+            pintarPanel(diaEnCurso);
+        });
+
+        itemPrestamosMora.addActionListener((ActionEvent e) -> {
+            PrestamosConMora mora = new PrestamosConMora();
+            pintarPanel(mora);
+        });
+
+        itemIngresosIntervalo.addActionListener((ActionEvent e) -> {
+            RecaudadoEnIntervaloTiempo recaudado = new RecaudadoEnIntervaloTiempo();
+            pintarPanel(recaudado);
+        });
+
+        itemPrestamosPorEstudiante.addActionListener((ActionEvent e) -> {
+            PrestamosPorUnEstudiante prestamoEstudiante = new PrestamosPorUnEstudiante();
+            pintarPanel(prestamoEstudiante);
+        });
+
+        itemPrestamosPorCarrera.addActionListener((ActionEvent e) -> {
+            PrestamosPorCarrera prestamoCarrera = new PrestamosPorCarrera();
+            pintarPanel(prestamoCarrera);
         });
 
         //personalizar menu

@@ -74,6 +74,5 @@ public class ImportarDatos {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate fechaFormateada = LocalDate.parse(fecha, format);
         clasificar.prestarLibro(clasificar.buscarLibroPorCodigo(codigoLibro), clasificar.buscarEstudiantePorCarnet(carnet), fechaFormateada);
-        System.out.println("TAMAÑO "+FuncionamientoAplicacion.listaPrestamos.size());
     }
 }

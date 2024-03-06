@@ -38,9 +38,6 @@
               </Table>
             </Property>
           </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="tablaReportes = new javax.swing.JTable(){&#xa;    public boolean isCellEditable(int row, int col) {&#xa;        return false;&#xa;    }  &#xa;};"/>
-          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
