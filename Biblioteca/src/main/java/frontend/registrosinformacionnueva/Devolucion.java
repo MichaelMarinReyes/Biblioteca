@@ -206,7 +206,8 @@ public class Devolucion extends JPanel{
 
             // Convierte el string en LocalDate
             LocalDate fecha = LocalDate.parse(fechaPrestamoText.getText(), formateador);
-            app.prestarLibro(libro, estudiante, fecha);
+/*            LocalDate fechaDevolucion = LocalDate.parse(, formateador)
+            app.prestarLibro(libro, estudiante, fecha, );*/
             JOptionPane.showMessageDialog(this, "Préstamo realizado con éxito");
             limpiarCampos();
 

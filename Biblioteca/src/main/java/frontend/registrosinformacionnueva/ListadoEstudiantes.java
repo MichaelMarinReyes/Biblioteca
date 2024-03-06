@@ -114,7 +114,7 @@ public class ListadoEstudiantes extends javax.swing.JPanel {
             modeloDatos.setValueAt(String.valueOf(i + 1), i, 0);
             modeloDatos.setValueAt(estudiante.getCarnet(), i, 1);
             modeloDatos.setValueAt(estudiante.getNombre(), i, 2);
-            modeloDatos.setValueAt(estudiante.getCodigoCarrera(), i, 3);
+            modeloDatos.setValueAt(nombreCarrera(estudiante.getCodigoCarrera()), i, 3);
             modeloDatos.setValueAt(estudiante.getFechaNacimiento(), i, 4);
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
@@ -135,5 +135,28 @@ public class ListadoEstudiantes extends javax.swing.JPanel {
             width += 2 * tablaEstudiantes.getIntercellSpacing().getWidth(); // Agregar espacios entre celdas
             columnModel.getColumn(column).setPreferredWidth(Math.max(columnModel.getColumn(column).getPreferredWidth(), width));
         }
+    }
+    
+        private String nombreCarrera(int codigoCarrera) {
+        switch (codigoCarrera) {
+            case 1 -> {
+                return "Ingeniería";
+            }
+            case 2 -> {
+                return "Medicina";
+            }
+            case 3 -> {
+                return "Derecho";
+            }
+            case 4 -> {
+                return "Arquitectura";
+            }
+            case 5 -> {
+                return "Administración";
+            }
+            default -> {
+            }
+        }
+        return "";
     }
 }

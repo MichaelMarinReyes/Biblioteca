@@ -14,13 +14,15 @@ public class Prestamo implements Serializable {
     private Libro libro;
     private Estudiante estudiante;
     private LocalDate fechaPrestamo;
+    private LocalDate fechaDevolucion;
     private int diasConMora = 0;
     private int librosMaximosPrestados;
 
-    public Prestamo(Libro libro, Estudiante estudiante, LocalDate fechaPrestamo) {
+    public Prestamo(Libro libro, Estudiante estudiante, LocalDate fechaPrestamo, LocalDate fechaDevolucion) {
         this.libro = libro;
         this.estudiante = estudiante;
         this.fechaPrestamo = fechaPrestamo;
+        this.fechaDevolucion = fechaDevolucion;
     }
 
     public Libro getLibro() {
@@ -47,6 +49,14 @@ public class Prestamo implements Serializable {
         this.fechaPrestamo = fechaPrestamo;
     }
 
+    public LocalDate getFechaDevolucion() {
+        return fechaDevolucion;
+    }
+
+    public void setFechaDevolucion(LocalDate fechaDevolucion) {
+        this.fechaDevolucion = fechaDevolucion;
+    }
+    
     public int getDiasConMora() {
         return diasConMora;
     }

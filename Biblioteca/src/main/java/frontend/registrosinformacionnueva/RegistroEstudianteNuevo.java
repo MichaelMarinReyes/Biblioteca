@@ -178,7 +178,7 @@ public class RegistroEstudianteNuevo extends javax.swing.JPanel {
 
         if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), numeroCarrera) && !fechaText.getText().isEmpty()) {
             try {
-                verificarFormatoFecha(fechaText.getText());                
+                verificarFormatoFecha(fechaText.getText());
                 DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 LocalDate fecha = LocalDate.parse(fechaText.getText(), format);
                 if (!app.validarEstudiantesRepetidos(carnetText.getText())) {
@@ -193,9 +193,24 @@ public class RegistroEstudianteNuevo extends javax.swing.JPanel {
                 JOptionPane.showMessageDialog(this, "Código de carrera inválido.\n\nCódigos de carreras:\nIngeniería: 1\nMedicina: 2\nDerecho: 3\nArquitectura: 4\nAdministración: 5");
                 guardarEstudianteBoton.setBackground(Color.red);
             }
+        } else if (verificarCamposObligatorios(carnetText.getText(), nombreText.getText(), numeroCarrera) && fechaText.getText().isEmpty()) {
+            try {
+
+                if (!app.validarEstudiantesRepetidos(carnetText.getText())) {
+
+                    app.agregarNuevoEstudiante(Integer.parseInt(carnetText.getText()), nombreText.getText(), codigoCarreraComboBox.getSelectedIndex() + 1, null);
+                    guardarEstudianteBoton.setBackground(Color.green);
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(this, "El estudiante ya se encuentra registrado en la base de datos");
+                    guardarEstudianteBoton.setBackground(Color.red);
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Código de carrera inválido.\n\nCódigos de carreras:\nIngeniería: 1\nMedicina: 2\nDerecho: 3\nArquitectura: 4\nAdministración: 5");
+                guardarEstudianteBoton.setBackground(Color.red);
+            }
         } else {
             JOptionPane.showMessageDialog(this, "Por favor llene los campos obligatorios.");
-
             guardarEstudianteBoton.setBackground(Color.red);
         }
     }
