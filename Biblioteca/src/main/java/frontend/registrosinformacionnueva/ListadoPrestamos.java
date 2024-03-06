@@ -122,7 +122,7 @@ public class ListadoPrestamos extends javax.swing.JPanel {
             modeloDatos.setValueAt(prestamo.getLibrosMaximosPrestados(), i, 8);
 
         }
-        FuncionamientoAplicacion.guardarSerializableLibros();
+        FuncionamientoAplicacion.guardarSerializablePrestamos();
     }
 
     private void ajustarColumnaTexto() {

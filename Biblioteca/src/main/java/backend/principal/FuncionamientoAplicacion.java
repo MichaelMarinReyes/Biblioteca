@@ -257,9 +257,7 @@ public class FuncionamientoAplicacion {
 
     public boolean validarEstudiantesRepetidos(String carnet) {
         for (int i = 0; i < listaEstudiantes.size(); i++) {
-
             if (listaEstudiantes.get(i).getCarnet() == Integer.parseInt(carnet)) {
-
                 return true;
             }
         }
@@ -284,9 +282,9 @@ public class FuncionamientoAplicacion {
         return null; // Si no se encuentra el libro con el código especificado
     }
 
-    public Estudiante buscarEstudiantePorCarnet(String carnetEstudiante) {
+    public Estudiante buscarEstudiantePorCarnet(int carnetEstudiante) {
         for (int i = 0; i < listaEstudiantes.size(); i++) {
-            if (listaEstudiantes.get(i).getCarnet() == Integer.parseInt(carnetEstudiante)) {
+            if (listaEstudiantes.get(i).getCarnet() == carnetEstudiante) {
                 return listaEstudiantes.get(i);
             }
 
@@ -310,7 +308,6 @@ public class FuncionamientoAplicacion {
 
     public LocalDate obtenerFechaActual() {
         LocalDate fechaActual = LocalDate.now();
-        System.out.println("Fecha actual: " + fechaActual);
         return fechaActual;
     }
 
@@ -318,7 +315,16 @@ public class FuncionamientoAplicacion {
         libro.setCantidadCopias(libro.getCantidadCopias() - 1);
     }
 
-    public void SumarUnaCopia(Libro libro) {
+    public void sumarUnaCopia(Libro libro) {
         libro.setCantidadCopias(libro.getCantidadCopias() + 1);
+    }
+    
+    public void devolucionDeLibro(String codigoLibro, int carnetEstudiante){
+        for (int i = 0; i < listaPrestamos.size(); i++) {
+            if (listaPrestamos.get(i).getLibro().getCodigo().equals(codigoLibro) && listaPrestamos.get(i).getEstudiante().getCarnet() == carnetEstudiante) {
+                listaPrestamos.remove(i);
+            }
+            
+        }
     }
 }

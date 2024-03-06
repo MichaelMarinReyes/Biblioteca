@@ -61,7 +61,6 @@ public class Principal extends javax.swing.JFrame {
     private HacerPrestamo newPrestamo = new HacerPrestamo();
     private EditarLibro newEditarLibro = new EditarLibro();
     private EditarEstudiante newEditarEstudiante = new EditarEstudiante();
-    private DevolucionLibro newDevolucion = new DevolucionLibro();
     private boolean relojActivo = true;
     private Dimension tamañoPanelFondo;
 
@@ -72,7 +71,7 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         initUI();
         iniciarReloj();
-        
+
     }
 
     private void initUI() {
@@ -252,6 +251,7 @@ public class Principal extends javax.swing.JFrame {
             pintarPanel(newEditarLibro);
         });
         itemLibros04.addActionListener((ActionEvent e) -> {
+            DevolucionLibro newDevolucion = new DevolucionLibro();
             pintarPanel(newDevolucion);
         });
 
