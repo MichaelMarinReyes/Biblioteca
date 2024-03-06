@@ -6,6 +6,47 @@ package frontend;
 
 import backend.importaciondedatos.ImportarDatos;
 import backend.principal.FuncionamientoAplicacion;
+import frontend.registrosinformacionnueva.Devolucion;
+import frontend.registrosinformacionnueva.EditarEstudiante;
+import frontend.registrosinformacionnueva.EditarLibro;
+import frontend.registrosinformacionnueva.HacerPrestamo;
+import frontend.registrosinformacionnueva.ListadoEstudiantes;
+import frontend.registrosinformacionnueva.ListadoLibros;
+import frontend.registrosinformacionnueva.ListadoPrestamos;
+import frontend.registrosinformacionnueva.RegistroEstudianteNuevo;
+import frontend.registrosinformacionnueva.RegistroLibroNuevo;
+import frontend.reportes.DevolucionDiaEnCurso;
+import frontend.reportes.PrestamosConMora;
+import frontend.reportes.PrestamosPorCarrera;
+import frontend.reportes.PrestamosPorUnEstudiante;
+import frontend.reportes.RecaudadoEnIntervaloTiempo;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import backend.principal.FuncionamientoAplicacion;
+import frontend.registrosinformacionnueva.Devolucion;
 import frontend.registrosinformacionnueva.EditarEstudiante;
 import frontend.registrosinformacionnueva.EditarLibro;
 import frontend.registrosinformacionnueva.HacerPrestamo;
@@ -60,6 +101,7 @@ public class Principal extends javax.swing.JFrame {
     private HacerPrestamo newPrestamo = new HacerPrestamo();
     private EditarLibro newEditarLibro = new EditarLibro();
     private EditarEstudiante newEditarEstudiante = new EditarEstudiante();
+    private Devolucion newDevolucion = new Devolucion();
     private boolean relojActivo = true;
     private Dimension tamañoPanelFondo;
 
@@ -152,6 +194,7 @@ public class Principal extends javax.swing.JFrame {
         JMenuItem itemLibros01 = new JMenuItem("Nuevo Libro", iconoLibros);
         JMenuItem itemLibros02 = new JMenuItem("Editar Libro", iconoLibros);
         JMenuItem itemLibros03 = new JMenuItem("Prestar Libro", iconoLibros);
+        JMenuItem itemLibros04 = new JMenuItem("Devolver Libro", iconoLibros);
         //items usuarios
         JMenuItem itemNuevoEstudiante = new JMenuItem("Nuevo Estudiante", iconoUsuarioNuevo);
         JMenuItem itemUsuarios02 = new JMenuItem("Editar Estudiante", iconoUsuario);
@@ -173,6 +216,7 @@ public class Principal extends javax.swing.JFrame {
         menuLibros.add(itemLibros01);
         menuLibros.add(itemLibros02);
         menuLibros.add(itemLibros03);
+        menuLibros.add(itemLibros04);
         menuUsuarios.add(itemNuevoEstudiante);
         menuUsuarios.add(itemUsuarios02);
         menuRegistros.add(itemImportarRegistros);
@@ -246,6 +290,9 @@ public class Principal extends javax.swing.JFrame {
 
         itemLibros02.addActionListener((ActionEvent e) -> {
             pintarPanel(newEditarLibro);
+        });
+        itemLibros04.addActionListener((ActionEvent e) -> {
+            pintarPanel(newDevolucion);
         });
 
         itemListaPrestamos.addActionListener((ActionEvent e) -> {

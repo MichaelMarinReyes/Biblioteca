@@ -9,12 +9,8 @@ import backend.principal.FuncionamientoAplicacion;
 import backend.principal.Libro;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -22,13 +18,11 @@ import javax.swing.JPanel;
  *
  * @author ryoumen_kyoma
  */
-public class HacerPrestamo extends JPanel {
-
+public class Devolucion extends JPanel{
     private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
     private Libro libro;
-    private JComboBox<String> fechaPrestamoComboBox;
 
-    public HacerPrestamo() {
+    public Devolucion() {
         initComponents();
         this.setBackground(new java.awt.Color(251, 250, 248));
         Font font = new Font("Bitstream Charter", Font.BOLD, 30);
@@ -37,22 +31,10 @@ public class HacerPrestamo extends JPanel {
         jLabel3.setFont(font);
         jLabel4.setFont(font);
         jLabel5.setFont(font);
-        jLabel6.setFont(font);
-        this.app = app;
     }
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
-        fechaPrestamoComboBox = new JComboBox<>();
-        agregarFechasLimiteComboBox();
-        fechaPrestamoComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedIndex = fechaPrestamoComboBox.getSelectedIndex();
-                int monto = (selectedIndex + 1) * 5;
-                jLabel5.setText("Monto: $" + monto);
-            }
-        });
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         codigoLibroText = new javax.swing.JTextField();
@@ -65,11 +47,10 @@ public class HacerPrestamo extends JPanel {
         fechaPrestamoText = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         realizarPrestamoButton = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
 
         setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setText("Registro de Préstamo Nuevo");
+        jLabel1.setText("Devolución de Libro");
         GridBagConstraints gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -144,47 +125,32 @@ public class HacerPrestamo extends JPanel {
         gridBagConstraints.insets = new java.awt.Insets(6, 20, 0, 0);
         add(carnetEstudianteText, gridBagConstraints);
 
-        jLabel4.setText("Fecha de Devolución:");
+        jLabel4.setText("Fecha de Préstamo:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0; // Se ajusta la posición X para que esté en la misma columna que el JComboBox
+        gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 7;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(20, 20, 0, 0);
         add(jLabel4, gridBagConstraints);
 
-        agregarFechasLimiteComboBox();
+        fechaPrestamoText.setColumns(15);
+        gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 2; // Se ajusta el ancho para que ocupe dos columnas
+        gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 100;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(6, 20, 0, 0);
-        add(fechaPrestamoComboBox, gridBagConstraints);
+        add(fechaPrestamoText, gridBagConstraints);
 
-
-        jLabel6.setText("Monto: Q. 0.00"); // Puedes establecer un valor inicial
-        GridBagConstraints gridBagConstraints6 = new java.awt.GridBagConstraints();
-        gridBagConstraints6.gridx = 1; // Ajusta la posición X para que esté en la columna derecha
-        gridBagConstraints6.gridy = 9; // Ajusta la posición Y para que esté en la misma fila que el botón
-        gridBagConstraints6.anchor = java.awt.GridBagConstraints.NORTHEAST; // Alinea el JLabel a la derecha
-        gridBagConstraints6.insets = new java.awt.Insets(20, 20, 20, 20); // Agrega márgenes
-        add(jLabel6, gridBagConstraints6);
-
-// Agrega un ActionListener al JComboBox fechaPrestamoComboBox
-        fechaPrestamoComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Obtén el índice seleccionado en el JComboBox
-                int selectedIndex = fechaPrestamoComboBox.getSelectedIndex();
-
-                // Calcula el monto según el día seleccionado
-                int monto = (selectedIndex + 1) * 5;
-
-                // Muestra el monto en el JLabel correspondiente
-                jLabel6.setText("Monto: Q. " + monto + ".00");
-            }
-        });
+        jLabel5.setText("yyyy-mm-dd");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
+        gridBagConstraints.insets = new java.awt.Insets(20, 20, 0, 0);
+        add(jLabel5, gridBagConstraints);
 
         realizarPrestamoButton.setText("Realizar Préstamo");
         realizarPrestamoButton.addActionListener(new java.awt.event.ActionListener() {
@@ -205,7 +171,7 @@ public class HacerPrestamo extends JPanel {
         libro = app.buscarLibroPorCodigo(codigoLibro);
         if (libro != null) {
 
-            Font font = new Font("Bitstream Charter", Font.PLAIN, 15); // Tamaño de la fuente adaptable
+            Font font = new Font("Bitstream Charter", Font.PLAIN, 20); // Tamaño de la fuente adaptable
             informacionLibroTextArea.setFont(font);
 
             informacionLibroTextArea.setText("Título: " + libro.getTitulo() + "\n"
@@ -252,18 +218,6 @@ public class HacerPrestamo extends JPanel {
         }
     }
 
-    private void agregarFechasLimiteComboBox() {
-        DefaultComboBoxModel<String> modeloCombo = new DefaultComboBoxModel<>();
-        DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate fechaActual = app.obtenerFechaActual(); // Obtener la fecha actual desde la clase principal
-        // Agrega las fechas límite (3 días a partir de la fecha actual) al JComboBox
-        for (int i = 0; i < 3; i++) {
-            LocalDate fechaLimite = fechaActual.plusDays(i);
-            modeloCombo.addElement(fechaLimite.format(formato));
-        }
-        fechaPrestamoComboBox.setModel(modeloCombo); // Establece el modelo del JComboBox
-    }
-
     private void limpiarCampos() {
         informacionLibroTextArea.setText("");
         carnetEstudianteText.setText("");
@@ -281,7 +235,6 @@ public class HacerPrestamo extends JPanel {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton realizarPrestamoButton;
     // End of variables declaration
