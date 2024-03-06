@@ -297,4 +297,10 @@ public class FuncionamientoAplicacion {
         //System.out.println("El estudiante no se encuentra en la base de datos.");
     }
 
+    public LocalDate obtenerFechaActual() {
+        LocalDate fechaActual = LocalDate.now();
+    System.out.println("Fecha actual: " + fechaActual);
+    return fechaActual;
+    }
+
 }
