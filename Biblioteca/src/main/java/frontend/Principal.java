@@ -65,6 +65,7 @@ public class Principal extends javax.swing.JFrame {
     private PrestamosVigentesPorEstudiante prestamosVigPorestudiante = new PrestamosVigentesPorEstudiante();
     private boolean relojActivo = true;
     private Dimension tamañoPanelFondo;
+    private String titulo = "BIBLIOTECA";
 
     /**
      * Creates new form Principal
@@ -77,7 +78,7 @@ public class Principal extends javax.swing.JFrame {
     }
 
     private void initUI() {
-        this.setTitle("BIBLIOTECA");
+        this.setTitle(titulo);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -227,67 +228,81 @@ public class Principal extends javax.swing.JFrame {
 
         itemNuevoEstudiante.addActionListener((ActionEvent e) -> {
             pintarPanel(newStudents);
+            this.setTitle(titulo + " - NUEVO ESTUDIANTE");
         });
         itemUsuarios02.addActionListener((ActionEvent e) -> {
             pintarPanel(newEditarEstudiante);
+            this.setTitle(titulo + " - EDITAR ESTUDIANTE");
         });
         itemLibros01.addActionListener((ActionEvent e) -> {
             pintarPanel(libroNuevo);
+            this.setTitle(titulo + " - LIBRO NUEVO");
         });
 
         itemListaEstudiantes.addActionListener((ActionEvent e) -> {
             ListadoEstudiantes listadoEstudiantes = new ListadoEstudiantes();
             pintarPanel(listadoEstudiantes);
+            this.setTitle(titulo + " - ESTUDIANTES REGISTRADOS");
         });
 
         itemListaLibros.addActionListener((ActionEvent e) -> {
             ListadoLibros listadoLibros = new ListadoLibros();
-
             pintarPanel(listadoLibros);
+            this.setTitle(titulo + " - LIBROS REGISTRADOS");
         });
         itemLibros03.addActionListener((ActionEvent e) -> {
             pintarPanel(newPrestamo);
+            this.setTitle(titulo + " - NUEVO PRÉSTAMO");
         });
 
         itemLibros02.addActionListener((ActionEvent e) -> {
             pintarPanel(newEditarLibro);
+            this.setTitle(titulo + " - EDITAR LIBRO");
         });
         itemLibros04.addActionListener((ActionEvent e) -> {
             DevolucionLibro newDevolucion = new DevolucionLibro();
             pintarPanel(newDevolucion);
+            this.setTitle(titulo + " - DEVOLUCIÓN DE LIBRO");
         });
 
         itemListaPrestamos.addActionListener((ActionEvent e) -> {
             ListadoPrestamos prestamos = new ListadoPrestamos();
             pintarPanel(prestamos);
+            this.setTitle(titulo + " - PRÉSTAMOS VIGENTES");
         });
 
         itemPrestamosMismoDia.addActionListener((ActionEvent e) -> {
             DevolucionDiaEnCurso diaEnCurso = new DevolucionDiaEnCurso();
             pintarPanel(diaEnCurso);
+            this.setTitle(titulo + " - DEVOLUCIONES DE HOY");
         });
 
         itemPrestamosMora.addActionListener((ActionEvent e) -> {
             PrestamosConMora mora = new PrestamosConMora();
             pintarPanel(mora);
+            this.setTitle(titulo + " - PRÉSTAMOS CON MORA");
         });
 
         itemIngresosIntervalo.addActionListener((ActionEvent e) -> {
             RecaudadoEnIntervaloTiempo recaudado = new RecaudadoEnIntervaloTiempo();
             pintarPanel(recaudado);
+            this.setTitle(titulo + " - TOTAL RECAUDADO");
         });
 
         itemPrestamosPorEstudiante.addActionListener((ActionEvent e) -> {
             PrestamosPorUnEstudiante prestamoEstudiante = new PrestamosPorUnEstudiante();
             pintarPanel(prestamoEstudiante);
+            this.setTitle(titulo + " - PRÉSTAMOS POR ESTUDIANTE");
         });
 
         itemPrestamosPorCarrera.addActionListener((ActionEvent e) -> {
             PrestamosPorCarreraEnIntervalo prestamoCarrera = new PrestamosPorCarreraEnIntervalo();
             pintarPanel(prestamoCarrera);
+            this.setTitle(titulo + " - PRÉSTAMOS POR CARRERA");
         });
         itemPrestamosVigentesPorEstudiante.addActionListener((ActionEvent e) -> {
             pintarPanel(prestamosVigPorestudiante);
+            this.setTitle(titulo + " - PRESTAMOS VIGENTES POR ESTUDIANTES");
         });
 
         //personalizar menu

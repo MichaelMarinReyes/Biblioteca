@@ -18,7 +18,7 @@ public class DevolucionesConcluidas extends javax.swing.JPanel {
      */
     public DevolucionesConcluidas() {
         initComponents();
-        actualizarTablaEntregasHoy();
+        actualizarTablaDevolucionesHechas();
         ajustarColumnaTexto();
     }
 
@@ -69,7 +69,7 @@ public class DevolucionesConcluidas extends javax.swing.JPanel {
     private javax.swing.JTable tablaReportes;
     // End of variables declaration//GEN-END:variables
 
-    public void actualizarTablaEntregasHoy() {
+    public void actualizarTablaDevolucionesHechas() {
         String[] columnaDevolucionHoy = {"No.", "Carnet", "Nombre", "Código de libro", "Título", "Fecha de préstamo", "Fecha de devolución"};
         DefaultTableModel modelo = new DefaultTableModel(columnaDevolucionHoy, FuncionamientoAplicacion.listaDevoluciones.size());
         tablaReportes.setModel(modelo);
@@ -87,7 +87,7 @@ public class DevolucionesConcluidas extends javax.swing.JPanel {
                 modeloDatos.setValueAt(prestamo.getFechaDevolucion(), i, 6);
             }
         }
-        FuncionamientoAplicacion.guardarSerializablePrestamos();
+        FuncionamientoAplicacion.guardarSerializableDevoluciones();
     }
 
     private void ajustarColumnaTexto() {
