@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 public class FuncionamientoAplicacion {
 
     public static ArrayList<Prestamo> listaPrestamos = new ArrayList<>();
+    public static ArrayList<Prestamo> listaDevoluciones = new ArrayList<>();
     public static ArrayList<Libro> listaLibros = new ArrayList<>();
     public static ArrayList<Estudiante> listaEstudiantes = new ArrayList<>();
     private static String pathCarpeta = "./base_de_datos";
@@ -97,6 +98,10 @@ public class FuncionamientoAplicacion {
             }
         };
         Collections.sort(listaLibros, comparadorPorCodigo);
+    }
+    
+    public void agregarDevoluciones(Prestamo prestamo){
+        
     }
 
     /**
@@ -228,6 +233,46 @@ public class FuncionamientoAplicacion {
         }
     }
 
+        public static void guardarSerializableDevoluciones() {
+        try {
+            File directorio = new File(pathCarpeta);
+
+            if (!directorio.exists()) {
+                directorio.mkdir();
+            }
+            FileOutputStream archivo = new FileOutputStream(pathCarpeta + "/devolucuiones.bin");
+            ObjectOutputStream escribirProductos = new ObjectOutputStream(archivo);
+            escribirProductos.writeObject(listaPrestamos);
+            escribirProductos.close();
+            archivo.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Lee el archivo binario para leer los préstamos
+     */
+    public void abrirSerializableDevoluciones() {
+        try {
+            File file = new File(pathCarpeta + "/devolucuiones.bin");
+            if (file.exists()) {
+                FileInputStream archivoEntrada = new FileInputStream(pathCarpeta + "/devolucuiones.bin");
+                ObjectInputStream leerProductos = new ObjectInputStream(archivoEntrada);
+
+                listaPrestamos = (ArrayList<Prestamo>) leerProductos.readObject();
+
+            }
+        } catch (IOException e) {
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FuncionamientoAplicacion.class
+                    .getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public boolean validarEstudiantesRepetidos(String carnet) {
         for (int i = 0; i < listaEstudiantes.size(); i++) {
             if (listaEstudiantes.get(i).getCarnet() == Integer.parseInt(carnet)) {
@@ -295,9 +340,10 @@ public class FuncionamientoAplicacion {
     public void devolucionDeLibro(String codigoLibro, int carnetEstudiante) {
         for (int i = 0; i < listaPrestamos.size(); i++) {
             if (listaPrestamos.get(i).getLibro().getCodigo().equals(codigoLibro) && listaPrestamos.get(i).getEstudiante().getCarnet() == carnetEstudiante) {
+                agregarDevoluciones(listaPrestamos.get(i));
                 listaPrestamos.remove(i);
+                FuncionamientoAplicacion.guardarSerializableDevoluciones();
             }
-
         }
     }
 }
