@@ -1,9 +1,8 @@
 package backend.principal;
 
-import frontend.Principal;
 import java.io.Serializable;
 import java.time.LocalDate;
-import javax.swing.JOptionPane;
+import java.time.temporal.ChronoUnit;
 
 /**
  *
@@ -16,13 +15,15 @@ public class Prestamo implements Serializable {
     private LocalDate fechaPrestamo;
     private LocalDate fechaDevolucion;
     private int diasConMora = 0;
-    private int librosMaximosPrestados;
+    private int costoPorMora = 0;
+    private int monto = 0;
 
-    public Prestamo(Libro libro, Estudiante estudiante, LocalDate fechaPrestamo, LocalDate fechaDevolucion) {
+    public Prestamo(Libro libro, Estudiante estudiante, LocalDate fechaPrestamo, LocalDate fechaDevolucion, int monto) {
         this.libro = libro;
         this.estudiante = estudiante;
         this.fechaPrestamo = fechaPrestamo;
         this.fechaDevolucion = fechaDevolucion;
+        this.monto = monto;
     }
 
     public Libro getLibro() {
@@ -56,25 +57,34 @@ public class Prestamo implements Serializable {
     public void setFechaDevolucion(LocalDate fechaDevolucion) {
         this.fechaDevolucion = fechaDevolucion;
     }
-    
+
     public int getDiasConMora() {
-        return diasConMora;
+        LocalDate fechaActual = LocalDate.now();
+        diasConMora = (int) ChronoUnit.DAYS.between(fechaPrestamo, fechaActual);
+        if (diasConMora < 0) {
+            return 0;
+        } else {
+            return diasConMora;
+        }
     }
 
     public void setDiasConMora(int diasConMora) {
         this.diasConMora = diasConMora;
     }
 
-    public int getLibrosMaximosPrestados() {
-        return librosMaximosPrestados;
+    public int getCostoPorMora() {
+        return costoPorMora + this.getMonto();
     }
 
-    public void setLibrosMaximosPrestados(int librosMaximosPrestados) {
-        this.librosMaximosPrestados = librosMaximosPrestados;
+    public void setCostoPorMora(int costoPorMora) {
+        this.costoPorMora = costoPorMora;
     }
 
+    public int getMonto() {
+        return monto;
+    }
 
-    public boolean puedePrestarLibros() {
-        return librosMaximosPrestados < 3;
+    public void setMonto(int monto) {
+        this.monto = monto;
     }
 }

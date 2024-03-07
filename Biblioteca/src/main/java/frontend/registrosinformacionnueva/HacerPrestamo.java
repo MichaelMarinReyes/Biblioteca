@@ -27,7 +27,8 @@ public class HacerPrestamo extends JPanel {
     private FuncionamientoAplicacion app = new FuncionamientoAplicacion();
     private Libro libro;
     private JComboBox<String> fechaDevolucionBox;
-
+    private int monto = 0;
+    
     public HacerPrestamo() {
         initComponents();
         this.setBackground(new java.awt.Color(251, 250, 248));
@@ -49,7 +50,7 @@ public class HacerPrestamo extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int selectedIndex = fechaDevolucionBox.getSelectedIndex();
-                int monto = (selectedIndex + 1) * 5;
+                monto = (selectedIndex + 1) * 5;
                 jLabel6.setText("Monto: Q. " + monto + ".00");
             }
         });
@@ -229,7 +230,7 @@ public class HacerPrestamo extends JPanel {
                         app.restarUnaCopia(libro);
 
                         // Realizar el préstamo
-                        app.prestarLibro(libro, estudiante, fechaPrestamo, fechaDevolucion);
+                        app.prestarLibro(libro, estudiante, fechaPrestamo, fechaDevolucion, monto);
                         JOptionPane.showMessageDialog(this, "Préstamo realizado con éxito");
                         limpiarCampos();
                     } else {

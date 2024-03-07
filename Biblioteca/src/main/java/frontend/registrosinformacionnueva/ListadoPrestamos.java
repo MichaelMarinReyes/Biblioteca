@@ -119,7 +119,7 @@ public class ListadoPrestamos extends javax.swing.JPanel {
             modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 5);
             modeloDatos.setValueAt(prestamo.getFechaDevolucion(), i, 6);
             modeloDatos.setValueAt(prestamo.getDiasConMora(), i, 7);
-            modeloDatos.setValueAt(prestamo.getLibrosMaximosPrestados(), i, 8);
+            modeloDatos.setValueAt(prestamo.getEstudiante().getLibrosPrestados(), i, 8);
 
         }
         FuncionamientoAplicacion.guardarSerializablePrestamos();
@@ -132,7 +132,7 @@ public class ListadoPrestamos extends javax.swing.JPanel {
         columnModel.getColumn(0).setMinWidth(40); // Establecer ancho mínimo a 0
 
         int rowCount = tablaPrestamos.getRowCount();
-        int column = 0; // Columna que deseas ajustar
+        int column = 0;
 
         for (int row = 0; row < rowCount; row++) {
             int width = (int) tablaPrestamos.getCellRenderer(row, column).getTableCellRendererComponent(tablaPrestamos, tablaPrestamos.getValueAt(row, column), false, false, row, column).getPreferredSize().getWidth();
