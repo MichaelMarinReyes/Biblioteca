@@ -73,7 +73,7 @@ public class RecaudadoEnIntervaloTiempo extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void actualizarTablaIngresosIntervaloTiempo() {
-        String[] columnaDevolucionHoy = {"No.", "Carnet", "Nombre", "Código de libro", "Título", "Fecha de préstamo", "Fecha de devolución"};
+        String[] columnaDevolucionHoy = {"No.", "Carnet", "Nombre", "Código de libro", "Título", "Fecha de préstamo"};
         DefaultTableModel modelo = new DefaultTableModel(columnaDevolucionHoy, FuncionamientoAplicacion.listaPrestamos.size());
         tablaReportes.setModel(modelo);
 
@@ -86,7 +86,6 @@ public class RecaudadoEnIntervaloTiempo extends javax.swing.JPanel {
             modeloDatos.setValueAt(estudiante.getLibro().getCodigo(), i, 3);
             modeloDatos.setValueAt(estudiante.getLibro().getTitulo(), i, 4);
             modeloDatos.setValueAt(estudiante.getFechaPrestamo(), i, 5);
-            modeloDatos.setValueAt(estudiante.getFechaPrestamo(), i, 6);
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
     }
