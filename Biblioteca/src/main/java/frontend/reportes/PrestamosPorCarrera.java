@@ -128,7 +128,7 @@ public class PrestamosPorCarrera extends javax.swing.JPanel {
         columnModel.getColumn(0).setMinWidth(40);
 
         int rowCount = tablaReportes.getRowCount();
-        int column = 0; // Columna que deseas ajustar
+        int column = 0;
 
         for (int row = 0; row < rowCount; row++) {
             int width = (int) tablaReportes.getCellRenderer(row, column).getTableCellRendererComponent(tablaReportes, tablaReportes.getValueAt(row, column), false, false, row, column).getPreferredSize().getWidth();

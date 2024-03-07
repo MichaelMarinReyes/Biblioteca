@@ -43,6 +43,11 @@ public class PrestamosPorUnEstudiante extends javax.swing.JPanel {
 
         setLayout(new java.awt.BorderLayout());
 
+        tablaReportes = new javax.swing.JTable(){
+            public boolean isCellEditable(int row, int col) {
+                return false;
+            }
+        };
         tablaReportes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
