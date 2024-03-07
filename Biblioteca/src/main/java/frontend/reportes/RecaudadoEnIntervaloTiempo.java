@@ -2,6 +2,12 @@ package frontend.reportes;
 
 import backend.principal.FuncionamientoAplicacion;
 import backend.principal.Prestamo;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.event.DocumentEvent;
@@ -16,7 +22,8 @@ import javax.swing.table.TableRowSorter;
  */
 public class RecaudadoEnIntervaloTiempo extends javax.swing.JPanel {
 
-    private JTextField textFieldBusqueda;
+    private JTextField textFieldFechaInicio;
+    private JTextField textFieldFechaFin;
     private TableRowSorter<TableModel> rowSorter;
 
     /**
@@ -101,35 +108,85 @@ public class RecaudadoEnIntervaloTiempo extends javax.swing.JPanel {
     }
 
     private void agregarCampoBusqueda() {
-        textFieldBusqueda = new JTextField();
-        textFieldBusqueda.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+        JPanel panelBusqueda = new JPanel();
+        panelBusqueda.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5)); // Establecer el layout para organizar los componentes centrados en una fila
+
+        JLabel labelFechaInicio = new JLabel("Fecha inicio (YYYY-MM-DD):");
+        panelBusqueda.add(labelFechaInicio); // Agregar la etiqueta de fecha inicio al panel de búsqueda
+
+        textFieldFechaInicio = new JTextField();
+        textFieldFechaInicio.setPreferredSize(new Dimension(120, 30)); // Establecer el tamaño preferido para textFieldFechaInicio
+        textFieldFechaInicio.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                filtrarTabla(textFieldBusqueda.getText());
+                filtrarTabla();
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-                filtrarTabla(textFieldBusqueda.getText());
+                filtrarTabla();
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-                filtrarTabla(textFieldBusqueda.getText());
+                filtrarTabla();
             }
         });
-        add(textFieldBusqueda, java.awt.BorderLayout.NORTH);
+        panelBusqueda.add(textFieldFechaInicio); // Agregar textFieldFechaInicio al panel de búsqueda
+
+        JLabel labelFechaFin = new JLabel("Fecha final (YYYY-MM-DD):");
+        panelBusqueda.add(labelFechaFin); // Agregar la etiqueta de fecha final al panel de búsqueda
+
+        textFieldFechaFin = new JTextField();
+        textFieldFechaFin.setPreferredSize(new Dimension(120, 30)); // Establecer el tamaño preferido para textFieldFechaFin
+        textFieldFechaFin.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                filtrarTabla();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                filtrarTabla();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                filtrarTabla();
+            }
+        });
+        panelBusqueda.add(textFieldFechaFin); // Agregar textFieldFechaFin al panel de búsqueda
+
+        add(panelBusqueda, java.awt.BorderLayout.NORTH); // Agregar el panel de búsqueda al JPanel principal
     }
 
-    private void filtrarTabla(String texto) {
+    private void filtrarTabla() {
         if (rowSorter == null) {
             rowSorter = new TableRowSorter<>(tablaReportes.getModel());
             tablaReportes.setRowSorter(rowSorter);
         }
-        if (texto.trim().length() == 0) {
-            rowSorter.setRowFilter(null);
-        } else {
-            rowSorter.setRowFilter(RowFilter.regexFilter("(?i)" + texto));
-        }
+
+        RowFilter<TableModel, Integer> filtro = new RowFilter<TableModel, Integer>() {
+            @Override
+            public boolean include(javax.swing.RowFilter.Entry<? extends TableModel, ? extends Integer> entry) {
+                String fechaInicioText = textFieldFechaInicio.getText();
+                String fechaFinText = textFieldFechaFin.getText();
+                if (fechaInicioText.isEmpty() || fechaFinText.isEmpty()) {
+                    return true; // Si están vacíos, mostrar todas las filas
+                }
+
+                try {
+                    LocalDate fechaInicio = LocalDate.parse(fechaInicioText);
+                    LocalDate fechaFin = LocalDate.parse(fechaFinText);
+                    LocalDate fechaPrestamo = LocalDate.parse(entry.getStringValue(5)); // Obtener la fecha de préstamo
+                    return (fechaPrestamo.isEqual(fechaInicio) || fechaPrestamo.isAfter(fechaInicio))
+                            && (fechaPrestamo.isEqual(fechaFin) || fechaPrestamo.isBefore(fechaFin.plusDays(1))); // Incluir también los registros del día final
+                } catch (DateTimeParseException e) {
+                    return false; // No incluir esta fila en el filtro
+                }
+            }
+        };
+
+        rowSorter.setRowFilter(filtro);
     }
 }

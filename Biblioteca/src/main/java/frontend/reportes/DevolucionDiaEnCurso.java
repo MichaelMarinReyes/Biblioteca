@@ -69,9 +69,11 @@ public class DevolucionDiaEnCurso extends javax.swing.JPanel {
         tablaReportes.setModel(modelo);
 
         TableModel modeloDatos = tablaReportes.getModel();
+        LocalDate fechaActual = LocalDate.now(); // Obtener la fecha actual una vez
+
         for (int i = 0; i < FuncionamientoAplicacion.listaPrestamos.size(); i++) {
-            if (FuncionamientoAplicacion.listaPrestamos.get(i).getFechaDevolucion() == LocalDate.now()) {
-                Prestamo prestamo = FuncionamientoAplicacion.listaPrestamos.get(i);
+            Prestamo prestamo = FuncionamientoAplicacion.listaPrestamos.get(i);
+            if (prestamo.getFechaDevolucion() != null && prestamo.getFechaDevolucion().isEqual(fechaActual)) { // Verificar si la fecha de devolución no es nula
                 modeloDatos.setValueAt(String.valueOf((i + 1)), i, 0);
                 modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 1);
                 modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 2);
@@ -81,7 +83,6 @@ public class DevolucionDiaEnCurso extends javax.swing.JPanel {
                 modeloDatos.setValueAt(prestamo.getFechaDevolucion(), i, 6);
             }
         }
-        FuncionamientoAplicacion.guardarSerializableLibros();
     }
 
     private void ajustarColumnaTexto() {
