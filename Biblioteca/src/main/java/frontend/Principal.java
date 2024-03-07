@@ -40,6 +40,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import frontend.registrosinformacionnueva.RegistroLibroNuevo;
 import frontend.registrosinformacionnueva.RegistroEstudianteNuevo;
 import frontend.reportes.DevolucionDiaEnCurso;
+import frontend.reportes.DevolucionesConcluidas;
 import frontend.reportes.PrestamosConMora;
 import frontend.reportes.PrestamosPorCarreraEnIntervalo;
 import frontend.reportes.PrestamosPorUnEstudiante;
@@ -63,6 +64,7 @@ public class Principal extends javax.swing.JFrame {
     private EditarLibro newEditarLibro = new EditarLibro();
     private EditarEstudiante newEditarEstudiante = new EditarEstudiante();
     private PrestamosVigentesPorEstudiante prestamosVigPorestudiante = new PrestamosVigentesPorEstudiante();
+    private DevolucionesConcluidas devolucionesConcluidas = new DevolucionesConcluidas();
     private boolean relojActivo = true;
     private Dimension tamañoPanelFondo;
 
@@ -171,6 +173,7 @@ public class Principal extends javax.swing.JFrame {
         JMenuItem itemPrestamosPorEstudiante = new JMenuItem("Prestamos Hechos por Estudiante", iconoReportes);
         JMenuItem itemPrestamosVigentesPorEstudiante = new JMenuItem("Prestamos Vigentes de Cada Estudiante", iconoReportes);
         JMenuItem itemPrestamosPorCarrera = new JMenuItem("Prestamos Realizados por Carrera en un Intervalo de Tiempo", iconoReportes);
+        JMenuItem itemDevolucionesConcluidas = new JMenuItem("Devoluciones Concluidas", iconoReportes);
         JMenuItem itemErroresEncontrados = new JMenuItem("Errores Encontrados en la Importación", iconoErrores);
 
         //agregar al menu
@@ -190,6 +193,7 @@ public class Principal extends javax.swing.JFrame {
         menuReportes.add(itemPrestamosPorEstudiante);
         menuReportes.add(itemPrestamosVigentesPorEstudiante);
         menuReportes.add(itemPrestamosPorCarrera);
+        menuReportes.add(itemDevolucionesConcluidas);
         menuReportes.add(itemErroresEncontrados);
         //ACCIONES
         //Importar registros
@@ -288,6 +292,9 @@ public class Principal extends javax.swing.JFrame {
         });
         itemPrestamosVigentesPorEstudiante.addActionListener((ActionEvent e) -> {
             pintarPanel(prestamosVigPorestudiante);
+        });
+        itemDevolucionesConcluidas.addActionListener((ActionEvent e) -> {
+            pintarPanel(devolucionesConcluidas);
         });
 
         //personalizar menu

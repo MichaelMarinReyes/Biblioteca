@@ -101,7 +101,7 @@ public class FuncionamientoAplicacion {
     }
     
     public void agregarDevoluciones(Prestamo prestamo){
-        
+        listaDevoluciones.add(prestamo);
     }
 
     /**
@@ -345,5 +345,14 @@ public class FuncionamientoAplicacion {
                 FuncionamientoAplicacion.guardarSerializableDevoluciones();
             }
         }
+    }
+
+    public Prestamo obtenerPrestamo(String codigoLibro, int carnetEstudiante) {
+        for (Prestamo prestamo : listaPrestamos) {
+        if (prestamo.getLibro().getCodigo().equals(codigoLibro) && prestamo.getEstudiante().getCarnet() == carnetEstudiante) {
+            return prestamo;
+        }
+    }
+    return null; // Devolver null si no se encuentra ningún préstamo
     }
 }

@@ -7,6 +7,7 @@ package frontend.registrosinformacionnueva;
 import backend.principal.Estudiante;
 import backend.principal.FuncionamientoAplicacion;
 import backend.principal.Libro;
+import backend.principal.Prestamo;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -34,6 +35,7 @@ public class DevolucionLibro extends JPanel {
     private JTextField carnetText, codigoLibroText, fechaDevolucionText;
     private JTextArea informacionTextArea;
     private JButton verificarPrestamoButton, finalizarTransaccionButton;
+    private String codigoLibro;
 
     public DevolucionLibro() {
         initComponents();
@@ -116,86 +118,96 @@ public class DevolucionLibro extends JPanel {
     }
 
     private void verificarPrestamo() {
-        String carnet = carnetText.getText().trim();
-        String codigoLibro = codigoLibroText.getText().trim();
-        String fechaDevolucionString = fechaDevolucionText.getText().trim();
+    String carnet = carnetText.getText().trim();
+    String codigoLibro = codigoLibroText.getText().trim();
+    String fechaDevolucionString = fechaDevolucionText.getText().trim();
 
-        // Verificar si algún campo está vacío
-        if (carnet.isEmpty() || codigoLibro.isEmpty() || fechaDevolucionString.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Campos faltantes por llenar");
+    // Verificar si algún campo está vacío
+    if (carnet.isEmpty() || codigoLibro.isEmpty() || fechaDevolucionString.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Campos faltantes por llenar");
+        limpiarCampos();
+        return;
+    }
+
+    try {
+        // Verificar si el estudiante existe
+        Estudiante estudiante = app.buscarEstudiantePorCarnet(Integer.parseInt(carnet));
+        if (estudiante == null) {
+            JOptionPane.showMessageDialog(this, "El estudiante no existe.");
             limpiarCampos();
             return;
         }
 
-        try {
-            // Verificar si el estudiante existe
-            estudiante = app.buscarEstudiantePorCarnet(Integer.parseInt(carnet));
-            if (estudiante == null) {
-                JOptionPane.showMessageDialog(this, "El estudiante no existe.");
-                return;
-            }
-
-            // Verificar si el libro existe
-            libro = app.buscarLibroPorCodigo(codigoLibro);
-            if (libro == null) {
-                JOptionPane.showMessageDialog(this, "El libro no existe.");
-                return;
-            }
-
-            // Verificar formato de fecha de devolución
-            if (!fechaDevolucionString.matches("\\d{4}-\\d{2}-\\d{2}")) {
-                JOptionPane.showMessageDialog(this, "Formato de fecha de devolución inválido. Utilice el formato yyyy-mm-dd.");
-                return;
-            }
-            LocalDate fechaDevolucion = LocalDate.parse(fechaDevolucionString);
-
-            // Obtener la fecha actual
-            LocalDate fechaActual = LocalDate.now();
-
-            // Calcular días de préstamo desde la fecha de inicio hasta la fecha de devolución
-            long diasPrestamo = fechaActual.until(fechaDevolucion).getDays();
-
-            // Variable para almacenar la fecha de devolución tardía del libro
-            LocalDate fechaDevolucionTardia;
-
-            // Verificar si la fecha de devolución ya pasó
-            if (fechaActual.isAfter(fechaDevolucion)) {
-                // La fecha de devolución tardía es la fecha actual
-                fechaDevolucionTardia = fechaActual;
-            } else {
-                // La fecha de devolución tardía es la fecha de devolución seleccionada
-                fechaDevolucionTardia = fechaDevolucion;
-            }
-
-            // Calcular días de mora si la fecha de devolución tardía es posterior a la fecha límite
-            long diasMora = 0;
-            if (fechaDevolucionTardia.isAfter(fechaDevolucion)) {
-                diasMora = fechaDevolucion.until(fechaDevolucionTardia).getDays();
-            }
-
-            // Calcular monto del préstamo
-            double monto = (5 * diasPrestamo) + (10 * diasMora);
-
-            // Mostrar información del préstamo en el TextArea
-            informacionTextArea.setText("Carnet del Estudiante: " + estudiante.getCarnet() + "\n"
-                    + "Nombre del Estudiante: " + estudiante.getNombre() + "\n"
-                    + "Código del Libro: " + libro.getCodigo() + "\n"
-                    + "Nombre del Libro: " + libro.getTitulo() + "\n"
-                    + "Fecha de Préstamo: " + fechaActual + "\n"
-                    + "Fecha de Devolución: " + fechaDevolucion + "\n"
-                    + "Días de Préstamo: " + diasPrestamo + "\n"
-                    + "Días de Mora: " + diasMora + "\n"
-                    + "Monto del Préstamo: Q. " + monto);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error.\nVerifique que haya ingresado correctamente los datos");
+        // Verificar si el libro existe
+        Libro libro = app.buscarLibroPorCodigo(codigoLibro);
+        if (libro == null) {
+            JOptionPane.showMessageDialog(this, "El libro no existe.");
+            limpiarCampos();
+            return;
         }
 
+        // Verificar formato de fecha de devolución
+        if (!fechaDevolucionString.matches("\\d{4}-\\d{2}-\\d{2}")) {
+            JOptionPane.showMessageDialog(this, "Formato de fecha de devolución inválido. Utilice el formato yyyy-mm-dd.");
+            limpiarCampos();
+            return;
+        }
+        LocalDate fechaDevolucion = LocalDate.parse(fechaDevolucionString);
+        LocalDate fechaActual = LocalDate.now();
+        long diasPrestamo = fechaActual.until(fechaDevolucion).getDays();
+        LocalDate fechaDevolucionTardia;
+        if (fechaActual.isAfter(fechaDevolucion)) {
+            fechaDevolucionTardia = fechaActual;
+        } else {
+            fechaDevolucionTardia = fechaDevolucion;
+        }
+
+        long diasMora = 0;
+        if (fechaDevolucionTardia.isAfter(fechaDevolucion)) {
+            diasMora = fechaDevolucion.until(fechaDevolucionTardia).getDays();
+        }
+        double monto = (5 * diasPrestamo) + (10 * diasMora);
+
+        // Buscar el préstamo correspondiente
+        Prestamo prestamo = app.obtenerPrestamo(codigoLibro, Integer.parseInt(carnet));
+        if (prestamo == null) {
+            JOptionPane.showMessageDialog(this, "No se encontró ningún préstamo con las características especificadas.");
+            limpiarCampos();
+            return;
+        }
+
+        // Mostrar información del préstamo en el TextArea
+        informacionTextArea.setText("Carnet del Estudiante: " + estudiante.getCarnet() + "\n"
+                + "Nombre del Estudiante: " + estudiante.getNombre() + "\n"
+                + "Código del Libro: " + libro.getCodigo() + "\n"
+                + "Nombre del Libro: " + libro.getTitulo() + "\n"
+                + "Fecha de Préstamo: " + prestamo.getFechaPrestamo() + "\n"
+                + "Fecha de Devolución: " + prestamo.getFechaDevolucion() + "\n"
+                + "Días de Préstamo: " + diasPrestamo + "\n"
+                + "Días de Mora: " + diasMora + "\n"
+                + "Monto del Préstamo: Q. " + monto);
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "El carné debe ser un número entero.");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error.\nVerifique que haya ingresado correctamente los datos");
     }
+}
 
     private void finalizarTransaccion() {
-        app.sumarUnaCopia(libro);
-        app.devolucionDeLibro(codigoLibroText.getText(), Integer.parseInt(carnetText.getText()));
-        JOptionPane.showMessageDialog(this, "Transacción finalizada. ¡Gracias por su visita!");
+        String codigoLibro = codigoLibroText.getText();
+        int carnetEstudiante = Integer.parseInt(carnetText.getText());
+
+        // Obtener el préstamo correspondiente
+        Prestamo prestamo = app.obtenerPrestamo(codigoLibro, carnetEstudiante);
+
+        if (prestamo != null) {
+            // Agregar detalles de la devolución a listaDevolucion
+            app.agregarDevoluciones(prestamo);
+            JOptionPane.showMessageDialog(this, "Transacción finalizada. ¡Gracias por su visita!");
+        } else {
+            JOptionPane.showMessageDialog(this, "No hay ningún préstamo con estas características.");
+        }
+
         limpiarCampos();
     }
 

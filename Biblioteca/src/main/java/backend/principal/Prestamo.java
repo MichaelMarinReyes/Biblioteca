@@ -57,6 +57,7 @@ public class Prestamo implements Serializable {
     public void setFechaDevolucion(LocalDate fechaDevolucion) {
         this.fechaDevolucion = fechaDevolucion;
     }
+    
 
     public int getDiasConMora() {
         LocalDate fechaActual = LocalDate.now();
