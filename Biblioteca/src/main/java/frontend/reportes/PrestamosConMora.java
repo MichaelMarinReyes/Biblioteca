@@ -63,24 +63,29 @@ public class PrestamosConMora extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     public void actualizarTablaEntregasConMora() {
-        String[] columnaDevolucionMora = {"No.", "Carnet", "Nombre", "Código de libro", "Título", "Fecha de préstamo", "Fecha de devolución", "Días de atraso"};
+        String[] columnaDevolucionMora = {"No.", "Carnet", "Nombre", "Código de libro", "Título", "Fecha de préstamo", "Fecha de devolución", "Días de atraso", "Mora"};
         DefaultTableModel modelo = new DefaultTableModel(columnaDevolucionMora, FuncionamientoAplicacion.listaPrestamos.size());
         tablaReportes.setModel(modelo);
 
         TableModel modeloDatos = tablaReportes.getModel();
         for (int i = 0; i < FuncionamientoAplicacion.listaPrestamos.size(); i++) {
-            Prestamo prestamo = FuncionamientoAplicacion.listaPrestamos.get(i);
-            modeloDatos.setValueAt(String.valueOf((i + 1)), i, 0);
-            modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 1);
-            modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 2);
-            modeloDatos.setValueAt(prestamo.getLibro().getCodigo(), i, 3);
-            modeloDatos.setValueAt(prestamo.getLibro().getTitulo(), i, 4);
-            modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 5);
+            if (FuncionamientoAplicacion.listaPrestamos.get(i).getDiasConMora() != 0) {
+                Prestamo prestamo = FuncionamientoAplicacion.listaPrestamos.get(i);
+                modeloDatos.setValueAt(String.valueOf((i + 1)), i, 0);
+                modeloDatos.setValueAt(prestamo.getEstudiante().getCarnet(), i, 1);
+                modeloDatos.setValueAt(prestamo.getEstudiante().getNombre(), i, 2);
+                modeloDatos.setValueAt(prestamo.getLibro().getCodigo(), i, 3);
+                modeloDatos.setValueAt(prestamo.getLibro().getTitulo(), i, 4);
+                modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 5);
+                modeloDatos.setValueAt(prestamo.getFechaPrestamo(), i, 6);
+                modeloDatos.setValueAt(prestamo.getDiasConMora(), i, 7);
+                modeloDatos.setValueAt("Q. " + String.valueOf(prestamo.getDiasConMora() * 10), i, 8);
+            }
         }
         FuncionamientoAplicacion.guardarSerializableLibros();
     }
-    
-        private void ajustarColumnaTexto() {
+
+    private void ajustarColumnaTexto() {
         TableColumnModel columnModel = tablaReportes.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(40); // Establecer ancho mínimo inicial a 0
         columnModel.getColumn(0).setMaxWidth(40); // Establecer ancho máximo a 0

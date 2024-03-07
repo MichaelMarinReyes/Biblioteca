@@ -41,6 +41,7 @@ public class FuncionamientoAplicacion {
      */
     public void agregarNuevoLibro(String codigo, String autor, String titulo, int cantidadCopias, LocalDate fechaPublicación, String editorial) {
         listaLibros.add(new Libro(titulo, autor, codigo, cantidadCopias, fechaPublicación, editorial));
+        FuncionamientoAplicacion.guardarSerializableLibros();
     }
 
     /**
@@ -57,13 +58,9 @@ public class FuncionamientoAplicacion {
                 libro.setEditorial(libroActualizado.getEditorial());
                 libro.setFechaPublicacion(libroActualizado.getFechaPublicacion());
                 libro.setCantidadCopias(libroActualizado.getCantidadCopias());
-                // Mostrar mensaje de éxito o realizar otras acciones necesarias
-                System.out.println("El libro ha sido actualizado correctamente.");
-                return; // Salir del bucle una vez que se ha actualizado el libro
+                return;
             }
         }
-        // Si el libro no se encuentra en la lista, mostrar mensaje de error
-        System.out.println("El libro no se encuentra en la base de datos.");
     }
 
     /**
@@ -77,26 +74,11 @@ public class FuncionamientoAplicacion {
     /**
      * Método que gestionará los préstamos de los libros.
      */
-    public void prestarLibro(Libro codigoLibro, Estudiante estudiante, LocalDate fechaPrestamo, LocalDate fechaDevolucion) {
-        /* Libro libro = buscarLibroDisponible(codigoLibro.getCodigo());
-        if (libro != null) {*/
-        listaPrestamos.add(new Prestamo(codigoLibro, estudiante, fechaPrestamo, fechaDevolucion));
-
-        //}
-    }
-
-    private Libro buscarLibroDisponible(String codigoLibro) {
-        ordenarLibros();
-        for (int i = 0; i < listaLibros.size(); i++) {
-            if (!listaLibros.isEmpty()) {
-                if (listaLibros.get(i).getCodigo().equals(codigoLibro)) {
-                    return listaLibros.get(i);
-                } else {
-                    return null;
-                }
-            }
+    public void prestarLibro(Libro codigoLibro, Estudiante estudiante, LocalDate fechaPrestamo, LocalDate fechaDevolucion, int monto) {
+        if (estudiante.getLibrosPrestados() < 4) {
+            listaPrestamos.add(new Prestamo(codigoLibro, estudiante, fechaPrestamo, fechaDevolucion, monto));
+            FuncionamientoAplicacion.guardarSerializablePrestamos();
         }
-        return null;
     }
 
     public void incrementarLibrosPrestadosPorEstudiante(String carnetEstudiante) {
@@ -150,10 +132,7 @@ public class FuncionamientoAplicacion {
                 ObjectInputStream leerEstudiantes = new ObjectInputStream(archivoEntrada);
 
                 listaEstudiantes = (ArrayList<Estudiante>) leerEstudiantes.readObject();
-
-            } else {
             }
-
         } catch (IOException e) {
 
         } catch (ClassNotFoundException ex) {
@@ -197,12 +176,9 @@ public class FuncionamientoAplicacion {
 
                 listaLibros = (ArrayList<Libro>) leerProductos.readObject();
 
-            } else {
-
             }
-
         } catch (IOException e) {
-
+            Logger.getLogger(FuncionamientoAplicacion.class.getName()).log(Level.SEVERE, null, e);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FuncionamientoAplicacion.class
                     .getName()).log(Level.SEVERE, null, ex);
@@ -243,10 +219,7 @@ public class FuncionamientoAplicacion {
 
                 listaPrestamos = (ArrayList<Prestamo>) leerProductos.readObject();
 
-            } else {
-
             }
-
         } catch (IOException e) {
 
         } catch (ClassNotFoundException ex) {
@@ -318,13 +291,13 @@ public class FuncionamientoAplicacion {
     public void sumarUnaCopia(Libro libro) {
         libro.setCantidadCopias(libro.getCantidadCopias() + 1);
     }
-    
-    public void devolucionDeLibro(String codigoLibro, int carnetEstudiante){
+
+    public void devolucionDeLibro(String codigoLibro, int carnetEstudiante) {
         for (int i = 0; i < listaPrestamos.size(); i++) {
             if (listaPrestamos.get(i).getLibro().getCodigo().equals(codigoLibro) && listaPrestamos.get(i).getEstudiante().getCarnet() == carnetEstudiante) {
                 listaPrestamos.remove(i);
             }
-            
+
         }
     }
 }
