@@ -41,8 +41,9 @@ import frontend.registrosinformacionnueva.RegistroLibroNuevo;
 import frontend.registrosinformacionnueva.RegistroEstudianteNuevo;
 import frontend.reportes.DevolucionDiaEnCurso;
 import frontend.reportes.PrestamosConMora;
-import frontend.reportes.PrestamosPorCarrera;
+import frontend.reportes.PrestamosPorCarreraEnIntervalo;
 import frontend.reportes.PrestamosPorUnEstudiante;
+import frontend.reportes.PrestamosVigentesPorEstudiante;
 import frontend.reportes.RecaudadoEnIntervaloTiempo;
 import javax.swing.Box;
 
@@ -61,6 +62,7 @@ public class Principal extends javax.swing.JFrame {
     private HacerPrestamo newPrestamo = new HacerPrestamo();
     private EditarLibro newEditarLibro = new EditarLibro();
     private EditarEstudiante newEditarEstudiante = new EditarEstudiante();
+    private PrestamosVigentesPorEstudiante prestamosVigPorestudiante = new PrestamosVigentesPorEstudiante();
     private boolean relojActivo = true;
     private Dimension tamañoPanelFondo;
 
@@ -281,8 +283,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         itemPrestamosPorCarrera.addActionListener((ActionEvent e) -> {
-            PrestamosPorCarrera prestamoCarrera = new PrestamosPorCarrera();
+            PrestamosPorCarreraEnIntervalo prestamoCarrera = new PrestamosPorCarreraEnIntervalo();
             pintarPanel(prestamoCarrera);
+        });
+        itemPrestamosVigentesPorEstudiante.addActionListener((ActionEvent e) -> {
+            pintarPanel(prestamosVigPorestudiante);
         });
 
         //personalizar menu
