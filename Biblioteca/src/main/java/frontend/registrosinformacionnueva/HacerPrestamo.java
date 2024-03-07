@@ -239,7 +239,6 @@ public class HacerPrestamo extends JPanel {
 
                 } else {
                     JOptionPane.showMessageDialog(this, "El estudiante no existe.");
-                    limpiarCampos();
                 }
             } else {
                 JOptionPane.showMessageDialog(this, "Ingrese el carné del estudiante");
@@ -247,7 +246,6 @@ public class HacerPrestamo extends JPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Verifique que el campo \"Carné de estudiante\" ha sido ingresado correctamente");
         }
-
     }
 
     private void agregarFechasLimiteComboBox() {
@@ -263,6 +261,7 @@ public class HacerPrestamo extends JPanel {
     }
 
     private void limpiarCampos() {
+        codigoLibroText.setText("");
         informacionLibroTextArea.setText("");
         carnetEstudianteText.setText("");
         fechaPrestamoText.setText("");

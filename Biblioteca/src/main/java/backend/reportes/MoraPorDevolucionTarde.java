@@ -30,6 +30,4 @@ public class MoraPorDevolucionTarde {
     public void setFechaEntrega(LocalDate fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
-    
-    
 }
